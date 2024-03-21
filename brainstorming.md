@@ -1,0 +1,19 @@
+# Initial Brainstorming Ideas:
+
+1. **Tinder for Dogs:**
+   - Tinder but for dogs, allowing people to browse dogs and interact with their owners or shelters hosting accounts. Users can get to know the pets better, fostering or adopting them.
+
+2. **Mobile Version of When2Meet:**
+   - Develop a mobile version of When2Meet, currently available only on desktop. This would enable easier coordination for users who predominantly use mobile devices.
+
+3. **ChatGPT Wrapper for Translation App:**
+   - Integrate ChatGPT into a translation app to convert code from one language to another quickly. Useful for students, teachers, or users working with multiple programming languages.
+
+4. **Authentication System:**
+   - An app ensuring secure account logins by requiring confirmation within the app for sign-ins using registered email addresses. Users can reject login attempts to trigger password resets if needed.
+
+5. **Journal App:**
+   - Send daily reminders for users to submit journal entries detailing their day. Allow users to incorporate pictures, stickers, drawings, and links to remember events.
+
+6. **Math Problem Solver App:**
+   - An app allowing users to take pictures of math problems. It would process the image into text, solve it, and provide hints before giving the answer, aiding users in solving difficult problems.
