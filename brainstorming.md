@@ -23,3 +23,10 @@
 1. Journal App
 2. Mobile Version of When2Meet
 3. Math Problem Solver App
+
+# Evaluating and Categorizing Top 3 Ideas
+
+1. Journal App
+   - **Description**: An app allowing users to take pictures of math problems. It would process the image into text, solve it, and provide hints before giving the answer, aiding users in solving difficult problems.
+   - **Category**: Education & Productivity
+3. 
