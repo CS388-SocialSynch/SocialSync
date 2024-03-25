@@ -141,7 +141,7 @@ Add time buttons and the link share screen can be accessed from the respective b
 
 ### Dashboard
 
-<img src="digital_wireframes/dashboard" alt="dashboard">
+<img src="digital_wireframes/dashboard.png" alt="dashboard">
 
 ## Interactive Prototype
 
