@@ -109,7 +109,7 @@ Add time buttons and the link share screen can be accessed from the respective b
 
 ## Wireframes
 
-// image here
+<img src="digital_wireframes/handwireframe.jpg" alt="handDrawnWireframe">
 
 ## Digital Wireframes
 
