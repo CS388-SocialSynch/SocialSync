@@ -115,15 +115,33 @@ Add time buttons and the link share screen can be accessed from the respective b
 
 ### Add Event
 
+<img src="digital_wireframes/addEvent1.png" alt="addEvent1">
+<img src="digital_wireframes/addEvent2.png" alt="addEvent2">
+<img src="digital_wireframes/addEvent3.png" alt="addEvent3">
+
 ### Choose Time
+
+<img src="digital_wireframes/chooseTimes.png" alt="chooseTimes">
 
 ### Event Details
 
+<img src="digital_wireframes/eventDetails.png" alt="eventDetails">
+
 ### Modify Events
+
+<img src="digital_wireframes/modifyEvents.png" alt="modifyEvents">
 
 ### Profile Signup
 
+<img src="digital_wireframes/profileSignup.png" alt="profileSignup">
+
 ### Public Events
+
+<img src="digital_wireframes/publicEvents.png" alt="publicEvents">
+
+### Dashboard
+
+<img src="digital_wireframes/dashboard" alt="dashboard">
 
 ## Interactive Prototype
 
