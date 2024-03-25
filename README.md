@@ -113,7 +113,17 @@ Add time buttons and the link share screen can be accessed from the respective b
 
 ## Digital Wireframes
 
-// images here
+### Add Event
+
+### Choose Time
+
+### Event Details
+
+### Modify Events
+
+### Profile Signup
+
+### Public Events
 
 ## Interactive Prototype
 
