@@ -40,7 +40,7 @@ The app has a great balance between consumption and creation, users not only con
 
 It can be challenging to finish this app, we are planning to use Google Authentication and we will use firebase for that, the GPS and weather data can be retrieved using the respective APIs, we are also using firebase's realtime database for real time updates.
 
-The real challenges are desigining the UI, designing the database schema so that users can create events and others can join them or update the availability and also implementing the link share feature. We want users to share an event information as a link so that other users can update their availability.
+The real challenges are designing the UI, designing the database schema so that users can create events and others can join them or update the availability and also implementing the link share feature. We want users to share an event information as a link so that other users can update their availability.
 
 ## Product spec
 
@@ -55,5 +55,67 @@ The real challenges are desigining the UI, designing the database schema so that
 4. Event creators can share an event link to their friends and contacts, and the people who received the link can input their times and access the event information by opening the link.
 5. Users have a navigation bar at the bottom of the screen which has 3 options, dashboard, events and profile
 6. On the dashboard screen users can see the current date, day and time and a recycler view of their upcoming events.
-7. On the events screen users can see their public events
-8. 
+7. On the events screen users can see their public events from another apps like any college events or other
+8. On profile screen users can edit their notification and remainder settings
+
+#### Optional Features
+
+1. Exporting events to google calendar
+2. Email/Password authentication 
+
+### 2. Screen Archetypes
+
+1. Login/Signup screen
+   - The app has a login/signup screen where an user can register for the app using their gmail and also login if they already registered
+2. Add event screen - Part1
+   - This screen lets users create new events with a name, location, optional password and other options
+3. Add event screen - Part2
+   - This screen lets users choose the time of the event and the days both general days of a week or specific dates for the event to take place
+4. Add event screen - Part3
+   - This screen lets the user choose the specific dates they want from a calendar window
+5. Add event screen - Part4
+   - This screen lets event creators edit the time or share the link to their friends or contacts
+6. Dashboard Screen
+   - This screen shows the current date and time and also a recycler view of upcoming events
+7. Public Events
+   - This screen shows all the upcoming events from another app like a list of college events from the college website
+8. Even details host 
+   - This screen is only visible to an event creator and lets the event creator to modify the time or event details with two buttons
+9. Event details users
+   - This screen is visible to users who received the link, and they can select their availability in this screen
+10. Modify Event
+    - This screen is only accessible by the event creator to change the event details like name, password and type, this screen can be reached by clicking the Modify Event button on the Event details host page
+11. Modify Time
+    - This screen is only accessible by the event creator to change the event time
+12. Google Maps
+   - This screen can be accessed from the Event details page, which shows the event location in google maps
+13. Settings
+    - This screen allows users to edit notification settings and to export the events to google app
+
+### 3. Navigation
+
+The app has a navbar on the bottom the screen, the navbar handles most of the navigation.
+The navbar has 3 buttons
+   - Dashboard
+     - The Dashboard button takes the user to the dashboard screen, where the user can see his upcoming events
+   - Events
+     - The Events button takes the user to the events screen, where the user can see events from other apps like a list of college events
+   - Profile
+     - The Profile tab takes the user to settings page
+Event details page can be navigated by going to the dashboard and clicking on the event
+Modify time and Modify event screens can be navigated by the event creator by clicking the respective buttons on the event details page
+Add new event screen can be accessed by clicking the plus icon on the event dashboard screen
+Add time buttons and the link share screen can be accessed from the respective buttons on the screens
+
+## Wireframes
+
+// image here
+
+## Digital Wireframes
+
+// images here
+
+## Interactive Prototype
+
+// gif here
+
