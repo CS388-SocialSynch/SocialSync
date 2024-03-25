@@ -145,5 +145,5 @@ Add time buttons and the link share screen can be accessed from the respective b
 
 ## Interactive Prototype
 
-// gif here
+<img src="digital_wireframes/walkthroughgif.gif" alt="walthroughgif">
 
