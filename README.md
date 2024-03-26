@@ -1,5 +1,12 @@
 # SocialSync (Unit 7)
 
+## Table of Contents
+
+1. [Overview](#Overview)
+1. [Product Spec](#Product-Spec)
+1. [Wireframes](#Wireframes)
+
+
 ## Overview
 
 ### Description
@@ -88,7 +95,7 @@ The real challenges are designing the UI, designing the database schema so that 
 11. Modify Time
     - This screen is only accessible by the event creator to change the event time
 12. Google Maps
-   - This screen can be accessed from the Event details page, which shows the event location in google maps
+    - This screen can be accessed from the Event details page, which shows the event location in google maps
 13. Settings
     - This screen allows users to edit notification settings and to export the events to google app
 
