@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SocialSync</string>
     <string name="appName">Social Sync!</string>
+    <string name="default_web_client_id">528899061837-3rtbgcbfpunti4asdkphp1h14jcaher4.apps.googleusercontent.com</string>
 </resources>
