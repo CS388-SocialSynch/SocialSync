@@ -7,6 +7,7 @@
     <color name="prim1">#B1DBDC</color>
     <color name="prim2">#AAD9BB</color>
     <color name="secondary1">#E88B57</color>
-
+    <color name="secondar2">#E2CA75</color>
+    <color name="font">#000740</color>
 
 </resources>
