@@ -9,4 +9,7 @@
     <string name="hello_dashboard">Hello dashboard</string>
     <string name="hello_events">Hello events</string>
     <string name="hello_profile">Hello profile</string>
+    <string name="sign_in_with_google">Sign In with Google</string>
+    <string name="sign_in">Sign In</string>
+
 </resources>
