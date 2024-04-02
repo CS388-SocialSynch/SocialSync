@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:orientation="vertical"
     android:layout_height="match_parent"
+    android:background="@drawable/background_gradient"
     tools:context=".MainActivity">
 
     <FrameLayout
@@ -22,6 +23,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:menu="@menu/bottom_navigation_menu" />
+        app:menu="@menu/bottom_navigation_menu"
+        android:background="@drawable/navigation_shadow"
+        app:itemIconSize="32dp"
+        app:itemTextAppearanceActive="@style/small"
+        app:itemTextAppearanceInactive="@style/small"/>
 
 </LinearLayout>
