@@ -1,14 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileFragment">
+    android:background="@drawable/background_gradient">
 
-    <!-- TODO: Update blank fragment layout -->
+
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_profile" />
+        android:id="@+id/textView"
+        android:layout_width="351dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:text="Hello Saketh"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-</FrameLayout>
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profile_image"
+        android:layout_width="138dp"
+        android:layout_height="123dp"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/add_event_button"
+        app:civ_border_width="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="236dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="30dp"
+        android:text="Push Notifications?"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
