@@ -181,7 +181,7 @@ this section
 ## user stories
 
 - List the completed user stories from this unit
-   - [x]The user would be able to log into their profile and view their dashboard of information. In addition, they would be able to navigate to different tabs using the navbar.
+   - [x] The user would be able to log into their profile and view their dashboard of information. In addition, they would be able to navigate to different tabs using the navbar.
 - List any pending user stories / any user stories you decided to cut
 from the original requirements
    - [ ] The user will be able to edit their preferences in their profile.
@@ -193,7 +193,7 @@ from the original requirements
 
 <br>
 
-# Milestone 3 - Build Sprint 2 (Unit 9)
+# Milestone 3 - Build Sprint 2 (Unit 9) [Will be added later on]
 
 ## GitHub Project board
 
