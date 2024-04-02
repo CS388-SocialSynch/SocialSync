@@ -90,20 +90,23 @@ class LoginActivity : AppCompatActivity() {
             .addOnSuccessListener { authRes ->
                 Log.d(TAG, "firebaseAuthWithGoogleAccount : ${authRes.user}")
 
-//                if (authRes.additionalUserInfo!!.isNewUser) {
-//                    /** Create Account */
+                if (authRes.additionalUserInfo!!.isNewUser) {
+                    /** Create Account */
 //                    updateUI(true)
-//
-//                } else {
-//                    /** Logged In Account */
-//                    updateUI(false)
-//                }
-                val intent = Intent(
-                    this@LoginActivity,
-                    MainActivity::class.java
-                )
-                startActivity(intent)
-                finish()
+
+                    // Redirect to MainActivity after creating a new account
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    /** Logged In Account */
+                    //updateUI(false)
+
+                    // Redirect to MainActivity after logging in
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                }
             }
             .addOnFailureListener { err ->
                 Log.d(TAG, "firebaseAuthWithGoogleAccount : ${err.message}")
