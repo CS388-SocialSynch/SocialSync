@@ -9,7 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.IgnoreExtraProperties
 import com.google.firebase.database.database
-
+//Test
 class MainActivity : AppCompatActivity() {
 
     private lateinit var database: DatabaseReference
