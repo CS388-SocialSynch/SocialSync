@@ -154,3 +154,60 @@ Add time buttons and the link share screen can be accessed from the respective b
 
 <img src="digital_wireframes/walkthroughgif.gif" alt="walthroughgif">
 
+# Milestone 2 - Build Sprint 1 (Unit 8)
+
+## GitHub Project board
+
+screenshot of your Project Board with three milestones visible in
+this section
+<img src="./_other/MS1-board.png" width=600>
+
+## Issue cards
+
+- Screenshot of your Project Board with the issues that you've been working on for this unit's milestone <img src="./_other/MS1-worked_on.png" width=600>
+- Screenshot of your Project Board with the issues that you're working on in the **NEXT sprint**. It should include issues for next unit with assigned owners. <img src="./_other/MS2-work.png" width=600>
+
+## Issues worked on this sprint
+
+- List the issues you completed this sprint
+   - Added navbar with fragment features
+   - Added Google Authentication for profile log in
+   - Added all styling for the rest of the project
+   - Made the dashboard template
+   - [side note] Also started several features for sprint 2
+- Sprint 1 progress (of items viewable)
+<img src="./_other/sprint1demo_1.gif" width="200">
+
+## user stories
+
+- List the completed user stories from this unit
+   - [x] The user would be able to log into their profile and view their dashboard of information. In addition, they would be able to navigate to different tabs using the navbar.
+- List any pending user stories / any user stories you decided to cut
+from the original requirements
+   - [ ] The user will be able to edit their preferences in their profile.
+   - [ ] The user can join a room
+   - [ ] The host of an event can create one and edit it
+   - [ ] View the nearby events and add them to their events list
+   - [ ] Integrate a weather api
+
+
+<br>
+
+# Milestone 3 - Build Sprint 2 (Unit 9) [Will be added later on]
+
+## GitHub Project board
+
+[Add screenshot of your Project Board with the updated status of issues for Milestone 3. Note that these should include the updated issues you worked on for this sprint and not be a duplicate of Milestone 2 Project board.] <img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+## Completed user stories
+
+- List the completed user stories from this unit
+- List any pending user stories / any user stories you decided to cut
+from the original requirements
+
+[Add video/gif of your current application that shows build progress]
+<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+
+## App Demo Video
+
+- Embed the YouTube/Vimeo link of your Completed Demo Day prep video
