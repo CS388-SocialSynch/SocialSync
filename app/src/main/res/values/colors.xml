@@ -9,5 +9,6 @@
     <color name="secondary1">#E88B57</color>
     <color name="secondar2">#E2CA75</color>
     <color name="font">#000740</color>
+    <color name="transparent">#00000000</color>
 
 </resources>
