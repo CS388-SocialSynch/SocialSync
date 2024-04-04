@@ -7,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@drawable/background_gradient">
 
-
     <TextView
         android:id="@+id/textView"
         android:layout_width="351dp"
@@ -21,29 +20,128 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/profile_image"
-        android:layout_width="138dp"
-        android:layout_height="123dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/add_event_button"
-        app:civ_border_width="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     <Switch
         android:id="@+id/switch1"
         android:layout_width="236dp"
         android:layout_height="36dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="25dp"
         android:text="Push Notifications?"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/profile_image"
+        app:layout_constraintTop_toBottomOf="@+id/cardView"
         tools:ignore="UseSwitchCompatOrMaterialXml" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="138dp"
+        android:layout_height="138dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="500dp"
+        app:cardElevation="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/dummy_user"
+            app:civ_border_width="0dp" />
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/calendar_export"
+        android:layout_width="270dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="25dp"
+        android:backgroundTint="@color/secondary1"
+        android:enabled="false"
+        android:text="@string/calendar_export"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:cornerRadius="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/switch1" />
+
+    <Button
+        android:id="@+id/edit_default_time"
+        android:layout_width="270dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/secondary1"
+        android:enabled="false"
+        android:text="@string/editDefault"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:cornerRadius="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.496"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendar_export" />
+
+    <TextView
+        android:id="@+id/displayName"
+        android:layout_width="277dp"
+        android:layout_height="33dp"
+        android:layout_marginTop="9dp"
+        android:gravity="left"
+        android:text="@string/display_name"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_default_time"
+
+        />
+
+    <EditText
+        android:id="@+id/nameChangeEditText"
+        android:layout_width="277dp"
+        android:layout_height="36dp"
+        android:layout_marginTop="8dp"
+        android:inputType="text"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayName"
+        app:cornerRadius="10dp"
+        android:background="@drawable/rounded_edit_text"
+        />
+
+
+    <Button
+        android:id="@+id/change_display_name"
+        android:layout_width="270dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="10dp"
+        android:backgroundTint="@color/secondary1"
+        android:enabled="false"
+        android:text="Change Display Name"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:cornerRadius="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameChangeEditText" />
+
+    <Button
+        android:id="@+id/change_display_photo"
+        android:layout_width="270dp"
+        android:layout_height="48dp"
+        android:backgroundTint="@color/secondary1"
+        android:enabled="false"
+        android:text="@string/change_display_photo"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:cornerRadius="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/change_display_name" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
