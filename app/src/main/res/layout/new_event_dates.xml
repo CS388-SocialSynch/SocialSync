@@ -94,17 +94,21 @@
             android:hint="ex: 5:15 pm"
             />
 
-
+    <!-- Specific days-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginHorizontal="15dp"
         android:orientation="vertical"
+        android:background="@drawable/orange_gradient"
+        android:stateListAnimator="@null"
+        android:elevation="2sp"
+        android:paddingVertical="30dp"
+        android:layout_marginVertical="10dp"
         >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="10dp"
             android:orientation="horizontal"
             >
             <androidx.appcompat.widget.AppCompatButton
@@ -112,41 +116,109 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MON"
-                android:backgroundTint="@color/secondary1"
                 android:background="@drawable/button_stroke"
                 android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/TUE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MON"
-                android:backgroundTint="@color/secondary1"
+                android:text="TUE"
                 android:background="@drawable/button_stroke"
                 android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/WED"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MON"
-                android:backgroundTint="@color/secondary1"
+                android:text="WED"
                 android:background="@drawable/button_stroke"
                 android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/THU"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MON"
-                android:backgroundTint="@color/secondary1"
+                android:text="THU"
                 android:background="@drawable/button_stroke"
                 android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
                 />
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="40sp"
 
-    </LinearLayout>
+            >
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/FRI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FRI"
+                android:background="@drawable/button_stroke"
+                android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/SAT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SAT"
+                android:background="@drawable/button_stroke"
+                android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/SUN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUN"
+                android:background="@drawable/button_stroke"
+                android:textColor="@color/secondary1"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
 
-    </LinearLayout>
+        </LinearLayout><!-- General Date-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="15dp"
+            android:background="@color/secondary1"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/specificDates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Specfic Days"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            style="@style/appButton"
+            />
+
+    </LinearLayout> <!-- Choosing Dates -->
+
+        <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+            android:text="Add Your Time"
+        style="@style/appButtonInvalid"
+        />
+
+    </LinearLayout> <!-- Full layout -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
