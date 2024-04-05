@@ -33,15 +33,14 @@ class LoginActivity : AppCompatActivity() {
         //Get Firebase auth instance
         auth = FirebaseAuth.getInstance()
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-//        if (FirebaseAuth.getInstance().currentUser != null) {
-//            // If user is already logged in, taking him to MainActivity
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//            return
-//        }
+        if (FirebaseAuth.getInstance().currentUser != null) {
+            // If user is already logged in, taking him to MainActivity
+            startNewActivity()
+        }
         setContentView(R.layout.activity_login)
 
         init()
@@ -90,27 +89,16 @@ class LoginActivity : AppCompatActivity() {
             .addOnSuccessListener { authRes ->
                 Log.d(TAG, "firebaseAuthWithGoogleAccount : ${authRes.user}")
 
-                if (authRes.additionalUserInfo!!.isNewUser) {
-                    /** Create Account */
-//                    updateUI(true)
-
-                    // Redirect to MainActivity after creating a new account
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    /** Logged In Account */
-                    //updateUI(false)
-
-                    // Redirect to MainActivity after logging in
-                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                }
+                startNewActivity()
             }
             .addOnFailureListener { err ->
                 Log.d(TAG, "firebaseAuthWithGoogleAccount : ${err.message}")
                 Toast.makeText(this, "${err.message}", Toast.LENGTH_SHORT).show()
             }
+    }
+
+    fun startNewActivity() {
+        startActivity(Intent(this, MainActivity::class.java))
+        finish()
     }
 }
