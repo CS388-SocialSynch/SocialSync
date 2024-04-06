@@ -27,7 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.023"
-            tools:text="Change Time" />
+            android:text="@string/change_time" />
 
         <TextView
             android:id="@+id/eventPropertiesTextView"
@@ -45,7 +45,7 @@
             android:id="@+id/changeSettingsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary1"
+            android:backgroundTint="@color/secondary2"
             android:text="@string/change_settings"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -57,7 +57,7 @@
             android:id="@+id/setTimeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary1"
+            android:backgroundTint="@color/secondary2"
             android:text="@string/set_event_time"
             app:layout_constraintBottom_toTopOf="@+id/cancelButton"
             app:layout_constraintEnd_toEndOf="parent"
@@ -68,7 +68,7 @@
             android:id="@+id/cancelButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/secondary1"
+            android:backgroundTint="@color/secondary2"
             android:text="@string/cancel_event"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

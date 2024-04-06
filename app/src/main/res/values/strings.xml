@@ -6,6 +6,7 @@
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
     <!-- Change Event Time-->
+    <string name="change_time">Change Time</string>
     <string name="change_settings">Change Settings</string>
     <string name="set_event_time">Set Event Time</string>
     <string name="cancel_event">Cancel Event</string>
@@ -18,8 +19,7 @@
     <string name="sign_in_with_google">Sign In with Google</string>
     <string name="sign_in">Sign In</string>
     <string name="new_event">NEW EVENT</string>
-    <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
-    <string name="join">Join</string>
+   <string name="join">Join</string>
     <string name="_2137">2137</string>
     <string name="button_to_add_events">button to add events</string>
     <string name="upcoming">Upcoming</string>
