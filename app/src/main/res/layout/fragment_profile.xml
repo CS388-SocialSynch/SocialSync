@@ -68,36 +68,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/switch1" />
 
-    <Button
-        android:id="@+id/edit_default_time"
-        android:layout_width="270dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="8dp"
-        android:backgroundTint="@color/secondary1"
-        android:enabled="false"
-        android:text="@string/editDefault"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:cornerRadius="28dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/calendar_export" />
-
     <TextView
         android:id="@+id/displayName"
         android:layout_width="277dp"
         android:layout_height="33dp"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="20dp"
         android:gravity="left"
         android:text="@string/display_name"
         android:textSize="22sp"
+
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/edit_default_time"
-
-        />
+        app:layout_constraintTop_toBottomOf="@+id/calendar_export" />
 
     <EditText
         android:id="@+id/etDisplayName"
@@ -117,10 +100,9 @@
         android:id="@+id/btnChangeDisplayName"
         android:layout_width="270dp"
         android:layout_height="48dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
         android:backgroundTint="@color/secondary1"
-        android:enabled="false"
-        android:text="Change Display Name"
+        android:text="@string/change_display_name"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="28dp"
@@ -132,12 +114,27 @@
         android:id="@+id/change_display_photo"
         android:layout_width="270dp"
         android:layout_height="48dp"
+        android:layout_marginTop="3dp"
         android:backgroundTint="@color/secondary1"
-        android:enabled="false"
         android:text="@string/change_display_photo"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:cornerRadius="28dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChangeDisplayName" />
+
+    <Button
+        android:id="@+id/logout"
+        android:layout_width="270dp"
+        android:layout_height="48dp"
+        android:layout_marginTop="15dp"
+        android:backgroundTint="@color/red"
+        android:text="@string/log_out"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:cornerRadius="28dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnChangeDisplayName" />

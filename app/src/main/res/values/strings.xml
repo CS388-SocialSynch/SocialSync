@@ -22,6 +22,8 @@
     <string name="editDefault">Edit Default Time</string>
     <string name="display_name">Display Name</string>
     <string name="change_display_photo">Change Display Photo</string>
+    <string name="change_display_name">Change Display Name</string>
+    <string name="log_out">Log Out</string>
 
 
 </resources>

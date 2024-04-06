@@ -1,5 +1,6 @@
 package com.cs388.socialsync
 
+import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.os.Bundle
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -30,6 +32,8 @@ class ProfileFragment : Fragment() {
 
     lateinit var etDisplayName: EditText
     lateinit var btnChangeDisplayName: Button
+    lateinit var logout: Button
+    lateinit var change_display_photo: Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,6 +47,8 @@ class ProfileFragment : Fragment() {
 
         etDisplayName = view.findViewById(R.id.etDisplayName)
         btnChangeDisplayName = view.findViewById(R.id.btnChangeDisplayName)
+        change_display_photo = view.findViewById(R.id.change_display_photo)
+        logout = view.findViewById(R.id.logout)
 
         tvDisplayName.text = Obj.user.displayName
         ivProfile.setImageURI(Obj.user.image)
@@ -52,7 +58,19 @@ class ProfileFragment : Fragment() {
 
         val displayName: TextView = view.findViewById(R.id.displayName)
 
-        displayName.setOnClickListener {
+        logout.setOnClickListener{
+            // logging out the user :)
+            Obj.auth.signOut()
+
+            val loginIntent = Intent(context, LoginActivity::class.java)
+            loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(loginIntent)
+            Toast.makeText(context, "Logged out successfully", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+        btnChangeDisplayName.setOnClickListener {
             val newName = etDisplayName.text.toString()
             if (newName.isEmpty()) {
                 etDisplayName.setError("Please enter name here.")
@@ -99,7 +117,7 @@ class ProfileFragment : Fragment() {
                 }
             }
 
-        ivProfile.setOnClickListener {
+        change_display_photo.setOnClickListener {
             pickMedia.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         }
 
