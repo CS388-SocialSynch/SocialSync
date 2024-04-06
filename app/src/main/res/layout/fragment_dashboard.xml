@@ -47,9 +47,9 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/calendar_background"
                 android:orientation="vertical"
-                android:padding="10dp"
-                android:background="@drawable/calendar_background">
+                android:padding="10dp">
 
                 <TextView
                     android:id="@+id/monthText"
@@ -140,8 +140,9 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/upcomingEvents_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 tools:listitem="@layout/event_item" />
+
 
         </LinearLayout>
 
