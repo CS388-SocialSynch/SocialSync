@@ -9,5 +9,6 @@
     <color name="secondary1">#E2CA75</color>
     <color name="secondary2">#E88B57</color>
     <color name="font">#000740</color>
+    <color name="date_button">#FEECD0</color>
 
 </resources>
