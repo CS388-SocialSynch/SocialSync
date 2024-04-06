@@ -5,11 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
+import android.content.Context
+import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class EventAdapter(private val eventList: List<Event>) :
+const val EVENT_ITEM = "EVENT_ITEM"
+
+class EventAdapter(private val context: Context, private val eventList: List<Event>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
@@ -30,7 +34,7 @@ class EventAdapter(private val eventList: List<Event>) :
         val weatherIconResource = when (currentItem.weatherCondition) {
             "cloudy" -> R.drawable.cloudy_icon
             "sunny" -> R.drawable.sunny_icon
-            else -> R.drawable.default_weather_icon
+            else -> R.drawable.default_icon
         }
 
         Glide.with(holder.itemView.context)
@@ -52,10 +56,18 @@ class EventAdapter(private val eventList: List<Event>) :
         }
         override fun onClick(v: View?) {
             val event = eventList[absoluteAdapterPosition]
-            val eventName = event.eventName
-            val toastMessage = "You clicked $eventName at position $absoluteAdapterPosition!"
-            Toast.makeText(itemView.context, toastMessage, Toast.LENGTH_SHORT).show()
+
+            val fragment = EventDetail()
+            val bundle = Bundle()
+            bundle.putSerializable(EVENT_ITEM, event)
+            fragment.arguments = bundle
+
+            (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                .replace(R.id.main_frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
         }
+
     }
 }
 
