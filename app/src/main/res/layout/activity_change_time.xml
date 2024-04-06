@@ -19,15 +19,15 @@
             android:id="@+id/changeTimeTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="@string/change_time"
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintHorizontal_bias="0.029"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.023"
-            android:text="@string/change_time" />
+            app:layout_constraintVertical_bias="0.004" />
 
         <TextView
             android:id="@+id/eventPropertiesTextView"
@@ -51,7 +51,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.716" />
+            app:layout_constraintVertical_bias="0.741" />
 
         <Button
             android:id="@+id/setTimeButton"
@@ -62,7 +62,8 @@
             app:layout_constraintBottom_toTopOf="@+id/cancelButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/changeSettingsButton" />
+            app:layout_constraintTop_toBottomOf="@+id/changeSettingsButton"
+            app:layout_constraintVertical_bias="1.0" />
 
         <Button
             android:id="@+id/cancelButton"
@@ -72,12 +73,15 @@
             android:text="@string/cancel_event"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/changeSettingsButton" />
+            app:layout_constraintTop_toBottomOf="@+id/changeSettingsButton"
+            app:layout_constraintVertical_bias="0.37" />
 
         <LinearLayout
-            android:layout_width="404dp"
-            android:layout_height="79dp"
+            android:id="@+id/linearLayout"
+            android:layout_width="398dp"
+            android:layout_height="73dp"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -92,51 +96,77 @@
                 android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/date_button"
-                android:text="@string/defaultDate"
                 android:background="@drawable/rectangular_button"
-                android:textColor="@color/black" />
+                android:text="@string/defaultDate"
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/midLeftButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/date_button"
+                android:background="@drawable/rectangular_button"
                 android:text="@string/defaultDate"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/midButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/date_button"
+                android:background="@drawable/rectangular_button"
                 android:text="@string/defaultDate"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/midRightButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/date_button"
+                android:background="@drawable/rectangular_button"
                 android:text="@string/defaultDate"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
 
             <Button
                 android:id="@+id/rightButton"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="5dp"
                 android:layout_weight="1"
-                android:backgroundTint="@color/date_button"
+                android:background="@drawable/rectangular_button"
                 android:text="@string/defaultDate"
-                android:textColor="@color/black" />
+                android:textColor="@color/black"
+                app:backgroundTint="@null" />
         </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="407dp"
+            android:layout_height="346dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/changeSettingsButton"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/monthTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="March 2024"
+            app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.02"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

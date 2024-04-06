@@ -13,11 +13,28 @@ class ChangeTimeActivity: AppCompatActivity() {
         val setEventButton = findViewById<Button>(R.id.setTimeButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
 
+        val leftButton = findViewById<Button>(R.id.leftButton)
+        val midLeftButton = findViewById<Button>(R.id.midLeftButton)
+        val midButton = findViewById<Button>(R.id.midButton)
+        val midRightButton = findViewById<Button>(R.id.midRightButton)
+        val rightButton = findViewById<Button>(R.id.rightButton)
+
+
+        leftButton.setOnClickListener {
+            showToast("Monday")
+        }
+
+        midLeftButton.setOnClickListener {
+            showToast("Tuesday")
+        }
+
         settingsButton.setOnClickListener {
             showToast("Open Ethan's Activity")
         }
 
         setEventButton.isEnabled = false
+        setEventButton.alpha = 0.5f
+
 
         cancelButton.setOnClickListener {
             showToast("You have canceled this event")
