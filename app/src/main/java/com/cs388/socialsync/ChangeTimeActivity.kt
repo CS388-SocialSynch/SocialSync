@@ -1,9 +1,13 @@
 package com.cs388.socialsync
 
+import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+
 class ChangeTimeActivity: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -19,7 +23,19 @@ class ChangeTimeActivity: AppCompatActivity() {
         val midRightButton = findViewById<Button>(R.id.midRightButton)
         val rightButton = findViewById<Button>(R.id.rightButton)
 
+        val prevButton = findViewById<ImageButton>(R.id.prevButton)
+        val nextButton = findViewById<ImageButton>(R.id.nextButton)
+        val blackColor = ContextCompat.getColor(this, android.R.color.black)
+        nextButton.setColorFilter(blackColor, PorterDuff.Mode.SRC_IN)
+        prevButton.setColorFilter(blackColor,PorterDuff.Mode.SRC_IN)
 
+        prevButton.setOnClickListener{
+            showToast("Previous Date")
+        }
+
+        nextButton.setOnClickListener {
+            showToast("Next Date")
+        }
         leftButton.setOnClickListener {
             showToast("Monday")
         }
