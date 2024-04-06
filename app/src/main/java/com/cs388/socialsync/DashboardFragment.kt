@@ -10,45 +10,47 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.core.CalendarMonth
-import com.kizitonwose.calendar.core.DayPosition
-import com.kizitonwose.calendar.core.daysOfWeek
+import com.kizitonwose.calendar.core.*
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
-import com.cs388.socialsync.databinding.CalendarDayLayoutBinding
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
-import java.util.Date
-import java.util.Locale
+import java.util.*
 
 class DashboardFragment : Fragment() {
 
+    // Views
     private lateinit var timeTextView: TextView
     private lateinit var monthText: TextView
     private lateinit var amPmTextView: TextView
     private lateinit var calendarView: CalendarView
     private lateinit var eventsRecyclerView: RecyclerView
-    private lateinit var eventAdapter : EventAdapter
     private lateinit var joinButton: Button
     private lateinit var roomView: EditText
     private lateinit var addEventButton: ImageView
+
+    // Adapter
+    private lateinit var eventAdapter: EventAdapter
+
+    // Date format
     private val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+
+    // Selected date
     private var selectedDate: LocalDate? = null
-    private var eventList: MutableList<Event> = mutableListOf()
+
+    // Event list
+    private val eventList: MutableList<Event> = mutableListOf()
+
+    // Days of week
     private val daysOfWeek = daysOfWeek()
 
     override fun onCreateView(
@@ -61,27 +63,13 @@ class DashboardFragment : Fragment() {
         setupCalendarView()
 
         joinButton.setOnClickListener {
-
             hideKeyboard()
-
         }
 
         addEventButton.setOnClickListener {
-
             Toast.makeText(requireContext(), "You are now manually breathing :)", Toast.LENGTH_SHORT).show()
-
         }
 
-
-        eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        eventList = mutableListOf(
-            Event("Event 1", "10:00 AM", "12:00 PM", "4/5/24", 50, "cloudy"),
-            Event("Event 2", "2:00 PM", "4:00 PM", "4/6/24", 90, "sunny"),
-            Event("Event 3", "9:00 AM", "11:00 AM", "4/7/24", -10, "sunny")
-        )
-        eventAdapter = EventAdapter(eventList)
-        eventsRecyclerView.adapter = eventAdapter
         return view
     }
 
@@ -99,6 +87,17 @@ class DashboardFragment : Fragment() {
         roomView = view.findViewById(R.id.roomCode)
         addEventButton = view.findViewById(R.id.addEvent)
         eventsRecyclerView = view.findViewById(R.id.upcomingEvents_recyclerView)
+        eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        eventList.clear()
+
+        eventList.addAll(listOf(
+            Event("Event 1", "10:00 AM", "12:00 PM", "4/5/24", 50, "cloudy", "CKB 124", "Newark, NJ 07102", false, true),
+            Event("Event 2", "2:00 PM", "4:00 PM", "4/6/24", 90, "sunny", "Top Golf", "Edison, NJ 08817", true, false),
+            Event("Event 3", "9:00 AM", "11:00 AM", "4/7/24", -10, "sunny", "Stairway To Heaven", "Vernon Township, NJ 07462", false, false)
+        ))
+        eventAdapter = EventAdapter(requireContext(), eventList)
+        eventsRecyclerView.adapter = eventAdapter
     }
 
     private fun setupTimeReceiver() {
@@ -160,7 +159,7 @@ class DashboardFragment : Fragment() {
     }
 
     private inner class DayViewContainer(view: View) : ViewContainer(view) {
-        private val textView = CalendarDayLayoutBinding.bind(view).calendarDayText
+        private val textView = view.findViewById<TextView>(R.id.calendarDayText)
         private lateinit var day: CalendarDay
 
         init {
