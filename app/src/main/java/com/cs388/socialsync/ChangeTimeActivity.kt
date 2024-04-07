@@ -6,9 +6,14 @@ import android.widget.Button
 import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class ChangeTimeActivity: AppCompatActivity() {
+
+    private lateinit var timeslotAdapter: TimeslotAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_time)
@@ -28,6 +33,12 @@ class ChangeTimeActivity: AppCompatActivity() {
         val blackColor = ContextCompat.getColor(this, android.R.color.black)
         nextButton.setColorFilter(blackColor, PorterDuff.Mode.SRC_IN)
         prevButton.setColorFilter(blackColor,PorterDuff.Mode.SRC_IN)
+
+        val timeslotRecyclerView = findViewById<RecyclerView>(R.id.timeslotsRecyclerView)
+        timeslotRecyclerView.layoutManager = LinearLayoutManager(this)
+        timeslotAdapter = TimeslotAdapter(this, "8:00 AM", "11:00 AM")
+        timeslotRecyclerView.adapter = timeslotAdapter
+
 
         prevButton.setOnClickListener{
             showToast("Previous Date")

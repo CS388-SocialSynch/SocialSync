@@ -1,5 +1,6 @@
 package com.cs388.socialsync
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -41,6 +42,16 @@ class EventDetail : Fragment() {
     // Flags
     private var isAttendingVisible = false
 
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        modifyEventButton = view.findViewById(R.id.modifyEventButton)
+        modifyEventButton.setOnClickListener {
+            val intent = Intent(requireContext(), ChangeTimeActivity::class.java)
+            startActivity(intent)
+        }
+    }
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -150,9 +161,7 @@ class EventDetail : Fragment() {
             Toast.makeText(context, "Why leave :(", Toast.LENGTH_SHORT).show()
         }
 
-        modifyEventButton.setOnClickListener {
-            Toast.makeText(context, "You clicked on modify event", Toast.LENGTH_SHORT).show()
-        }
+
 
         shareEventButton.setOnClickListener {
             Toast.makeText(context, "There is nothing to share >:(", Toast.LENGTH_SHORT).show()

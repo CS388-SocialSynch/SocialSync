@@ -14,11 +14,7 @@ class EventsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        changeTimeButton = view.findViewById(R.id.changeTimeButton)
-        changeTimeButton.setOnClickListener {
-            val intent = Intent(requireContext(), ChangeTimeActivity::class.java)
-            startActivity(intent)
-        }
+
     }
 
     override fun onCreateView(
