@@ -1,0 +1,249 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            android:id="@+id/new_event"
+            android:layout_width="wrap_content"
+            android:layout_height="62dp"
+            android:text="@string/new_event"
+            style="@style/header2"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <View
+            android:id="@+id/part_1_prog1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/rounded_blank"
+            android:layout_marginLeft="5dp"
+            />
+        <View
+            android:id="@+id/part_1_prog2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/rounded_affirm"
+            android:layout_marginLeft="5dp"
+
+            />
+        <View
+            android:id="@+id/part_1_prog3"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/rounded_blank"
+            android:layout_marginLeft="5dp"
+
+            />
+        </LinearLayout>
+        <!--            do a check of the second half is %15-->
+        <!-- Start Time-->
+        <TextView
+            android:layout_marginTop="10dp"
+            android:id="@+id/labelStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Start Time (15 minute increments)"
+            style="@style/body"
+            />
+
+        <EditText
+            android:id="@+id/startTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="ex: 5:15 pm"
+            style="@style/EditTextbox"
+            />
+        <!-- end Time-->
+        <TextView
+            android:id="@+id/labelEndTime"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Time (15 minute increments)"
+            style="@style/body"
+            />
+
+        <EditText
+            android:id="@+id/endTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="text"
+            android:hint="ex: 5:15 pm"
+            style="@style/EditTextbox"
+            />
+
+    <!-- Specific days-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="15dp"
+        android:orientation="vertical"
+        android:background="@drawable/orange_gradient"
+        android:stateListAnimator="@null"
+        android:elevation="2sp"
+        android:paddingVertical="30dp"
+        android:layout_marginVertical="10dp"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            >
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/MON"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MON"
+                style="@style/appButtonUnselect"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/TUE"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/appButtonUnselect"
+                android:text="TUE"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/WED"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="WED"
+                style="@style/appButtonUnselect"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/THU"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="THU"
+                style="@style/appButtonUnselect"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="40sp"
+            >
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/FRI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="FRI"
+                style="@style/appButtonUnselect"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/SAT"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SAT"
+                style="@style/appButtonUnselect"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/SUN"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SUN"
+                style="@style/appButtonUnselect"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+
+        </LinearLayout><!-- General Date-->
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="15dp"
+            android:background="@color/font"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/specificDates"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Choose Specfic Days"
+            android:layout_weight="1"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            style="@style/appButton"
+            />
+
+    </LinearLayout> <!-- Choosing Dates -->
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Your Time"
+            style="@style/appButtonInvalid"
+            android:layout_gravity="center"
+            android:layout_marginTop="15sp"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="40sp"
+            android:layout_marginVertical="15dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnBack"
+                android:text="Back"
+                style="@style/appButton"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnNext"
+                android:text="Next"
+                style="@style/appButton"
+                android:layout_weight="1"
+                android:layout_margin="10dp"
+                />
+
+        </LinearLayout> <!-- Button layout -->
+    </LinearLayout> <!-- Full layout -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

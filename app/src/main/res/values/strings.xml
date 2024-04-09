@@ -4,6 +4,15 @@
     <string name="events">Events</string>
     <string name="dashboard">Dashboard</string>
     <string name="profile">Profile</string>
+    <!-- Change Event Time-->
+    <string name="change_time">Change Time</string>
+    <string name="change_settings">Change Settings</string>
+    <string name="set_event_time">Set Event Time</string>
+    <string name="cancel_event">Cancel Event</string>
+    <string name="defaultProperties">"Start:\nEnd:\nJoin CODE: ----"</string>
+
+    <string name="defaultDate">"XXX\n99"</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="hello_dashboard">Hello dashboard</string>
@@ -12,8 +21,7 @@
     <string name="sign_in_with_google">Sign In with Google</string>
     <string name="sign_in">Sign In</string>
     <string name="new_event">NEW EVENT</string>
-    <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
-    <string name="join">Join</string>
+   <string name="join">Join</string>
     <string name="_2137">2137</string>
     <string name="button_to_add_events">button to add events</string>
     <string name="upcoming">Upcoming</string>
@@ -22,6 +30,9 @@
     <string name="editDefault">Edit Default Time</string>
     <string name="display_name">Display Name</string>
     <string name="change_display_photo">Change Display Photo</string>
+    <string name="change_display_name">Change Display Name</string>
+    <string name="log_out">Log Out</string>
+    <string name="choose_dates">CHOOSE DATES</string>
 
 
 </resources>
