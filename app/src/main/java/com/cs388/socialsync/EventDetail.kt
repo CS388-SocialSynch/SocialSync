@@ -9,6 +9,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -27,9 +28,9 @@ class EventDetail : Fragment() {
     private lateinit var feelLikeTextView: TextView
     private lateinit var humidityTextView: TextView
     private lateinit var windTextView: TextView
-    private lateinit var modifyTimeButton: Button
-    private lateinit var leaveButton: Button
-    private lateinit var modifyEventButton: Button
+    private lateinit var modifyTimeButton: AppCompatButton
+    private lateinit var leaveButton: AppCompatButton
+    private lateinit var modifyEventButton: AppCompatButton
     private lateinit var shareEventButton: ImageView
     private lateinit var incomingTextView: TextView
     private lateinit var attendSwitch : SwitchMaterial

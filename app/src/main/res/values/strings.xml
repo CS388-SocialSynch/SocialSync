@@ -12,6 +12,7 @@
     <string name="defaultProperties">"Start:\nEnd:\nJoin CODE: ----"</string>
 
     <string name="defaultDate">"XXX\n99"</string>
+    <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
@@ -33,6 +34,6 @@
     <string name="change_display_name">Change Display Name</string>
     <string name="log_out">Log Out</string>
     <string name="choose_dates">CHOOSE DATES</string>
-
+    <string name="public_events">Public Events</string>
 
 </resources>
