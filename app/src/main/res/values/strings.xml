@@ -33,6 +33,6 @@
     <string name="change_display_name">Change Display Name</string>
     <string name="log_out">Log Out</string>
     <string name="choose_dates">CHOOSE DATES</string>
-
+    <string name="public_events">Public Events</string>
 
 </resources>

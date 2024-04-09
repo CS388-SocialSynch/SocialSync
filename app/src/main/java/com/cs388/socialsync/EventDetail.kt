@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.switchmaterial.SwitchMaterial
 
 class EventDetail : Fragment() {
 
@@ -25,21 +27,17 @@ class EventDetail : Fragment() {
     private lateinit var feelLikeTextView: TextView
     private lateinit var humidityTextView: TextView
     private lateinit var windTextView: TextView
-    private lateinit var arrowButton: ImageView
     private lateinit var modifyTimeButton: Button
     private lateinit var leaveButton: Button
     private lateinit var modifyEventButton: Button
     private lateinit var shareEventButton: ImageView
     private lateinit var incomingTextView: TextView
-    private lateinit var attendingRecyclerView: RecyclerView
+    private lateinit var attendSwitch : SwitchMaterial
+    private lateinit var attendingLayout : LinearLayout
     private lateinit var incomingRecyclerView: RecyclerView
 
     // Adapters
-    private lateinit var userAdapterAttending: UserAdapter
     private lateinit var userAdapterIncoming: UserAdapter
-
-    // Flags
-    private var isAttendingVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -78,13 +76,13 @@ class EventDetail : Fragment() {
         feelLikeTextView = view.findViewById(R.id.feelLike)
         humidityTextView = view.findViewById(R.id.humidity)
         windTextView = view.findViewById(R.id.wind)
-        arrowButton = view.findViewById(R.id.arrowImageView)
         modifyTimeButton = view.findViewById(R.id.modifyTimeButton)
         leaveButton = view.findViewById(R.id.leaveButton)
         modifyEventButton = view.findViewById(R.id.modifyEventButton)
         shareEventButton = view.findViewById(R.id.shareEvent)
         incomingTextView = view.findViewById(R.id.incoming)
-        attendingRecyclerView = view.findViewById(R.id.attendRecyclerView)
+        attendSwitch = view.findViewById(R.id.attendSwitch)
+        attendingLayout = view.findViewById(R.id.attendingLayout)
         incomingRecyclerView = view.findViewById(R.id.IncomingRecycler)
     }
 
@@ -96,11 +94,11 @@ class EventDetail : Fragment() {
             if (isPublicEvent) {
                 // Hide views for public events
                 val viewsToHide = listOf(
+                    attendingLayout,
                     modifyTimeButton,
                     leaveButton,
                     modifyEventButton,
                     shareEventButton,
-                    attendingRecyclerView,
                     incomingRecyclerView,
                     incomingTextView
                 )
@@ -120,15 +118,9 @@ class EventDetail : Fragment() {
             User("Ethan", "Maybe"),
             User("Karam", "yes")
         )
-        userAdapterAttending = UserAdapter(requireContext(), userList, true)
-        userAdapterIncoming = UserAdapter(requireContext(), userList, false)
 
-        // Set layout manager and adapters
-        attendingRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = userAdapterAttending
-            visibility = View.GONE
-        }
+        userAdapterIncoming = UserAdapter(requireContext(), userList)
+
         incomingRecyclerView.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = userAdapterIncoming
@@ -136,10 +128,9 @@ class EventDetail : Fragment() {
     }
 
     private fun setListeners() {
-        arrowButton.setOnClickListener {
-            isAttendingVisible = !isAttendingVisible
-            attendingRecyclerView.visibility = if (isAttendingVisible) View.VISIBLE else View.GONE
-            arrowButton.rotation = if (isAttendingVisible) 180f else 0f
+
+        attendSwitch.setOnClickListener {
+            Toast.makeText(context, attendSwitch.isChecked.toString(), Toast.LENGTH_SHORT).show()
         }
 
         modifyTimeButton.setOnClickListener {
