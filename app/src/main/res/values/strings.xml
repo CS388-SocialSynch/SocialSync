@@ -15,10 +15,18 @@
     <string name="sign_in_with_google">Sign In with Google</string>
     <string name="sign_in">Sign In</string>
     <string name="new_event">NEW EVENT</string>
+    <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
     <string name="join">Join</string>
     <string name="_2137">2137</string>
     <string name="button_to_add_events">button to add events</string>
     <string name="upcoming">Upcoming</string>
     <string name="join_code">Join Code</string>
+    <string name="calendar_export">Calendar Export</string>
+    <string name="editDefault">Edit Default Time</string>
+    <string name="display_name">Display Name</string>
+    <string name="change_display_photo">Change Display Photo</string>
+    <string name="change_display_name">Change Display Name</string>
+    <string name="log_out">Log Out</string>
+
 
 </resources>
