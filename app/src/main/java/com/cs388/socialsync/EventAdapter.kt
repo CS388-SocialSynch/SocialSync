@@ -57,11 +57,13 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         override fun onClick(v: View?) {
             val event = eventList[absoluteAdapterPosition]
 
+            // generate a new fragment and then switch
             val fragment = EventDetail()
             val bundle = Bundle()
             bundle.putSerializable(EVENT_ITEM, event)
             fragment.arguments = bundle
 
+            // how to switch fragments
             (context as AppCompatActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, fragment)
                 .addToBackStack(null)

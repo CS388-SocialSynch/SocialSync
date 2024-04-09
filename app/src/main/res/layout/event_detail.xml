@@ -214,46 +214,41 @@
                 android:layout_marginHorizontal="16dp"
                 android:orientation="horizontal">
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/appButton"
                     android:id="@+id/modifyTimeButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/secondary2"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:text="Modify Time"
-                    android:textColor="@color/black"
-                    android:textSize="18sp" />
+                    />
 
                 <View
                     android:layout_width="10dp"
                     android:layout_height="0dp" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/appButton"
                     android:id="@+id/leaveButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/secondary2"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:text="Leave"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:visibility="visible" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
+                    style="@style/appButton"
                     android:id="@+id/modifyEventButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/secondary2"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:text="Modify Event"
-                    android:textColor="@color/black"
-                    android:textSize="18sp"
                     android:visibility="gone" />
             </LinearLayout>
 

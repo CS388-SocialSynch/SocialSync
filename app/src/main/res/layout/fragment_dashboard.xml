@@ -100,17 +100,17 @@
                     android:layout_width="50dp"
                     android:layout_height="0dp" />
 
-                <Button
+                <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/joinButton"
-                    style="@style/subtitle"
+                    style="@style/appButton"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/secondary2"
                     android:text="@string/join"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/roomCode"
-                    app:layout_constraintTop_toBottomOf="@+id/joinCode" />
+                    app:layout_constraintTop_toBottomOf="@+id/joinCode"
+                    />
             </LinearLayout>
 
             <LinearLayout
