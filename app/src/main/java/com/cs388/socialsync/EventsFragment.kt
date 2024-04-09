@@ -27,7 +27,7 @@ class EventsFragment : Fragment() {
 
         binding.publicEventsRecyclerView.layoutManager = LinearLayoutManager(activity)
 
-        val events: List<PublicEvent> = createRandomEvents()
+        val events: List<Event> = createRandomEvents()
 
         publicEventAdapter = PublicEventAdapter(events)
         binding.publicEventsRecyclerView.adapter = publicEventAdapter
@@ -35,8 +35,8 @@ class EventsFragment : Fragment() {
         return view
     }
 
-    private fun createRandomEvents(): List<PublicEvent> {
-        val events = mutableListOf<PublicEvent>()
+    private fun createRandomEvents(): List<Event> {
+        val events = mutableListOf<Event>()
         val eventNames = mutableListOf<String>()
 
         // Sample event names
@@ -50,12 +50,15 @@ class EventsFragment : Fragment() {
 
             eventNames.add(eventName)
 
-            val startTime = "Start Time $it"
-            val endTime = "End Time $it"
-            val date = "Date $it"
+            val startTime = "10 AM"
+            val endTime = "12 PM"
+            val date = "04/09/2024"
             val temperature = Random.nextInt(50, 100)
             val weatherCondition = if (it % 2 == 0) "cloudy" else "sunny"
-            val event = PublicEvent(eventName, startTime, endTime, date, temperature, weatherCondition)
+            val location = "NJIT"
+            val address = "CC"
+
+            val event = Event(eventName, startTime, endTime, date, temperature, weatherCondition, location, address, false, true)
             events.add(event)
         }
         return events

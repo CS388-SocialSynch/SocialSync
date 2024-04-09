@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class PublicEventAdapter(private val publicEventList: List<PublicEvent>) :
+class PublicEventAdapter(private val publicEventList: List<Event>) :
     RecyclerView.Adapter<PublicEventAdapter.PublicEventViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicEventViewHolder {
