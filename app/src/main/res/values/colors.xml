@@ -11,6 +11,7 @@
     <color name="font">#000740</color>
     <color name="transparent">#00000000</color>
     <color name="editBackground">#80EEEEEE</color>
+    <color name="date_button">#FEECD0</color>
     <color name="red">#Ff0000</color>
 
 </resources>
