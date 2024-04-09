@@ -13,6 +13,7 @@
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="10dp"
         >
 
         <TextView
@@ -116,8 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="MON"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
+                style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -125,9 +125,8 @@
                 android:id="@+id/TUE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/appButtonUnselect"
                 android:text="TUE"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -136,8 +135,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="WED"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
+                style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -146,8 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="THU"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
+                style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -157,15 +154,13 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginHorizontal="40sp"
-
             >
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/FRI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="FRI"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
+                style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -174,8 +169,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SAT"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
+                style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -184,8 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SUN"
-                android:background="@drawable/button_stroke"
-                android:textColor="@color/secondary1"
+                style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />
@@ -213,12 +206,42 @@
     </LinearLayout> <!-- Choosing Dates -->
 
         <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+            android:id="@+id/btnAddTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:text="Add Your Time"
-        style="@style/appButtonInvalid"
+            style="@style/appButtonInvalid"
+            android:layout_gravity="center"
+            android:layout_marginTop="15sp"
         />
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="40sp"
+            android:layout_marginVertical="15dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnBack"
+                android:text="Back"
+                style="@style/appButton"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnNext"
+                android:text="Next"
+                style="@style/appButton"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                />
+
+        </LinearLayout> <!-- Button layout -->
     </LinearLayout> <!-- Full layout -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

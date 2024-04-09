@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_gradient">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="10dp"
+        >
+
+        <TextView
+            android:id="@+id/new_event"
+            android:layout_width="wrap_content"
+            android:layout_height="62dp"
+            android:text="@string/new_event"
+            android:textAppearance="@style/header2"
+            android:gravity="center"
+            android:layout_gravity="center"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+        <View
+            android:id="@+id/part_1_prog1"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/rounded_blank"
+            android:layout_marginLeft="5dp"
+            />
+        <View
+            android:id="@+id/part_1_prog2"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/rounded_blank"
+            android:layout_marginLeft="5dp"
+
+            />
+        <View
+            android:id="@+id/part_1_prog3"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="10dp"
+            android:background="@drawable/rounded_affirm"
+            android:layout_marginLeft="5dp"
+
+            />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/subtitle"
+            android:layout_marginVertical="100dp"
+            android:text="Recorded"
+            android:textAlignment="center"/>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnEditTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Your Time"
+            style="@style/appButton"
+            android:layout_gravity="center"
+            android:layout_marginTop="15sp"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="40sp"
+            android:layout_marginVertical="20dp">
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnBack"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Back"
+                style="@style/appButton"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                />
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnFinish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Finish"
+                style="@style/appButton"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="10dp"
+                />
+
+        </LinearLayout> <!-- Button layout -->
+    </LinearLayout> <!-- Full layout -->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

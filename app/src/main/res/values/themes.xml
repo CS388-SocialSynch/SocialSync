@@ -70,8 +70,9 @@
     </style>
 
     <style name="appButtonUnselect" parent="@style/Widget.AppCompat.Button">
-        <item name="android:color">@color/secondary1</item>
-        <item name="android:textSize">@style/header3</item>
+        <item name="android:color">@color/black</item>
+        <item name="android:textAppearance">@style/body</item>
+        <item name="android:background">@drawable/button_stroke</item>
     </style>
 
 </resources>
