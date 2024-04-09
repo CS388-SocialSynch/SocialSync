@@ -11,8 +11,8 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/ivGoogleLogin"
-        android:layout_width="218dp"
-        android:layout_height="65dp"
+        android:layout_width="255dp"
+        android:layout_height="67dp"
         android:layout_alignParentEnd="true"
         android:backgroundTint="#D9D9D9"
         android:padding="8dp"
@@ -29,8 +29,8 @@
 
     <TextView
         android:id="@+id/AppName"
-        android:layout_width="188dp"
-        android:layout_height="40dp"
+        android:layout_width="240dp"
+        android:layout_height="47dp"
         android:gravity="center"
         android:text="@string/app_name"
         android:textSize="33sp"
@@ -42,15 +42,15 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="85dp"
-        android:layout_height="52dp"
+        android:layout_width="154dp"
+        android:layout_height="64dp"
+        android:gravity="center"
         android:text="@string/sign_in"
         android:textSize="26sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/AppName"
-        android:gravity="center"
-        android:textStyle="bold"/>
+        app:layout_constraintTop_toBottomOf="@+id/AppName" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

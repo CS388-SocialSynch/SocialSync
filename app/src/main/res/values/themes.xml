@@ -8,6 +8,7 @@
 
     <!-- Inherit base theme and define other styles -->
     <style name="Theme.SocialSync" parent="Base.Theme.SocialSync">
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <!-- Define text sizes with inheritance -->
