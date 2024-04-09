@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -34,7 +35,7 @@ class DashboardFragment : Fragment() {
     private lateinit var amPmTextView: TextView
     private lateinit var calendarView: CalendarView
     private lateinit var eventsRecyclerView: RecyclerView
-    private lateinit var joinButton: Button
+    private lateinit var joinButton: AppCompatButton
     private lateinit var roomView: EditText
     private lateinit var addEventButton: ImageView
 
