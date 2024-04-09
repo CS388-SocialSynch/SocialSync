@@ -17,33 +17,30 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.android.material.button.MaterialButton
+import com.google.firebase.Firebase
+import com.google.firebase.database.database
 
 
 class LoginActivity : AppCompatActivity() {
 
     lateinit var ivGoogleLogin: MaterialButton
 
-    lateinit var auth: FirebaseAuth
-
-
     lateinit var googleSignInClient: GoogleSignInClient
     fun init() {
         ivGoogleLogin = findViewById(R.id.ivGoogleLogin)
-
         //Get Firebase auth instance
-        auth = FirebaseAuth.getInstance()
+        Obj.auth = FirebaseAuth.getInstance()
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
-        if (FirebaseAuth.getInstance().currentUser != null) {
-            // If user is already logged in, taking him to MainActivity
+        setContentView(R.layout.activity_login)
+        init()
+
+        if (Obj.auth.currentUser != null) {
             startNewActivity()
         }
-        setContentView(R.layout.activity_login)
 
-        init()
         ivGoogleLogin.setOnClickListener { loginWithGoogle() }
 
     }
@@ -85,11 +82,11 @@ class LoginActivity : AppCompatActivity() {
     private fun firebaseAuthWithGoogleAccount(account: GoogleSignInAccount?) {
         val credential = GoogleAuthProvider.getCredential(account!!.idToken, null)
 
-        auth.signInWithCredential(credential)
+        Obj.auth.signInWithCredential(credential)
             .addOnSuccessListener { authRes ->
                 Log.d(TAG, "firebaseAuthWithGoogleAccount : ${authRes.user}")
 
-                startNewActivity()
+                startNewActivity(true)
             }
             .addOnFailureListener { err ->
                 Log.d(TAG, "firebaseAuthWithGoogleAccount : ${err.message}")
@@ -97,7 +94,29 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
-    fun startNewActivity() {
+    fun startNewActivity(flags: Boolean = false) {
+
+        Obj.USER_DB =
+            Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
+
+        Obj.getUserData(object : Obj.UserDataListener {
+            override fun onUserDataLoad(user: Obj.User) {
+                if (user.image == "null") {
+                    val user = Obj.User(
+                        Obj.auth.currentUser!!.displayName.toString(),
+                        Obj.auth.currentUser!!.email.toString(),
+                        Obj.auth.currentUser!!.photoUrl.toString()
+                    )
+                    Obj.user = user
+                    Obj.uploadUserData(user)
+                } else {
+                    Obj.user = user
+                }
+            }
+        })
+
+
+
         startActivity(Intent(this, MainActivity::class.java))
         finish()
     }
