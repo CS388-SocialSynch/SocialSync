@@ -75,4 +75,10 @@
         <item name="android:background">@drawable/button_stroke</item>
     </style>
 
+    <style name="switchStyle" parent="@style/TextAppearance.AppCompat.Widget.Switch">
+        <item name="android:textAppearance">@style/body</item>
+        <item name="thumbTint">@color/white</item>
+        <item name="trackTint">@color/blank</item>
+    </style>
+
 </resources>
