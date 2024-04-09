@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs388.socialsync.databinding.FragmentEventsBinding
@@ -29,7 +30,17 @@ class EventsFragment : Fragment() {
 
         val events: List<Event> = createRandomEvents()
 
-        publicEventAdapter = PublicEventAdapter(events)
+        val listener = object : PublicEventAdapter.OnItemClickListener {
+            override fun onItemClick(event: Event) {
+
+                val intent = Intent(activity,PublicEventDetailActivity::class.java)
+                intent.putExtra("event",event)
+                startActivity(intent)
+
+            }
+        }
+
+        publicEventAdapter = PublicEventAdapter(events, listener)
         binding.publicEventsRecyclerView.adapter = publicEventAdapter
 
         return view
@@ -40,7 +51,14 @@ class EventsFragment : Fragment() {
         val eventNames = mutableListOf<String>()
 
         // Sample event names
-        val sampleNames = listOf("Birthday Bash", "Concert Night", "Tech Meetup", "Food Festival", "Art Exhibition", "Networking")
+        val sampleNames = listOf(
+            "Birthday Bash",
+            "Concert Night",
+            "Tech Meetup",
+            "Food Festival",
+            "Art Exhibition",
+            "Networking"
+        )
 
         repeat(6) {
             var eventName = ""
@@ -58,7 +76,18 @@ class EventsFragment : Fragment() {
             val location = "NJIT"
             val address = "CC"
 
-            val event = Event(eventName, startTime, endTime, date, temperature, weatherCondition, location, address, false, true)
+            val event = Event(
+                eventName,
+                startTime,
+                endTime,
+                date,
+                temperature,
+                weatherCondition,
+                location,
+                address,
+                false,
+                true
+            )
             events.add(event)
         }
         return events

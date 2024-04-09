@@ -9,8 +9,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 
-class PublicEventAdapter(private val publicEventList: List<Event>) :
+class PublicEventAdapter(
+    private val publicEventList: List<Event>,
+    val listener: PublicEventAdapter.OnItemClickListener
+) :
     RecyclerView.Adapter<PublicEventAdapter.PublicEventViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(event: Event)
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PublicEventViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -35,11 +42,16 @@ class PublicEventAdapter(private val publicEventList: List<Event>) :
         Glide.with(holder.itemView.context)
             .load(weatherIconResource)
             .into(holder.weatherImageView)
+
+        holder.itemView.setOnClickListener {
+            listener.onItemClick(currentItem)
+        }
     }
 
     override fun getItemCount() = publicEventList.size
 
-    inner class PublicEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class PublicEventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val eventNameTextView: TextView = itemView.findViewById(R.id.eventNameTextView)
         val timeTextView: TextView = itemView.findViewById(R.id.timeTextView)
         val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
