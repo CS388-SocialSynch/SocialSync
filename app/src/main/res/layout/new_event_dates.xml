@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="62dp"
             android:text="@string/new_event"
-            android:textAppearance="@style/header2"
+            style="@style/header2"
             android:gravity="center"
             android:layout_gravity="center"
             />
@@ -65,7 +65,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Start Time (15 minute increments)"
-            android:textAppearance="@style/body"
+            style="@style/body"
             />
 
         <EditText
@@ -75,6 +75,7 @@
             android:ems="10"
             android:inputType="text"
             android:hint="ex: 5:15 pm"
+            style="@style/EditTextbox"
             />
         <!-- end Time-->
         <TextView
@@ -83,7 +84,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Time (15 minute increments)"
-            android:textAppearance="@style/body"
+            style="@style/body"
             />
 
         <EditText
@@ -93,6 +94,7 @@
             android:ems="10"
             android:inputType="text"
             android:hint="ex: 5:15 pm"
+            style="@style/EditTextbox"
             />
 
     <!-- Specific days-->
@@ -189,7 +191,7 @@
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_margin="15dp"
-            android:background="@color/secondary1"/>
+            android:background="@color/font"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/specificDates"
@@ -229,7 +231,7 @@
                 android:text="Back"
                 style="@style/appButton"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="10dp"
+                android:layout_margin="10dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:layout_width="wrap_content"
@@ -238,7 +240,7 @@
                 android:text="Next"
                 style="@style/appButton"
                 android:layout_weight="1"
-                android:layout_marginHorizontal="10dp"
+                android:layout_margin="10dp"
                 />
 
         </LinearLayout> <!-- Button layout -->

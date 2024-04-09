@@ -22,7 +22,7 @@
         android:layout_marginTop="10dp"
         android:text="@string/new_event"
         android:textAlignment="center"
-        android:textAppearance="@style/header2"
+        style="@style/header2"
         android:gravity="center_horizontal|center_vertical"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:text="Event Name"
         android:layout_marginTop="20sp"
-        android:textAppearance="@style/body"
+            style="@style/body"
         />
 
     <EditText
@@ -79,6 +79,7 @@
         android:ems="10"
         android:inputType="text"
         android:hint="Event Name..."
+        style="@style/EditTextbox"
         />
     <TextView
         android:id="@+id/labelEventLocation"
@@ -86,7 +87,7 @@
         android:layout_height="wrap_content"
         android:text="Location/URL"
         android:layout_marginTop="10sp"
-        android:textAppearance="@style/body"
+        style="@style/body"
         />
 
     <EditText
@@ -96,6 +97,8 @@
         android:ems="10"
         android:inputType="text"
         android:hint="Enter Where to Meet..."
+        style="@style/EditTextbox"
+
         />
 
     <TextView
@@ -104,7 +107,7 @@
         android:layout_height="wrap_content"
         android:text="Password (optional)"
         android:layout_marginTop="10sp"
-        android:textAppearance="@style/body"
+        style="@style/body"
         />
 
     <EditText
@@ -114,6 +117,8 @@
         android:ems="10"
         android:inputType="textVisiblePassword"
         android:hint="(Blank means none)"
+        style="@style/EditTextbox"
+
         />
 
 <!--    In person switch    -->
@@ -122,6 +127,7 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:layout_marginTop="10sp">
+
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchInPerson"
             android:layout_width="wrap_content"
@@ -133,7 +139,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="In-person?"
-            android:textAppearance="@style/body"/>
+            style="@style/body"/>
     </LinearLayout>
 
     <!--    switchShowParticipants switch    -->
@@ -153,7 +159,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Show Participants?"
-            android:textAppearance="@style/body"/>
+            style="@style/body"/>
     </LinearLayout>
         <!--    public switch    -->
     <LinearLayout
@@ -171,7 +177,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Display Publicly?"
-            android:textAppearance="@style/body"/>
+            style="@style/body"/>
     </LinearLayout>
 
 

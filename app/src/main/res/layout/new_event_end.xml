@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="62dp"
             android:text="@string/new_event"
-            android:textAppearance="@style/header2"
+            style="@style/header2"
             android:gravity="center"
             android:layout_gravity="center"
             />
@@ -59,13 +59,14 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/labelRecorded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/subtitle"
             android:layout_marginVertical="100dp"
             android:text="Recorded"
-            android:textAlignment="center"/>
+            android:textAlignment="center"
+            style="@style/subtitle"
+            />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnEditTime"
@@ -92,6 +93,7 @@
                 style="@style/appButton"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnFinish"
@@ -101,6 +103,7 @@
                 style="@style/appButton"
                 android:layout_weight="1"
                 android:layout_marginHorizontal="10dp"
+                android:layout_marginVertical="5dp"
                 />
 
         </LinearLayout> <!-- Button layout -->
