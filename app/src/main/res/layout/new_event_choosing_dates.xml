@@ -62,7 +62,6 @@
             android:layout_weight="1"
             android:layout_marginHorizontal="20dp"
             />
-
         </LinearLayout>
 
 
