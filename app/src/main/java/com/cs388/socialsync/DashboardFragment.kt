@@ -71,7 +71,11 @@ class DashboardFragment : Fragment() {
 
         addEventButton.setOnClickListener {
             val newEvent = Event()
-            Toast.makeText(requireContext(), "You are now manually breathing :)", Toast.LENGTH_SHORT).show()
+            val newIntent = Intent(context,AddEventMainActivity::class.java)
+            val bundle = Bundle()
+            bundle.putSerializable(EVENT_ITEM, newEvent)
+            newIntent.putExtra("eventInfo",bundle)
+            startActivity(newIntent)
         }
 
         return view
