@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
+import java.time.format.DateTimeFormatter
 
 class EventDetail : Fragment() {
 
@@ -152,10 +153,13 @@ class EventDetail : Fragment() {
     }
 
     private fun displayEventDetails(event: Event?) {
+
+        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+
         event?.let { details ->
             eventDetailView.text = details.eventName
-            "${details.startTime} - ${details.endTime}".also { timeDetailView.text = it }
-            dateDetailView.text = details.date
+            "${details.startTime.format(timeFormatter)} - ${details.endTime.format(timeFormatter)}".also { timeDetailView.text = it }
+            dateDetailView.text = details.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
             locationDetailView.text = details.locationName
             addressDetailView.text = details.address
 

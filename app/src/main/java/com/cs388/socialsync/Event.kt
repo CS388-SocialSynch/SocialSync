@@ -1,16 +1,24 @@
 package com.cs388.socialsync
 
+import android.R
 import java.io.Serializable
+import java.time.LocalDate
+import java.time.LocalTime
 
 data class Event(
-    val eventName: String,
-    val startTime: String,
-    val endTime: String,
-    val date: String,
-    val temperature: Int,
-    val weatherCondition: String,
-    val locationName : String,
-    val address : String,
-    val isHost: Boolean,
-    val isPublic: Boolean
-) : Serializable
+    val eventName: String = "",
+    val startTime: LocalTime = LocalTime.MIDNIGHT,
+    val endTime: LocalTime = LocalTime.MAX,
+    val date: LocalDate = LocalDate.now(),
+    val temperature: Int? = null, // in F degrees
+    val weatherCondition: String? = null,
+    val locationName : String? = null, // redundant should be deleted
+    val address : String = "", // should be location
+    val isHost: Boolean = false,
+    val isPublic: Boolean = true,
+    val showParticipants: Boolean = true,
+    val hostUID: Int = -1,
+    val optionalDates: MutableList<LocalDate> = mutableListOf()
+) : Serializable {
+    constructor(): this("N/A EVENT")
+}
