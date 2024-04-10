@@ -10,13 +10,13 @@ data class Event(
     val startTime: LocalTime = LocalTime.MIDNIGHT,
     val endTime: LocalTime = LocalTime.MAX,
     val date: LocalDate = LocalDate.now(),
-    val temperature: Int? = null, // in F
+    val temperature: Int? = null, // in F degrees
     val weatherCondition: String? = null,
     val locationName : String? = null, // redundant should be deleted
     val address : String = "", // should be location
-    val showParticipants: Boolean = true,
     val isHost: Boolean = false,
     val isPublic: Boolean = true,
+    val showParticipants: Boolean = true,
     val hostUID: Int = -1,
     val optionalDates: MutableList<LocalDate> = mutableListOf()
 ) : Serializable {
