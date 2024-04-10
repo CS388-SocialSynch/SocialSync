@@ -22,8 +22,9 @@ class DateAdapter(
 ) : RecyclerView.Adapter<DateAdapter.DateViewHolder>()  {
 
     private val dates: List<String> = genDates(startDate, endDate)
+    private var selectedPosition = RecyclerView.NO_POSITION
     override fun onBindViewHolder(holder: DateAdapter.DateViewHolder, position: Int) {
-        holder.bind(dates[position])
+        holder.bind(dates[position],position==selectedPosition)
     }
 
 
@@ -37,17 +38,33 @@ class DateAdapter(
 
     inner class DateViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 
-        private val dateButton: TextView = itemView.findViewById(R.id.dateButton)
+        private val dateTV: TextView = itemView.findViewById(R.id.date_item_date)
+        private val dayTV: TextView = itemView.findViewById(R.id.date_item_dayAbv)
+        private val underline: View = itemView.findViewById(R.id.date_item_underline)
+
         init {
             itemView.setOnClickListener(this)
         }
-        fun bind(date: String) {
-            dateButton.text = date
+        fun bind(date: String, isSelected:Boolean) {
+            val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+            val outputFormatter = DateTimeFormatter.ofPattern("MM/dd")
+            val currDate = LocalDate.parse(date, inputFormatter)
+            dateTV.text =  currDate.format(outputFormatter)
+            dayTV.text = currDate.dayOfWeek.toString().substring(0, 3)
+            dateTV.paint.isUnderlineText = isSelected
+            underline.visibility =  if (isSelected) View.VISIBLE else View.GONE
         }
 
         override fun onClick(v: View?) {
-            val date = dates[absoluteAdapterPosition]
-            Toast.makeText(context, "You clicked on ${date}!", Toast.LENGTH_SHORT).show()
+            val newPosition = bindingAdapterPosition
+            if(newPosition != RecyclerView.NO_POSITION) {
+                val oldPosition = selectedPosition
+                selectedPosition = newPosition
+                notifyItemChanged(oldPosition)
+                notifyItemChanged(newPosition)
+                Toast.makeText(context, "You clicked on ${dates[position]}", Toast.LENGTH_SHORT)
+                    .show()
+            }
         }
     }
     private fun genDates(startDate: String, endDate: String): List<String> {

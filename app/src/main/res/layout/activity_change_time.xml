@@ -29,13 +29,14 @@
         android:layout_width="match_parent"
         tools:listitem="@layout/date_item"
         android:orientation="horizontal"
-        android:layout_height="73dp" />
+        android:layout_height="90sp"
+        android:layout_marginBottom="5dp"/>
 
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/timeslotsRecyclerView"
         android:layout_width="407dp"
-        android:layout_height="346dp"
+        android:layout_height="400dp"
         android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/changeSettingsButton"
         app:layout_constraintEnd_toEndOf="parent"
