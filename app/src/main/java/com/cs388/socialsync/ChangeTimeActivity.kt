@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ChangeTimeActivity: AppCompatActivity() {
 
     private lateinit var timeslotAdapter: TimeslotAdapter
+    private lateinit var dateAdapter: DateAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_time)
@@ -22,17 +23,18 @@ class ChangeTimeActivity: AppCompatActivity() {
         val setEventButton = findViewById<Button>(R.id.setTimeButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
 
-        val leftButton = findViewById<Button>(R.id.leftButton)
-        val midLeftButton = findViewById<Button>(R.id.midLeftButton)
-        val midButton = findViewById<Button>(R.id.midButton)
-        val midRightButton = findViewById<Button>(R.id.midRightButton)
-        val rightButton = findViewById<Button>(R.id.rightButton)
 
+        /*Removed Next Button
         val prevButton = findViewById<ImageButton>(R.id.prevButton)
         val nextButton = findViewById<ImageButton>(R.id.nextButton)
         val blackColor = ContextCompat.getColor(this, android.R.color.black)
         nextButton.setColorFilter(blackColor, PorterDuff.Mode.SRC_IN)
         prevButton.setColorFilter(blackColor,PorterDuff.Mode.SRC_IN)
+        */
+        val datesRecyclerView = findViewById<RecyclerView>(R.id.dateRecyclerView)
+        datesRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
+        dateAdapter = DateAdapter(this, "2024-03-28", "2024-04-05")
+        datesRecyclerView.adapter=dateAdapter
 
         val timeslotRecyclerView = findViewById<RecyclerView>(R.id.timeslotsRecyclerView)
         timeslotRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -40,20 +42,6 @@ class ChangeTimeActivity: AppCompatActivity() {
         timeslotRecyclerView.adapter = timeslotAdapter
 
 
-        prevButton.setOnClickListener{
-            showToast("Previous Date")
-        }
-
-        nextButton.setOnClickListener {
-            showToast("Next Date")
-        }
-        leftButton.setOnClickListener {
-            showToast("Monday")
-        }
-
-        midLeftButton.setOnClickListener {
-            showToast("Tuesday")
-        }
 
         settingsButton.setOnClickListener {
             showToast("Open Ethan's Activity")
