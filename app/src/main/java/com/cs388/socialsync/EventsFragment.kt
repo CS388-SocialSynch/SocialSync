@@ -9,6 +9,8 @@ import android.view.ViewGroup
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs388.socialsync.databinding.FragmentEventsBinding
+import java.time.LocalDate
+import java.time.LocalTime
 import kotlin.random.Random
 
 class EventsFragment : Fragment() {
@@ -50,9 +52,9 @@ class EventsFragment : Fragment() {
 
             eventNames.add(eventName)
 
-            val startTime = "10 AM"
-            val endTime = "12 PM"
-            val date = "04/09/2024"
+            val startTime = LocalTime.of(10,0)//"10 AM"
+            val endTime = LocalTime.of(12,0)//"12 PM"
+            val date = LocalDate.of(2024,4,9)//"04/09/2024"
             val temperature = Random.nextInt(50, 100)
             val weatherCondition = if (it % 2 == 0) "cloudy" else "sunny"
             val location = "NJIT"

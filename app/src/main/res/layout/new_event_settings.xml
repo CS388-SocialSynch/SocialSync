@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_gradient"
     >
 
     <LinearLayout
@@ -101,25 +102,25 @@
 
         />
 
-    <TextView
-        android:id="@+id/labelPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Password (optional)"
-        android:layout_marginTop="10sp"
-        style="@style/body"
-        />
+<!--     Password Option   -->
+<!--    <TextView-->
+<!--        android:id="@+id/labelPassword"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="Password (optional)"-->
+<!--        android:layout_marginTop="10sp"-->
+<!--        style="@style/body"-->
+<!--        />-->
 
-    <EditText
-        android:id="@+id/eventPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textVisiblePassword"
-        android:hint="(Blank means none)"
-        style="@style/EditTextbox"
-
-        />
+<!--    <EditText-->
+<!--        android:id="@+id/eventPassword"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:ems="10"-->
+<!--        android:inputType="textVisiblePassword"-->
+<!--        android:hint="(Blank means none)"-->
+<!--        style="@style/EditTextbox"-->
+<!--        />-->
 
 <!--    In person switch    -->
     <LinearLayout

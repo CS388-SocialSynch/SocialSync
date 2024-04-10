@@ -8,6 +8,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.time.format.DateTimeFormatter
 
 class PublicEventAdapter(private val publicEventList: List<Event>) :
     RecyclerView.Adapter<PublicEventAdapter.PublicEventViewHolder>() {
@@ -23,7 +24,7 @@ class PublicEventAdapter(private val publicEventList: List<Event>) :
 
         holder.eventNameTextView.text = currentItem.eventName
         "${currentItem.startTime} - ${currentItem.endTime}".also { holder.timeTextView.text = it }
-        holder.dateTextView.text = currentItem.date
+        holder.dateTextView.text = currentItem.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
         "${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
         val weatherIconResource = when (currentItem.weatherCondition) {
