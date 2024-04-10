@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.children
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -22,7 +23,9 @@ import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.*
 
@@ -34,7 +37,7 @@ class DashboardFragment : Fragment() {
     private lateinit var amPmTextView: TextView
     private lateinit var calendarView: CalendarView
     private lateinit var eventsRecyclerView: RecyclerView
-    private lateinit var joinButton: Button
+    private lateinit var joinButton: AppCompatButton
     private lateinit var roomView: EditText
     private lateinit var addEventButton: ImageView
 
@@ -67,6 +70,7 @@ class DashboardFragment : Fragment() {
         }
 
         addEventButton.setOnClickListener {
+            val newEvent = Event()
             Toast.makeText(requireContext(), "You are now manually breathing :)", Toast.LENGTH_SHORT).show()
         }
 
@@ -91,10 +95,12 @@ class DashboardFragment : Fragment() {
 
         eventList.clear()
 
+        //Temp for array - used for making dates from format
+
         eventList.addAll(listOf(
-            Event("Event 1", "10:00 AM", "12:00 PM", "4/5/24", 50, "cloudy", "CKB 124", "Newark, NJ 07102", false, true),
-            Event("Event 2", "2:00 PM", "4:00 PM", "4/6/24", 90, "sunny", "Top Golf", "Edison, NJ 08817", true, false),
-            Event("Event 3", "9:00 AM", "11:00 AM", "4/7/24", -10, "sunny", "Stairway To Heaven", "Vernon Township, NJ 07462", false, false)
+            Event("Event 1", LocalTime.of(10,0), LocalTime.of(12,0), LocalDate.parse("2024-04-05"), 50, "cloudy", "CKB 124", "Newark, NJ 07102", false, true),
+            Event("Event 2", LocalTime.of(14,0), LocalTime.of(16,0), LocalDate.parse("2024-04-06"), 90, "sunny", "Top Golf", "Edison, NJ 08817", true, false),
+            Event("Event 3", LocalTime.of(9,0), LocalTime.of(11,0), LocalDate.parse("2024-04-07"), -10, "sunny", "Stairway To Heaven", "Vernon Township, NJ 07462", false, false)
         ))
         eventAdapter = EventAdapter(requireContext(), eventList)
         eventsRecyclerView.adapter = eventAdapter

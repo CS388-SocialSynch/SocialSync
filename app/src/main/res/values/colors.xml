@@ -9,6 +9,8 @@
     <color name="secondary1">#E88B57</color>
     <color name="secondary2">#E2CA75</color>
     <color name="font">#000740</color>
+    <color name="transparent">#00000000</color>
+    <color name="editBackground">#80EEEEEE</color>
     <color name="date_button">#FEECD0</color>
     <color name="red">#Ff0000</color>
 

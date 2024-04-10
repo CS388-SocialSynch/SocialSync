@@ -24,18 +24,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.004" />
 
-    <TextView
-        android:id="@+id/monthTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="March 2024"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.02"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dateRecyclerView"
         android:layout_width="match_parent"
@@ -54,48 +42,46 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.0"
-        tools:listitem="@layout/timeslot_item" />
+        tools:listitem="@layout/timeslot_item"
+        android:layout_marginBottom="5dp"/>
 
-
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/appButton"
         android:id="@+id/changeSettingsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/secondary1"
         android:text="@string/change_settings"
         android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.741" />
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+       />
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/appButton"
         android:id="@+id/setTimeButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/secondary1"
         android:textColor="@color/black"
         android:text="@string/set_event_time"
-        app:layout_constraintBottom_toTopOf="@+id/cancelButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeSettingsButton"
-        app:layout_constraintVertical_bias="1.0" />
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+       />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/appButton"
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:backgroundTint="@color/secondary1"
         android:textColor="@color/black"
         android:text="@string/cancel_event"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/changeSettingsButton"
-        app:layout_constraintVertical_bias="0.37" />
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+
+        android:layout_gravity="center"
+         />
     <TextView
         android:id="@+id/eventPropertiesTextView"
         android:layout_width="wrap_content"
@@ -108,4 +94,10 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.976" />
 
+
 </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+

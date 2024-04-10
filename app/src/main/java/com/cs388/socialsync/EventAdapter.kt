@@ -1,15 +1,16 @@
 package com.cs388.socialsync
 
+import android.content.Context
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.content.Context
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.time.format.DateTimeFormatter
 
 const val EVENT_ITEM = "EVENT_ITEM"
 
@@ -24,10 +25,12 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
     override fun onBindViewHolder(holder: EventViewHolder, position: Int) {
         val currentItem = eventList[position]
+        val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+        val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
         holder.eventNameTextView.text = currentItem.eventName
-        "${currentItem.startTime} - ${currentItem.endTime}".also { holder.timeTextView.text = it }
-        holder.dateTextView.text = currentItem.date
+        "${currentItem.startTime.format(timeFormatter)} - ${currentItem.endTime.format(timeFormatter)}".also { holder.timeTextView.text = it }
+        holder.dateTextView.text = currentItem.date.format(dateFormatter)
         "${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
         // Load weather image using Glide
@@ -57,11 +60,13 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         override fun onClick(v: View?) {
             val event = eventList[absoluteAdapterPosition]
 
+            // generate a new fragment and then switch
             val fragment = EventDetail()
             val bundle = Bundle()
             bundle.putSerializable(EVENT_ITEM, event)
             fragment.arguments = bundle
 
+            // how to switch fragments
             (context as AppCompatActivity).supportFragmentManager.beginTransaction()
                 .replace(R.id.main_frame_layout, fragment)
                 .addToBackStack(null)
