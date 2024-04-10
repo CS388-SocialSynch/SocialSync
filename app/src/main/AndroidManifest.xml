@@ -25,8 +25,6 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".AddEventMainActivity"
-            android:exported="false"/>
 
         <activity
             android:name=".MainActivity"
@@ -34,6 +32,12 @@
 
         <activity android:name=".ChangeTimeActivity"
             android:exported="true" />
+
+        <activity android:name=".AddEventMainActivity"
+            android:exported="false"/>
+        <activity android:name=".AddEventSelectDate"
+            android:exported="false"/>
+
     </application>
 
 
