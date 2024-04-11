@@ -22,7 +22,7 @@
     <string name="sign_in_with_google">Sign In with Google</string>
     <string name="sign_in">Sign In</string>
     <string name="new_event">NEW EVENT</string>
-   <string name="join">Join</string>
+    <string name="join">Join</string>
     <string name="_2137">2137</string>
     <string name="button_to_add_events">button to add events</string>
     <string name="upcoming">Upcoming</string>
@@ -35,5 +35,8 @@
     <string name="log_out">Log Out</string>
     <string name="choose_dates">CHOOSE DATES</string>
     <string name="public_events">Public Events</string>
+    <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
+    <string name="leaveEvent">Leave</string>
+    <string name="attending">Attending?</string>
 
 </resources>

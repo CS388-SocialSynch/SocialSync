@@ -6,7 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs388.socialsync.databinding.FragmentEventsBinding
 import java.time.LocalDate
@@ -18,7 +19,6 @@ class EventsFragment : Fragment() {
 
     private lateinit var binding: FragmentEventsBinding
     private lateinit var publicEventAdapter: PublicEventAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,24 @@ class EventsFragment : Fragment() {
 
         val events: List<Event> = createRandomEvents()
 
-        publicEventAdapter = PublicEventAdapter(events)
+        val listener = object : PublicEventAdapter.OnItemClickListener {
+            override fun onItemClick(event: Event) {
+
+                val fragment = EventDetail()
+                val bundle = Bundle()
+                bundle.putSerializable(EVENT_ITEM, event)
+                fragment.arguments = bundle
+
+                // how to switch fragments
+                (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, fragment)
+                    .addToBackStack(null)
+                    .commit()
+
+            }
+        }
+
+        publicEventAdapter = PublicEventAdapter(events, listener)
         binding.publicEventsRecyclerView.adapter = publicEventAdapter
 
         return view
@@ -43,7 +60,14 @@ class EventsFragment : Fragment() {
         val eventNames = mutableListOf<String>()
 
         // Sample event names
-        val sampleNames = listOf("Birthday Bash", "Concert Night", "Tech Meetup", "Food Festival", "Art Exhibition", "Networking")
+        val sampleNames = listOf(
+            "Birthday Bash",
+            "Concert Night",
+            "Tech Meetup",
+            "Food Festival",
+            "Art Exhibition",
+            "Networking"
+        )
 
         repeat(6) {
             var eventName = ""
@@ -61,7 +85,18 @@ class EventsFragment : Fragment() {
             val location = "NJIT"
             val address = "CC"
 
-            val event = Event(eventName, startTime, endTime, date, temperature, weatherCondition, location, address, false, true)
+            val event = Event(
+                eventName,
+                startTime,
+                endTime,
+                date,
+                temperature,
+                weatherCondition,
+                location,
+                address,
+                false,
+                true
+            )
             events.add(event)
         }
         return events
