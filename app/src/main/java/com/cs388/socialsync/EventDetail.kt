@@ -96,7 +96,6 @@ class EventDetail : Fragment() {
             if (isPublicEvent) {
                 // Hide views for public events
                 val viewsToHide = listOf(
-                    attendingLayout,
                     modifyTimeButton,
                     leaveButton,
                     modifyEventButton,
