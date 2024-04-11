@@ -55,8 +55,8 @@ class AddEventSelectDate:AppCompatActivity() {
         }
 
         Log.d("SELECT_DATE", event.toString())
-//        check the value with an update and then make the add your time legal
 
+//        check the value with an update and then make the add your time legal
         startTimeEdit.doAfterTextChanged {
             if (!timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
@@ -106,7 +106,8 @@ class AddEventSelectDate:AppCompatActivity() {
 
 
         btnNext.setOnClickListener(){
-
+            //TODO set the ability to use next if everything is correct
+            // check if optionalDays or check if specificDate set
         }
 
         btnBack.setOnClickListener(){
@@ -126,26 +127,7 @@ class AddEventSelectDate:AppCompatActivity() {
 
         //        Discard prompt / exit protocol
         btnExit.setOnClickListener(){
-            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder
-                .setTitle("Discard Event?")
-                .setMessage("Are you sure you want to discard your work?")
-                .setPositiveButton("Discard") { dialog, which ->
-                    finish()
-                    dialog.dismiss()
-                }
-                .setNegativeButton("Cancel") { dialog, which ->
-                    dialog.cancel()
-                }
-
-            val dialog: AlertDialog = builder.create()
-            dialog.show()
-        }
-
-        fun verifyOutput(){
-            //TODO check if start is valid
-            //TODO check if end is valid
-            //TODO check if start is less than end
+            discardView()
         }
 
     }
@@ -167,5 +149,22 @@ class AddEventSelectDate:AppCompatActivity() {
         else{
             Toast.makeText(applicationContext, "Something went wrong!", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun discardView(){
+        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+        builder
+            .setTitle("Discard Event?")
+            .setMessage("Are you sure you want to discard your work?")
+            .setPositiveButton("Discard") { dialog, which ->
+                finish()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Cancel") { dialog, which ->
+                dialog.cancel()
+            }
+
+        val dialog: AlertDialog = builder.create()
+        dialog.show()
     }
 }

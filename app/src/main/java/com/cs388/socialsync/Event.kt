@@ -17,7 +17,7 @@ data class Event(
     var isHost: Boolean = false, // *** should be deleted
     var isPublic: Boolean = false, // lets people from outside invite to see the event in the events section
     var showParticipants: Boolean = true, // allows if participants can be seen
-    var isInPerson: Boolean = true, // *** used to determine the google maps or extra details
+    var isInPerson: Boolean = false, // *** used to determine the google maps or extra details
     var hostUID: String = "", // determines the host user
     var optionStartTime: LocalTime? = null, // Start time for all days/dates options
     var optionEndTime: LocalTime? = null, // End time for all days/dates options

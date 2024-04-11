@@ -96,6 +96,7 @@
         android:inputType="text"
         android:hint="Event Name..."
         style="@style/EditTextbox"
+        android:background="@drawable/red_stroke"
         />
     <TextView
         android:id="@+id/labelEventLocation"

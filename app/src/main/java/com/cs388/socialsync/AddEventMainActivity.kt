@@ -4,11 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
+import androidx.core.widget.doAfterTextChanged
+import java.time.LocalTime
 
 // include a dialog to discard
 class AddEventMainActivity: AppCompatActivity() {
@@ -23,7 +26,9 @@ class AddEventMainActivity: AppCompatActivity() {
         val showParticipants = findViewById<SwitchCompat>(R.id.switchShowParticipants)
         val btnExit = findViewById<AppCompatButton>(R.id.btnExit)
         val btnNext = findViewById<AppCompatButton>(R.id.btnNext)
+
         val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+        var validationCheck = false
 
         Log.d("MAIN_ADD", event.toString())
 
@@ -41,6 +46,18 @@ class AddEventMainActivity: AppCompatActivity() {
 
         }
 
+        // Validate event name filled out
+        eventNameEdit.doAfterTextChanged {
+            if (eventNameEdit.text.toString() == "") {
+                eventNameEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                validationCheck = false
+            } else {
+                eventNameEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
+                validationCheck = true
+            }
+        }
+
+
         btnNext.setOnClickListener(){
             event?.let { details ->
                 // TODO: add validation
@@ -48,16 +65,25 @@ class AddEventMainActivity: AppCompatActivity() {
                 event.locationName = locationEdit.text.toString()
                 event.isPublic = publicSwitch.isChecked
                 event.isInPerson = inPerson.isChecked
-                event.isInPerson = showParticipants.isChecked
-            }
-            val intent = Intent(this,AddEventSelectDate::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, event)
-            intent.putExtra("eventInfo",bundle)
+                event.showParticipants = showParticipants.isChecked
 
-            Toast.makeText(applicationContext, event?.startTime.toString(),Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-            finish()
+                // Validation checks
+                if(event.isInPerson && event.locationName == ""){
+                    validationCheck=false
+                    Toast.makeText(applicationContext,"Please enter location address", Toast.LENGTH_SHORT).show()
+                }else {
+                    validationCheck=true
+                }
+            }
+
+            if (validationCheck) {
+                val intent = Intent(this, AddEventSelectDate::class.java)
+                val bundle = Bundle()
+                bundle.putSerializable(EVENT_ITEM, event)
+                intent.putExtra("eventInfo", bundle)
+                startActivity(intent)
+                finish()
+            }
         }
 
 //        Discard prompt / exit protocol
