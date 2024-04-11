@@ -36,5 +36,12 @@
     <string name="choose_dates">CHOOSE DATES</string>
     <string name="public_events">Public Events</string>
     <string name="x">X</string>
+    <string name="sat">SAT</string>
+    <string name="sun">SUN</string>
+    <string name="fri">FRI</string>
+    <string name="thu">THU</string>
+    <string name="wed">WED</string>
+    <string name="tue">TUE</string>
+    <string name="mon">MON</string>
 
 </resources>

@@ -29,7 +29,7 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
         holder.eventNameTextView.text = currentItem.eventName
-        "${currentItem.startTime.format(timeFormatter)} - ${currentItem.endTime.format(timeFormatter)}".also { holder.timeTextView.text = it }
+        "${currentItem.startTime?.format(timeFormatter)} - ${currentItem.endTime?.format(timeFormatter)}".also { holder.timeTextView.text = it }
         holder.dateTextView.text = currentItem.date.format(dateFormatter)
         "${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
