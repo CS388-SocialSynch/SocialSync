@@ -54,6 +54,7 @@ class AddEventSelectDate:AppCompatActivity() {
             }
         }
 
+        // TODO DELETE *************
         Log.d("SELECT_DATE", event.toString())
 
 //        check the value with an update and then make the add your time legal
@@ -104,11 +105,37 @@ class AddEventSelectDate:AppCompatActivity() {
             toggleButAction(btnSun, event)
         }
 
+        btnChooseSpecificDate.setOnClickListener(){
+            event?.optionalDays?.clear()
+            btnMon.isChecked = false
+            btnMon.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+            btnTue.isChecked = false
+            btnTue.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+            btnWed.isChecked = false
+            btnWed.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+            btnThu.isChecked = false
+            btnThu.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+            btnFri.isChecked = false
+            btnFri.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+            btnSat.isChecked = false
+            btnSat.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+
+            if (startTimeCheck && endTimeCheck){
+                val nextIntent = Intent(this@AddEventSelectDate, AddEventChooseDates::class.java)
+                bundleIntent(nextIntent,event)
+                startActivity(nextIntent)
+            } else{
+                startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                Toast.makeText(applicationContext,"Insert start and end time first", Toast.LENGTH_SHORT).show()
+            }
+        }
 
         btnNext.setOnClickListener(){
             //TODO set the ability to use next if everything is correct
             // check if optionalDays or check if specificDate set
         }
+
 
         btnBack.setOnClickListener(){
             val launchNextActivity: Intent = Intent(
@@ -118,9 +145,7 @@ class AddEventSelectDate:AppCompatActivity() {
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, event)
-            launchNextActivity.putExtra("eventInfo",bundle)
+            bundleIntent(launchNextActivity,event)
             startActivity(launchNextActivity)
             finish()
         }
@@ -166,5 +191,11 @@ class AddEventSelectDate:AppCompatActivity() {
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    private fun bundleIntent(nextIntent:Intent, event:Event?){
+        val bundle = Bundle()
+        bundle.putSerializable(EVENT_ITEM, event)
+        nextIntent.putExtra("eventInfo",bundle)
     }
 }

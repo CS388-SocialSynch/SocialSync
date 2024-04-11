@@ -30,6 +30,8 @@ class AddEventMainActivity: AppCompatActivity() {
         val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
         var validationCheck = false
 
+
+        // TODO DELETE *************
         Log.d("MAIN_ADD", event.toString())
 
         // Preloads information
@@ -42,7 +44,7 @@ class AddEventMainActivity: AppCompatActivity() {
             }
                 publicSwitch.isChecked = details.isPublic
                 inPerson.isChecked = details.isInPerson
-                showParticipants.isChecked=details.isInPerson
+                showParticipants.isChecked=details.showParticipants
 
         }
 

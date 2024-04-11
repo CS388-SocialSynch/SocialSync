@@ -71,6 +71,7 @@ class DashboardFragment : Fragment() {
 
         addEventButton.setOnClickListener {
             val newEvent = Event()
+            newEvent.eventName = "test"
             val newIntent = Intent(context,AddEventMainActivity::class.java)
             val bundle = Bundle()
             bundle.putSerializable(EVENT_ITEM, newEvent)

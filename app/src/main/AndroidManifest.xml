@@ -37,6 +37,8 @@
             android:exported="false"/>
         <activity android:name=".AddEventSelectDate"
             android:exported="false"/>
+        <activity android:name=".AddEventChooseDates"
+            android:exported="false"/>
 
     </application>
 

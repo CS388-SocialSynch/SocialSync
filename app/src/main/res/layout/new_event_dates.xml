@@ -90,7 +90,6 @@
             android:inputType="text"
             android:hint="ex: 02:15 pm"
             style="@style/EditTextbox"
-            android:background="@drawable/red_stroke"
             />
         <!-- end Time-->
         <TextView
@@ -110,7 +109,6 @@
             android:inputType="text"
             android:hint="ex: 10:15 pm"
             style="@style/EditTextbox"
-            android:background="@drawable/red_stroke"
             />
 
     <!-- Specific days-->
