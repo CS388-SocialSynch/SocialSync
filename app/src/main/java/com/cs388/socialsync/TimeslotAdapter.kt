@@ -4,9 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import java.time.LocalTime
@@ -32,20 +34,26 @@ class TimeslotAdapter(
     }
 
 
-    inner class TimeslotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class TimeslotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val timeslotButton: TextView = itemView.findViewById(R.id.timeslotButton)
+        private val lastClickedPositions = mutableListOf<Int>()
+        private val timeslotButton: Button = itemView.findViewById(R.id.timeslotButton)
         init {
-            itemView.setOnClickListener(this)
+           timeslotButton.setOnClickListener {
+
+               it.background = ContextCompat.getDrawable(itemView.context, R.drawable.black_stroke)
+
+
+           }
+
         }
         fun bind(time: String) {
             timeslotButton.text = time
+            timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.button_stroke)
+
         }
 
-        override fun onClick(v: View?) {
-            val time = timeslots[absoluteAdapterPosition]
-            Toast.makeText(context, "You clicked on ${time}!", Toast.LENGTH_SHORT).show()
-        }
+
     }
     private fun genTimeslots(startTime: String, endTime: String): List<String> {
         val timeList = mutableListOf<String>()
