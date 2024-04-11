@@ -15,6 +15,7 @@ import kotlin.random.Random
 
 class EventsFragment : Fragment() {
 
+
     private lateinit var binding: FragmentEventsBinding
     private lateinit var publicEventAdapter: PublicEventAdapter
 
