@@ -223,6 +223,9 @@
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
                     android:text="Modify Time"
+                    android:layout_marginBottom="15sp"
+                    android:layout_marginStart="5sp"
+
                     />
 
                 <View
@@ -236,9 +239,12 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:paddingStart="4dp"
-                    android:paddingEnd="4dp"
+                    android:paddingEnd="4sp"
                     android:text="Leave"
-                    android:visibility="visible" />
+                    android:visibility="visible"
+                    android:layout_marginBottom="15sp"
+                    android:layout_marginEnd="15sp"
+                    />
 
                 <androidx.appcompat.widget.AppCompatButton
                     style="@style/appButton"
