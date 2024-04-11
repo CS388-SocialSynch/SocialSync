@@ -7,7 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs388.socialsync.databinding.FragmentEventsBinding
 import kotlin.random.Random
@@ -16,7 +16,6 @@ class EventsFragment : Fragment() {
 
     private lateinit var binding: FragmentEventsBinding
     private lateinit var publicEventAdapter: PublicEventAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,9 +32,16 @@ class EventsFragment : Fragment() {
         val listener = object : PublicEventAdapter.OnItemClickListener {
             override fun onItemClick(event: Event) {
 
-                val intent = Intent(activity,PublicEventDetailActivity::class.java)
-                intent.putExtra("event",event)
-                startActivity(intent)
+                val fragment = EventDetail()
+                val bundle = Bundle()
+                bundle.putSerializable(EVENT_ITEM, event)
+                fragment.arguments = bundle
+
+                // how to switch fragments
+                (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                    .replace(R.id.main_frame_layout, fragment)
+                    .addToBackStack(null)
+                    .commit()
 
             }
         }
