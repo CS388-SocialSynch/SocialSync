@@ -18,7 +18,7 @@ class EventsFragment : Fragment() {
 
 
     private lateinit var binding: FragmentEventsBinding
-    private lateinit var publicEventAdapter: PublicEventAdapter
+    private lateinit var publicEventAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,24 +32,7 @@ class EventsFragment : Fragment() {
 
         val events: List<Event> = createRandomEvents()
 
-        val listener = object : PublicEventAdapter.OnItemClickListener {
-            override fun onItemClick(event: Event) {
-
-                val fragment = EventDetail()
-                val bundle = Bundle()
-                bundle.putSerializable(EVENT_ITEM, event)
-                fragment.arguments = bundle
-
-                // how to switch fragments
-                (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                    .replace(R.id.main_frame_layout, fragment)
-                    .addToBackStack(null)
-                    .commit()
-
-            }
-        }
-
-        publicEventAdapter = PublicEventAdapter(events, listener)
+        publicEventAdapter = EventAdapter(requireContext(), events)
         binding.publicEventsRecyclerView.adapter = publicEventAdapter
 
         return view

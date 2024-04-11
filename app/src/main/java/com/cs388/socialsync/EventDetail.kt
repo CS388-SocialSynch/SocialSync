@@ -42,11 +42,6 @@ class EventDetail : Fragment() {
     // Adapters
     private lateinit var userAdapterIncoming: UserAdapter
 
-
-    // Flags
-    private var isAttendingVisible = false
-
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
