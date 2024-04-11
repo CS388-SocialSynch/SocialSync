@@ -18,12 +18,14 @@ import java.time.temporal.ChronoUnit
 class TimeslotAdapter(
     private val context: Context,
     private val startTime: String,
-    private val endTime: String
+    private val endTime: String,
+    private val listener: OnTimeslotSelectionListener
 ) : RecyclerView.Adapter<TimeslotAdapter.TimeslotViewHolder>()  {
 
     private val timeslots: List<String> = genTimeslots(startTime, endTime)
+    private val lastClickedPositions = mutableListOf<Int>()
     override fun onBindViewHolder(holder: TimeslotAdapter.TimeslotViewHolder, position: Int) {
-        holder.bind(timeslots[position])
+        holder.bind(timeslots[position],position)
     }
 
     override fun getItemCount(): Int = timeslots.size
@@ -36,21 +38,45 @@ class TimeslotAdapter(
 
     inner class TimeslotViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        private val lastClickedPositions = mutableListOf<Int>()
+
         private val timeslotButton: Button = itemView.findViewById(R.id.timeslotButton)
         init {
            timeslotButton.setOnClickListener {
 
-               it.background = ContextCompat.getDrawable(itemView.context, R.drawable.black_stroke)
+               val position = absoluteAdapterPosition
+               val time = timeslots[position]
+               //Toast.makeText(itemView.context, "$time : ${lastClickedPositions.joinToString()}", Toast.LENGTH_SHORT).show()
 
+               if (lastClickedPositions.contains(position)) {
+                   lastClickedPositions.remove(position)
+               } else {
+                   if (lastClickedPositions.size >= 2) {
+                       lastClickedPositions.removeAt(0)
+                   }
+                   lastClickedPositions.add(position)
+
+               }
+
+               // Notify the adapter to refresh items. This is a simple but not the most efficient way.
+               notifyDataSetChanged()
+               updateSelectedCount()
 
            }
 
         }
-        fun bind(time: String) {
+        fun bind(time: String, position: Int) {
             timeslotButton.text = time
-            timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.button_stroke)
 
+            if (lastClickedPositions.contains(position)) {
+                timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.black_stroke)
+            } else {
+                // Revert to default background
+                timeslotButton.background =  ContextCompat.getDrawable(itemView.context, R.drawable.button_stroke)
+            }
+
+            if (lastClickedPositions.size >= 2){
+
+            }
         }
 
 
@@ -71,5 +97,13 @@ class TimeslotAdapter(
         }
 
         return timeList
+    }
+
+    private fun updateSelectedCount() {
+        val times =  mutableListOf<String>()
+        for(pos in lastClickedPositions){
+            times.add(timeslots[pos])
+        }
+        listener.onTimeslotsSelected(times)
     }
 }
