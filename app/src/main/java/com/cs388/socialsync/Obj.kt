@@ -13,9 +13,7 @@ import com.google.firebase.database.ValueEventListener
 object Obj {
 
     lateinit var USER_DB: DatabaseReference
-
     lateinit var auth: FirebaseAuth
-
     lateinit var user: Obj.User
 
     fun uploadUserData(user: User) {
