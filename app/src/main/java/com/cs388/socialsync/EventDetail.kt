@@ -47,16 +47,6 @@ class EventDetail : Fragment() {
     private var isAttendingVisible = false
 
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        modifyEventButton = view.findViewById(R.id.modifyEventButton)
-        modifyEventButton.setOnClickListener {
-            val intent = Intent(requireContext(), ChangeTimeActivity::class.java)
-            startActivity(intent)
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -102,6 +92,7 @@ class EventDetail : Fragment() {
         attendSwitch = view.findViewById(R.id.attendSwitch)
         attendingLayout = view.findViewById(R.id.attendingLayout)
         incomingRecyclerView = view.findViewById(R.id.IncomingRecycler)
+        modifyEventButton = view.findViewById(R.id.modifyEventButton)
     }
 
     private fun handleEventVisibility(event: Event?) {
@@ -160,6 +151,10 @@ class EventDetail : Fragment() {
         }
 
 
+        modifyEventButton.setOnClickListener {
+            val intent = Intent(requireContext(), ChangeTimeActivity::class.java)
+            startActivity(intent)
+        }
 
         shareEventButton.setOnClickListener {
             Toast.makeText(context, "There is nothing to share >:(", Toast.LENGTH_SHORT).show()

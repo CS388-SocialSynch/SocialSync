@@ -47,8 +47,9 @@ class ChangeTimeActivity: AppCompatActivity() {
             showToast("Open Ethan's Activity")
         }
 
-        setEventButton.isEnabled = false
-        setEventButton.alpha = 0.5f
+
+        //setEventButton.isEnabled = false
+        //setEventButton.alpha = 0.5f
 
 
         cancelButton.setOnClickListener {
