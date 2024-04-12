@@ -35,8 +35,8 @@ class EventDetail : Fragment() {
     private lateinit var modifyEventButton: AppCompatButton
     private lateinit var shareEventButton: ImageView
     private lateinit var incomingTextView: TextView
-    private lateinit var attendSwitch : SwitchMaterial
-    private lateinit var attendingLayout : LinearLayout
+    private lateinit var attendSwitch: SwitchMaterial
+    private lateinit var attendingLayout: LinearLayout
     private lateinit var incomingRecyclerView: RecyclerView
 
     // Adapters
@@ -58,7 +58,7 @@ class EventDetail : Fragment() {
         handleEventVisibility(event)
 
         // Initialize adapters
-        initAdapters()
+        initAdapters(event)
 
         // Set listeners
         setListeners()
@@ -114,19 +114,13 @@ class EventDetail : Fragment() {
         }
     }
 
-    private fun initAdapters() {
-        val userList = listOf(
-            User("Miquel", "yes"),
-            User("Saketh", "no"),
-            User("Ethan", "Maybe"),
-            User("Karam", "yes")
-        )
-
-        userAdapterIncoming = UserAdapter(requireContext(), userList)
-
-        incomingRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = userAdapterIncoming
+    private fun initAdapters(event: Event?) {
+        event?.let {
+            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
+            incomingRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = userAdapterIncoming
+            }
         }
     }
 
@@ -161,7 +155,9 @@ class EventDetail : Fragment() {
 
         event?.let { details ->
             eventDetailView.text = details.eventName
-            "${details.startTime.format(timeFormatter)} - ${details.endTime.format(timeFormatter)}".also { timeDetailView.text = it }
+            "${details.startTime.format(timeFormatter)} - ${details.endTime.format(timeFormatter)}".also {
+                timeDetailView.text = it
+            }
             dateDetailView.text = details.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
             locationDetailView.text = details.locationName
             addressDetailView.text = details.address
