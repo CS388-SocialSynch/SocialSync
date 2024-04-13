@@ -31,9 +31,7 @@ class EventsFragment : Fragment() {
     private lateinit var publicEventAdapter: EventAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         binding = FragmentEventsBinding.inflate(inflater, container, false)
         val view = binding.root
@@ -49,21 +47,31 @@ class EventsFragment : Fragment() {
         return view
     }
 
+    fun showProgress(){
+        binding.pbMain.visibility = View.VISIBLE
+        binding.publicEventsRecyclerView.visibility = View.GONE
+    }
+
+    fun hideProgress(){
+        binding.pbMain.visibility = View.GONE
+        binding.publicEventsRecyclerView.visibility = View.VISIBLE
+    }
+
     fun fetchEvents(eventsList: ArrayList<Event>) {
+
+        showProgress()
 
         val client = okhttp3.OkHttpClient()
         val request = okhttp3.Request.Builder()
             .url("https://api.predicthq.com/v1/events?country=US&location_around.origin=40.7357,-74.1724&location_around.offset=10km&location_around.scale=10km&limit=10")
             .addHeader("Authorization", "Bearer 4nt22lSWoSHgp9vJz9TRU3zhWjTkdfofuR3Luwol")
-            .addHeader("Accept", "application/json")
-            .build()
+            .addHeader("Accept", "application/json").build()
 
         val queue = Volley.newRequestQueue(context)
         val url =
             "https://api.predicthq.com/v1/events?country=US&location_around.origin=40.7357,-74.1724&location_around.offset=10km&location_around.scale=10km&limit=10"
-        val getRequest: StringRequest = object : StringRequest(
-            Request.Method.GET, url,
-            Response.Listener<String> { response ->
+        val getRequest: StringRequest =
+            object : StringRequest(Request.Method.GET, url, Response.Listener<String> { response ->
                 Log.e("CUSTOM---->", response)
                 val json = JSONObject(response)
                 val resultsArray = json.getJSONArray("results")
@@ -71,6 +79,7 @@ class EventsFragment : Fragment() {
 
 
                 for (i in 0 until resultsArray.length()) {
+
                     val eventJson = resultsArray.getJSONObject(i)
                     val title = eventJson.getString("title")
                     val words = title.split(" ")
@@ -93,12 +102,25 @@ class EventsFragment : Fragment() {
                     //val formattedAddress = "unknown"
                     //val eventDate = LocalDate.parse(eventJson.getString("start"), DateTimeFormatter.ISO_DATE)
 
+                    val aa = startDateTime.split("T")
+                    val date = aa[0]
+                    val time = aa[1].split("Z")[0]
+
+                    val startLocalTime = LocalTime.parse(time)
+                    val localDate = LocalDate.parse(date)
+                    var endLocalTime: LocalTime? = null
+                    if (eventJson.optString("predicted_end", "") != "") {
+                        val endTime =
+                            eventJson.optString("predicted_end", "TZ").split("T")[1].split("Z")[0]
+                        endLocalTime = LocalTime.parse(endTime)
+                    }
+
 
                     val event = Event(
                         eventName = displayTitle,
-                        startTime = LocalTime.now(),
-                        endTime = LocalTime.now(),
-                        date = LocalDate.now(),
+                        startTime = startLocalTime,
+                        endTime = endLocalTime,
+                        date = localDate,
                         temperature = 57,
                         weatherCondition = "sunny",
                         locationName = locationName,
@@ -115,34 +137,24 @@ class EventsFragment : Fragment() {
                     eventsList.add(event)
                 }
                 publicEventAdapter.notifyDataSetChanged()
+                hideProgress()
 
 
-
-
-
-
-            },
-            Response.ErrorListener {
+            }, Response.ErrorListener {
                 Log.e("CUSTOM---->", it.message.toString())
+            }) {
+                @Throws(AuthFailureError::class)
+                override fun getHeaders(): Map<String, String> {
+                    val params: MutableMap<String, String> = HashMap()
+                    params["Authorization"] = "Bearer 4nt22lSWoSHgp9vJz9TRU3zhWjTkdfofuR3Luwol"
+                    params["Accept"] = "application/json"
+                    return params
+                }
             }
-        ) {
-            @Throws(AuthFailureError::class)
-            override fun getHeaders(): Map<String, String> {
-                val params: MutableMap<String, String> = HashMap()
-                params["Authorization"] = "Bearer 4nt22lSWoSHgp9vJz9TRU3zhWjTkdfofuR3Luwol"
-                params["Accept"] = "application/json"
-                return params
-            }
-        }
         queue.add(getRequest)
 
 
     }
-
-
-
-
-
 
 
 }

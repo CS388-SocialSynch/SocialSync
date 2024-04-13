@@ -98,6 +98,7 @@ class LoginActivity : AppCompatActivity() {
 
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
+        Obj.EVENTS = Firebase.database.getReference("EVENTS")
 
         Obj.getUserData(object : Obj.UserDataListener {
             override fun onUserDataLoad(user: Obj.User) {
