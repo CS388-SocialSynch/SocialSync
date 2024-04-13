@@ -13,8 +13,6 @@ data class Event(
     var weatherCondition: String? = null,
     var locationName: String? = null, // *** redundant should be deleted
     var address: String = "", // *** should be location
-//    var isHost: Boolean = false, // *** should be deleted
-
     var isPublic: Boolean = false, // lets people from outside invite to see the event in the events section
     var showParticipants: Boolean = true, // allows if participants can be seen
     var isInPerson: Boolean = false, // *** used to determine the google maps or extra details
