@@ -38,7 +38,6 @@ class AddEventFinished : AppCompatActivity() {
                     ).show()
                     val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
                     startActivity(nextIntent)
-
                 }
                 override fun onEventAdded() {
                     Toast.makeText(
