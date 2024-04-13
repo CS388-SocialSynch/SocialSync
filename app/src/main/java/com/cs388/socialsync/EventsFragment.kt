@@ -106,22 +106,27 @@ class EventsFragment : Fragment() {
                     val date = aa[0]
                     val time = aa[1].split("Z")[0]
 
+                    val aaaa = LocalTime.parse(time)
+
                     val startLocalTime =
-                        LocalTime.parse(time).format(DateTimeFormatter.ISO_OFFSET_TIME)
-                    val localDate = LocalDate.parse(date).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                        aaaa.format(DateTimeFormatter.ISO_LOCAL_TIME) as String
+
+                    val localDate = LocalDate.parse(date)
+                        .format(DateTimeFormatter.ISO_DATE) as String
+
                     var endLocalTime: String? = null
                     if (eventJson.optString("predicted_end", "") != "") {
                         val endTime =
                             eventJson.optString("predicted_end", "TZ").split("T")[1].split("Z")[0]
                         endLocalTime =
-                            LocalTime.parse(endTime).format(DateTimeFormatter.ISO_OFFSET_TIME)
+                            LocalTime.parse(endTime).format(DateTimeFormatter.ISO_TIME)
                     }
 
                     val event = Event()
 
                     event.eventName = eventJson.optString("title")
                     event.startTime = startLocalTime
-                    event.endTime = endLocalTime!!
+                    event.endTime = endLocalTime
                     event.address = formattedAddress
                     event.temperature = 57
                     event.weatherCondition = "Sunny"

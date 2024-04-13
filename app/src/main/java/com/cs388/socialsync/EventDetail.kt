@@ -11,12 +11,10 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 
 class EventDetail : Fragment() {
 
@@ -54,15 +52,16 @@ class EventDetail : Fragment() {
         // Get event details
         val event = arguments?.getSerializable(EVENT_ITEM) as? Event
 
+
         Obj.addEventToDatabase(event!!, object : Obj.SetOnDuplicateEventCheckListener {
             override fun onDuplicateEvent() {
                 Toast.makeText(activity, "duplicate", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onEventAdded() {
+            override fun onEventAdded(key: String) {
                 Toast.makeText(activity, "added", Toast.LENGTH_SHORT).show()
             }
-        })
+        }, true)
 
         // Handle event visibility based on type and ownership
         handleEventVisibility(event)
@@ -103,7 +102,8 @@ class EventDetail : Fragment() {
     private fun handleEventVisibility(event: Event?) {
         event?.let { details ->
             val isPublicEvent = details.isPublic
-            val isHostOfEvent = details.isHost
+
+            val isHostOfEvent = (details.hostUID == Obj.auth.currentUser!!.uid)
 
             if (isPublicEvent) {
                 // Hide views for public events
