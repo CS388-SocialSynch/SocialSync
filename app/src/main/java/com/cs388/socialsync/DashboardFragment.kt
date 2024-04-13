@@ -72,6 +72,7 @@ class DashboardFragment : Fragment() {
 
         addEventButton.setOnClickListener {
             val newEvent = Event()
+
             newEvent.eventName = "test"
             newEvent.optionStartTime = LocalTime.NOON
             newEvent.optionEndTime= LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a"))
@@ -86,7 +87,8 @@ class DashboardFragment : Fragment() {
     }
 
     private fun hideKeyboard() {
-        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        val imm =
+            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(roomView.windowToken, 0)
     }
 
@@ -187,6 +189,8 @@ class DashboardFragment : Fragment() {
                 if (currentSelection != day.date) {
                     selectedDate = day.date
                     calendarView.notifyDateChanged(day.date)
+                    Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT)
+                        .show()
                     currentSelection?.let {
                         calendarView.notifyDateChanged(it)
                     }

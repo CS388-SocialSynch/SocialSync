@@ -6,7 +6,7 @@
     android:orientation="horizontal"
     android:background="@drawable/event_gradient"
     android:padding="16dp"
-    android:layout_marginHorizontal="4dp"
+    android:layout_marginHorizontal="15dp"
     android:layout_marginVertical="8dp"
     android:elevation="6dp"
     android:baselineAligned="false">

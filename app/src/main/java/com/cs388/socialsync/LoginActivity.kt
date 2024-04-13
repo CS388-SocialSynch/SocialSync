@@ -99,6 +99,7 @@ class LoginActivity : AppCompatActivity() {
 
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
+
         Obj.USERS_DB = Firebase.database.getReference("USERS")
         Obj.EVENTS_DB = Firebase.database.getReference("EVENTS")
         Obj.getUserData(object : Obj.UserDataListener {

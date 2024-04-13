@@ -6,9 +6,11 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
+import java.util.UUID
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+
 
 object Obj {
 
@@ -21,11 +23,10 @@ object Obj {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
 
     fun uploadUserData(user: User) {
-        with(USER_DB) {
-            child("displayName").setValue(user.displayName)
-            child("email").setValue(user.email)
-            child("image").setValue(user.image)
-        }
+        USER_DB.child("displayName").setValue(user.displayName)
+        USER_DB.child("email").setValue(user.email)
+        USER_DB.child("image").setValue(user.image)
+
     }
 
     fun getUserData(listener: UserDataListener) {

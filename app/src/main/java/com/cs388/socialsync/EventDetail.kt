@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 class EventDetail : Fragment() {
 
@@ -48,11 +48,14 @@ class EventDetail : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
 
+
         // Initialize views
         initViews(view)
 
         // Get event details
         val event = arguments?.getSerializable(EVENT_ITEM) as? Event
+
+
 
         // Handle event visibility based on type and ownership
         handleEventVisibility(event)
@@ -156,9 +159,23 @@ class EventDetail : Fragment() {
         event?.let { details ->
             eventDetailView.text = details.eventName
 
-            "${details.startTime.format(timeFormatter)} - ${details.endTime.format(timeFormatter)}".also {
-                timeDetailView.text = it
+            if (details.endTime != null) {
+                "${details.startTime!!.format(timeFormatter)} - ${
+                    details.endTime!!.format(
+                        timeFormatter
+                    )
+                }".also {
+                    timeDetailView.text = it
+                }
+            } else {
+                "${details.startTime!!.format(timeFormatter)}".also {
+                    timeDetailView.text = it
+                }
             }
+
+
+
+
             dateDetailView.text = details.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
             locationDetailView.text = details.locationName
             addressDetailView.text = details.address
