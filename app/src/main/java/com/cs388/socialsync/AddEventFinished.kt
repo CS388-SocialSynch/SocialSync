@@ -11,7 +11,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class AddEventFinished:AppCompatActivity() {
+class AddEventFinished : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_event_end)
@@ -21,21 +21,46 @@ class AddEventFinished:AppCompatActivity() {
         val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
 
         //TODO DELETE THIS **********
-        Log.d("EVENT CREATE",  event.toString())
+        Log.d("EVENT CREATE", event.toString())
 
         // TODO have the DAO work here
         val DAO = DAOEvent()
-        DAO.dataBaseRef= FirebaseDatabase.getInstance().getReference("EVENTS")
+        DAO.dataBaseRef = FirebaseDatabase.getInstance().getReference("EVENTS")
         val dataBaseRef = DAO.dataBaseRef
 
         dataBaseRef.addValueEventListener(object : ValueEventListener {
-        override fun onDataChange(snapshot: DataSnapshot) {
-            if(event != null){
-                DAO.add(event)
-                //TODO DELETE THIS **********
-                Log.d("DATA",  event.toString())
-            }
-            Toast.makeText(applicationContext, "data added", Toast.LENGTH_SHORT).show()
+            override fun onDataChange(snapshot: DataSnapshot) {
+                if (event != null) {
+//                DAO.add(event)
+
+                    val listner = object : Obj.SetOnDuplicateEventCheckListener {
+                        override fun onDuplicateEvent() {
+
+                            Toast.makeText(
+                                this@AddEventFinished,
+                                "Please change event name",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                        }
+
+                        override fun onEventAdded() {
+                            Toast.makeText(
+                                this@AddEventFinished,
+                                "Event added to Database",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        }
+
+                    }
+
+                    Obj.addEventToDatabase(event, listner)
+
+
+                    //TODO DELETE THIS **********
+                    Log.d("DATA", event.toString())
+                }
+                Toast.makeText(applicationContext, "data added", Toast.LENGTH_SHORT).show()
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -43,7 +68,7 @@ class AddEventFinished:AppCompatActivity() {
                     .show()
             }
         })
-        btnFinish.setOnClickListener(){
+        btnFinish.setOnClickListener() {
             finish()
         }
 

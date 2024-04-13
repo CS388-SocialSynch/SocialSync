@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 
 class UserAdapter(
     private val context: Context,
-    private val users: List<User>
+    private val users: ArrayList<User>
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {

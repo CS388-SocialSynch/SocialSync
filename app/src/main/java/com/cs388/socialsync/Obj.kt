@@ -79,9 +79,7 @@ object Obj {
                     val participantUID = participant.keys.firstOrNull() as? String
                     val isAttending = participant.values.firstOrNull() as? Boolean
                     if (participantUID != null && isAttending != null) {
-                        fetchParticipantData(participantUID) { userName ->
-                            event.participants.add(User(userName, isAttending))
-                        }
+                        event.participants.add(participantUID)
                     }
                 }
             }
@@ -103,12 +101,33 @@ object Obj {
     }
 
     private fun createEventFromSnapshot(eventSnapshot: DataSnapshot): Event {
-        return Event(
-            eventSnapshot.key.toString(),
+
+        val optionalDatesList = mutableListOf<String>()
+        for (optionalDates in eventSnapshot.child("optionalDates").children) {
+            optionalDatesList.add(optionalDates.value.toString())
+        }
+
+        val optionalDayList = mutableListOf<String>()
+        for (optionalDays in eventSnapshot.child("optionalDays").children) {
+            optionalDayList.add(optionalDays.value.toString())
+        }
+
+        val participantsList = mutableListOf<String>()
+        for (participants in eventSnapshot.child("participants").children) {
+            participantsList.add(participants.value.toString())
+        }
+
+        val joinedList = mutableListOf<String>()
+        for (joined in eventSnapshot.child("joined").children) {
+            joinedList.add(joined.value.toString())
+        }
+
+
+        val event = Event(
             eventSnapshot.child("eventName").value.toString(),
-            LocalTime.parse(eventSnapshot.child("startTime").value.toString(), formatter),
-            LocalTime.parse(eventSnapshot.child("endTime").value.toString(), formatter),
-            LocalDate.parse(eventSnapshot.child("date").value.toString()),
+            eventSnapshot.child("startTime").value.toString(),
+            eventSnapshot.child("endTime").value.toString(),
+            eventSnapshot.child("date").value.toString(),
             eventSnapshot.child("temperature").value as Int?,
             eventSnapshot.child("weatherCondition").value?.toString(),
             eventSnapshot.child("locationName").value?.toString(),
@@ -116,10 +135,63 @@ object Obj {
             eventSnapshot.child("isHost").value as Boolean,
             eventSnapshot.child("isPublic").value as Boolean,
             eventSnapshot.child("showParticipants").value as Boolean,
-            1234,
-            mutableListOf(),
-            mutableListOf() //empty list for now, we set it up in the update participants above
+            eventSnapshot.child("isInPerson").value as Boolean,
+            eventSnapshot.child("hostUID").value as String,
+            eventSnapshot.child("optionStartTime").value as String,
+            eventSnapshot.child("optionEndTime").value as String,
+            optionalDatesList,
+            optionalDayList,
+            eventSnapshot.child("useSpecificDate").value as Boolean,
+            eventSnapshot.child("addressStreet").value as String,
+            eventSnapshot.child("addressTown").value as String,
+            eventSnapshot.child("addressState").value as String,
+            eventSnapshot.child("addressCountry").value as String,
+            eventSnapshot.child("isAPI").value as Boolean,
+            joinedList,
+            participantsList,
+            eventSnapshot.child("eventCode").value as Int
         )
+
+
+        return event
+    }
+
+    interface SetOnDuplicateEventCheckListener {
+        fun onDuplicateEvent()
+
+        fun onEventAdded()
+    }
+
+    fun addEventToDatabase(event: Event, listener: SetOnDuplicateEventCheckListener) {
+
+
+        val eventFetchListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+
+                var flag = 0
+
+                for (eventObj in dataSnapshot.children) {
+
+                    if (eventObj.child("eventName").value.toString() == event.eventName) {
+                        flag++
+                    }
+                }
+                if (flag != 0) {
+                    listener.onDuplicateEvent()
+                } else {
+                    val aa = UUID.randomUUID().toString()
+                    EVENTS_DB.child(aa).setValue(event)
+                    listener.onEventAdded()
+                }
+                EVENTS_DB.removeEventListener(this)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        EVENTS_DB.addValueEventListener(eventFetchListener)
+
+
     }
 
     interface UserDataListener {

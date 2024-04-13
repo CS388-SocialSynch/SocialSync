@@ -28,6 +28,7 @@ class DAOEvent {
         e.hostUID = userID
         e.participants.add(userID)
 
+
         // Users
         dataBaseRef.child("hostID").setValue(e.hostUID)
         dataBaseRef.child("participants").setValue(e.participants)
