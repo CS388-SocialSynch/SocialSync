@@ -155,6 +155,7 @@ class EventDetail : Fragment() {
 
         event?.let { details ->
             eventDetailView.text = details.eventName
+
             "${details.startTime.format(timeFormatter)} - ${details.endTime.format(timeFormatter)}".also {
                 timeDetailView.text = it
             }

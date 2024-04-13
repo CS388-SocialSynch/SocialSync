@@ -5,7 +5,28 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_gradient"
+    tools:context=".AddEventMainActivity"
     >
+
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnExit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"
+        android:textAlignment="center"
+        android:text="@string/x"
+        android:textColor="@color/red"
+        android:background="@drawable/button_stroke"
+        android:textAppearance="@style/body"
+        />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,6 +36,7 @@
         app:layout_constraintStart_toStartOf="parent"
         android:layout_margin="10dp"
         >
+
 
     <TextView
         android:id="@+id/new_event"
@@ -70,12 +92,12 @@
         android:layout_height="wrap_content"
         android:text="Event Name"
         android:layout_marginTop="20sp"
-            style="@style/body"
+            style="@style/subtitle"
         />
 
     <EditText
         android:id="@+id/eventName"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
@@ -88,18 +110,17 @@
         android:layout_height="wrap_content"
         android:text="Location/URL"
         android:layout_marginTop="10sp"
-        style="@style/body"
+        style="@style/subtitle"
         />
 
     <EditText
         android:id="@+id/eventLocation"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="text"
-        android:hint="Enter Where to Meet..."
+        android:hint="ex: room 1345, webex.com"
         style="@style/EditTextbox"
-
         />
 
 <!--     Password Option   -->
@@ -121,69 +142,176 @@
 <!--        android:hint="(Blank means none)"-->
 <!--        style="@style/EditTextbox"-->
 <!--        />-->
+        <!--    switchShowParticipants switch    -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            >
+            <androidx.appcompat.widget.SwitchCompat
+                android:id="@+id/switchShowParticipants"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:showText="false"
+                android:checked="true"
+                />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="Show Participants?"
+                style="@style/body"/>
+        </LinearLayout>
 
-<!--    In person switch    -->
+
+        <!--    public switch    -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:layout_marginTop="10sp">
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switchPublic"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:showText="false"
+            />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:text="Display Publicly?"
+            style="@style/body"/>
+    </LinearLayout>
+    <!--    In person switch    -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/switchInPerson"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:showText="false"
-            style="@style/switchStyle"
-        />
+            />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:text="In-person?"
             style="@style/body"/>
     </LinearLayout>
 
-    <!--    switchShowParticipants switch    -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
+<!--        In Person Address-->
+        <LinearLayout
+            android:id="@+id/addressSnippet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/orange_gradient"
+            android:paddingHorizontal="15dp"
+            android:paddingVertical="10dp"
+            android:visibility="invisible">
 
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchShowParticipants"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:showText="false"
-            style="@style/switchStyle"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Show Participants?"
-            style="@style/body"/>
-    </LinearLayout>
-        <!--    public switch    -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchPublic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:showText="false"
-            style="@style/switchStyle"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Display Publicly?"
-            style="@style/body"/>
-    </LinearLayout>
+            <TextView
+                android:id="@+id/labelStreet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Street Address"
+                style="@style/subtitle"
+                />
 
+            <EditText
+                android:id="@+id/eventStreet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="ex: 1000 Warren St"
+                style="@style/EditTextbox"
+                />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/labelTown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Town"
+                        android:layout_marginTop="5sp"
+                        style="@style/subtitle"
+                        />
+
+                    <EditText
+                        android:id="@+id/eventTown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="ex: Newark"
+                        style="@style/EditTextbox"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/labelState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="State"
+                        android:layout_marginTop="5sp"
+                        style="@style/subtitle"
+                        />
+
+                    <EditText
+                        android:id="@+id/eventState"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="ex: NJ"
+                        style="@style/EditTextbox"
+                        />
+                    </LinearLayout>
+            </LinearLayout>
+            <TextView
+                android:id="@+id/labelCountry"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Country"
+                android:layout_marginTop="5sp"
+                style="@style/subtitle"
+                />
+
+            <EditText
+                android:id="@+id/eventCountry"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:inputType="text"
+                android:hint="ex: US"
+                style="@style/EditTextbox"
+                />
+
+        </LinearLayout>
+
+<!--        Next Button -->
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/button"
+        android:id="@+id/btnNext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Next"
@@ -191,10 +319,12 @@
         style="@style/appButton"
         android:layout_weight="1"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginBottom="10dp"
         />
 
     </LinearLayout>
+
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

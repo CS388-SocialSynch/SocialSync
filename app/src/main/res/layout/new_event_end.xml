@@ -3,8 +3,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_gradient">
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnExit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"
+        android:textAlignment="center"
+        android:text="@string/x"
+        android:textColor="@color/red"
+        android:background="@drawable/button_stroke"
+        android:textAppearance="@style/body"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -61,51 +75,34 @@
             android:id="@+id/labelRecorded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="100dp"
+            android:layout_marginTop="100dp"
             android:text="Recorded"
             android:textAlignment="center"
-            style="@style/subtitle"
+            style="@style/header3"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEditTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Your Time"
-            style="@style/appButton"
-            android:layout_gravity="center"
-            android:layout_marginTop="15sp"
-        />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/code"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="40sp"
-            android:layout_marginVertical="20dp">
+            android:text="Event Code:"
+            android:textAlignment="center"
+            style="@style/body"
+            />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                style="@style/appButton"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
-                />
-            <androidx.appcompat.widget.AppCompatButton
+
+        <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnFinish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Finish"
                 style="@style/appButton"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="100dp"
                 />
 
-        </LinearLayout> <!-- Button layout -->
     </LinearLayout> <!-- Full layout -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
