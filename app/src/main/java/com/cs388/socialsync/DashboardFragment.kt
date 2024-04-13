@@ -85,22 +85,28 @@ class DashboardFragment : Fragment() {
         setupTimeReceiver()
         setupCalendarView()
 
+        Obj.fetchEventUsingCode("1beb98", object : Obj.SetOnEventFetchListener {
+            override fun onEventFetch(event: Event) {
+
+                Toast.makeText(activity, event.eventName, Toast.LENGTH_LONG).show()
+
+            }
+
+        })
+
         joinButton.setOnClickListener {
             hideKeyboard()
+            // TODO start detail activity with event
         }
 
         addEventButton.setOnClickListener {
-            val newEvent = Event()
 
-            newEvent.eventName = "test"
-            newEvent.optionStartTime = LocalTime.NOON.toString()
-            newEvent.optionEndTime =
+            Obj.event = Event()
+            Obj.event.eventName = "test"
+            Obj.event.optionStartTime = LocalTime.NOON.toString()
+            Obj.event.optionEndTime =
                 LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a")).toString()
-            val newIntent = Intent(context, AddEventMainActivity::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, newEvent)
-            newIntent.putExtra("eventInfo", bundle)
-            startActivity(newIntent)
+            startActivity(Intent(context, AddEventMainActivity::class.java))
         }
 
         return view

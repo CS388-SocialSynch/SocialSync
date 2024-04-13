@@ -1,5 +1,6 @@
 package com.cs388.socialsync
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.TextView
@@ -18,62 +19,40 @@ class AddEventFinished : AppCompatActivity() {
 
         val code = findViewById<TextView>(R.id.code)
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
-        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
+
+        val host = Obj.auth.currentUser!!.uid
+        event?.hostUID = host
+        event?.participants?.add(host)
 
         //TODO DELETE THIS **********
         Log.d("EVENT CREATE", event.toString())
 
-        // TODO have the DAO work here
-        val DAO = DAOEvent()
-        DAO.dataBaseRef = FirebaseDatabase.getInstance().getReference("EVENTS")
-        val dataBaseRef = DAO.dataBaseRef
-
-        dataBaseRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (event != null) {
-//                DAO.add(event)
-
-                    val listner = object : Obj.SetOnDuplicateEventCheckListener {
-                        override fun onDuplicateEvent() {
-
-                            Toast.makeText(
-                                this@AddEventFinished,
-                                "Please change event name",
-                                Toast.LENGTH_SHORT
-                            ).show()
-
-                        }
-
-                        override fun onEventAdded(key: String) {
-
-
-                            Toast.makeText(
-                                this@AddEventFinished,
-                                "Event added to Database",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
-
-                    }
-
-                    Obj.addEventToDatabase(event, listner)
-
-
-                    //TODO DELETE THIS **********
-                    Log.d("DATA", event.toString())
+        if (event != null) {
+            val listener = object : Obj.SetOnDuplicateEventCheckListener {
+                override fun onDuplicateEvent() {
+                    Toast.makeText(
+                        this@AddEventFinished,
+                        "Please change event name",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
+                    startActivity(nextIntent)
                 }
-                Toast.makeText(applicationContext, "data added", Toast.LENGTH_SHORT).show()
+                override fun onEventAdded() {
+                    Toast.makeText(
+                        this@AddEventFinished,
+                        "Event added to Database",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+            Obj.addEventToDatabase(event, listener)
+
+            btnFinish.setOnClickListener() {
+                finish()
             }
 
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(applicationContext, "Fail to add data $error", Toast.LENGTH_SHORT)
-                    .show()
-            }
-        })
-        btnFinish.setOnClickListener() {
-            finish()
         }
-
-
     }
 }

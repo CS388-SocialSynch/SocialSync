@@ -6,19 +6,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/background_gradient">
 
-    <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btnExit"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="15dp"
-        android:textAlignment="center"
-        android:text="@string/x"
-        android:textColor="@color/red"
-        android:background="@drawable/button_stroke"
-        android:textAppearance="@style/body"
-        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -91,6 +78,7 @@
             />
 
 
+
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnFinish"
                 android:layout_width="wrap_content"
@@ -102,6 +90,7 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="100dp"
                 />
+
 
     </LinearLayout> <!-- Full layout -->
 

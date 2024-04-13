@@ -3,9 +3,11 @@ package com.cs388.socialsync
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -22,6 +24,7 @@ import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -43,6 +46,8 @@ class AddEventChooseDates: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_event_choosing_dates)
 
+
+        Toast.makeText(applicationContext, "Press to remove a date", Toast.LENGTH_SHORT).show()
         calendarView = findViewById(R.id.calendarView)
         monthText = findViewById(R.id.monthText)
 
@@ -56,30 +61,19 @@ class AddEventChooseDates: AppCompatActivity() {
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
         val btnBack = findViewById<AppCompatButton>(R.id.btnBack)
 
-        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
-
+        val event = Obj.event
         adapter.onLongClick = {
             eventList.remove(it)
             adapter.notifyDataSetChanged()
         }
 
         btnFinish.setOnClickListener(){
-            event?.useSpecificDate=true
-            event?.optionalDates?.clear()
-//            event?.optionalDates?.addAll(eventList)
+            event.useSpecificDate=true
+            event.optionalDates.clear()
 
-            // Send info back to the previous activity
-            val launchNextActivity: Intent = Intent(
-                this@AddEventChooseDates,
-                AddEventSelectDate::class.java
-            )
-            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, event)
-            launchNextActivity.putExtra("eventInfo",bundle)
-            startActivity(launchNextActivity)
+            eventList.forEach {
+                event.optionalDates.add(it.format(DateTimeFormatter.ISO_LOCAL_DATE).toString())
+            }
             finish()
         }
         btnBack.setOnClickListener(){

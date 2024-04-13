@@ -36,7 +36,7 @@ class AddEventMainActivity: AppCompatActivity() {
 
         val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
 
-        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
         var validationCheck = false
         var addressCheck = true
 
@@ -111,7 +111,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 event.showParticipants = showParticipants.isChecked
 
                 if(event.isInPerson){
-                    if(streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
+                    if(addressCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
                         addressCheck= true
                         event.addressStreet = streetEdit.text.toString()
                         event.addressTown = townEdit.text.toString()

@@ -102,7 +102,6 @@ class EventDetail : Fragment() {
     private fun handleEventVisibility(event: Event?) {
         event?.let { details ->
             val isPublicEvent = details.isPublic
-
             val isHostOfEvent = (details.hostUID == Obj.auth.currentUser!!.uid)
 
             if (isPublicEvent) {
