@@ -28,8 +28,23 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
-        holder.eventNameTextView.text = currentItem.eventName
-        "${currentItem.startTime.format(timeFormatter)} - ${currentItem.endTime.format(timeFormatter)}".also { holder.timeTextView.text = it }
+
+        if (currentItem.endTime != null) {
+
+
+            holder.eventNameTextView.text = currentItem.eventName
+            "${currentItem.startTime!!.format(timeFormatter)} - ${
+                currentItem.endTime!!.format(
+                    timeFormatter
+                )
+            }".also { holder.timeTextView.text = it }
+        } else {
+            holder.eventNameTextView.text = currentItem.eventName
+            currentItem.startTime!!.format(timeFormatter).also {
+                holder.timeTextView.text = it
+            }
+        }
+
         holder.dateTextView.text = currentItem.date.format(dateFormatter)
         "${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
@@ -47,7 +62,8 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
     override fun getItemCount() = eventList.size
 
-    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
+    inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView),
+        View.OnClickListener {
         val eventNameTextView: TextView = itemView.findViewById(R.id.eventNameTextView)
         val timeTextView: TextView = itemView.findViewById(R.id.timeTextView)
         val dateTextView: TextView = itemView.findViewById(R.id.dateTextView)
@@ -57,6 +73,7 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         init {
             itemView.setOnClickListener(this)
         }
+
         override fun onClick(v: View?) {
             val event = eventList[absoluteAdapterPosition]
 
@@ -75,4 +92,3 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
     }
 }
-

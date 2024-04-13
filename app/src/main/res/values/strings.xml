@@ -10,7 +10,6 @@
     <string name="set_event_time">Set Event Time</string>
     <string name="cancel_event">Cancel Event</string>
     <string name="defaultProperties">"Date:\nStart Time:\nEnd Time:\nJoin CODE: ----"</string>
-
     <string name="defaultDate">"XXX\n99"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -34,6 +33,15 @@
     <string name="log_out">Log Out</string>
     <string name="choose_dates">CHOOSE DATES</string>
     <string name="public_events">Public Events</string>
+    <string name="x">X</string>
+    <string name="sat">SAT</string>
+    <string name="sun">SUN</string>
+    <string name="fri">FRI</string>
+    <string name="thu">THU</string>
+    <string name="wed">WED</string>
+    <string name="tue">TUE</string>
+    <string name="mon">MON</string>
+    <string name="choose_specfic_days">Choose Specfic Days</string>
     <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
     <string name="leaveEvent">Leave</string>
     <string name="attending">Attending?</string>

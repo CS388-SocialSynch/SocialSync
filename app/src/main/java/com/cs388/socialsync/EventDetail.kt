@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -17,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 
 class EventDetail : Fragment() {
 
@@ -35,17 +35,12 @@ class EventDetail : Fragment() {
     private lateinit var modifyEventButton: AppCompatButton
     private lateinit var shareEventButton: ImageView
     private lateinit var incomingTextView: TextView
-    private lateinit var attendSwitch : SwitchMaterial
-    private lateinit var attendingLayout : LinearLayout
+    private lateinit var attendSwitch: SwitchMaterial
+    private lateinit var attendingLayout: LinearLayout
     private lateinit var incomingRecyclerView: RecyclerView
 
     // Adapters
     private lateinit var userAdapterIncoming: UserAdapter
-
-
-    // Flags
-    private var isAttendingVisible = false
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -53,17 +48,20 @@ class EventDetail : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
 
+
         // Initialize views
         initViews(view)
 
         // Get event details
         val event = arguments?.getSerializable(EVENT_ITEM) as? Event
 
+
+
         // Handle event visibility based on type and ownership
         handleEventVisibility(event)
 
         // Initialize adapters
-        initAdapters()
+        initAdapters(event)
 
         // Set listeners
         setListeners()
@@ -119,19 +117,13 @@ class EventDetail : Fragment() {
         }
     }
 
-    private fun initAdapters() {
-        val userList = listOf(
-            User("Miquel", "yes"),
-            User("Saketh", "no"),
-            User("Ethan", "Maybe"),
-            User("Karam", "yes")
-        )
-
-        userAdapterIncoming = UserAdapter(requireContext(), userList)
-
-        incomingRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = userAdapterIncoming
+    private fun initAdapters(event: Event?) {
+        event?.let {
+            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
+            incomingRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = userAdapterIncoming
+            }
         }
     }
 
@@ -166,7 +158,24 @@ class EventDetail : Fragment() {
 
         event?.let { details ->
             eventDetailView.text = details.eventName
-            "${details.startTime.format(timeFormatter)} - ${details.endTime.format(timeFormatter)}".also { timeDetailView.text = it }
+
+            if (details.endTime != null) {
+                "${details.startTime!!.format(timeFormatter)} - ${
+                    details.endTime!!.format(
+                        timeFormatter
+                    )
+                }".also {
+                    timeDetailView.text = it
+                }
+            } else {
+                "${details.startTime!!.format(timeFormatter)}".also {
+                    timeDetailView.text = it
+                }
+            }
+
+
+
+
             dateDetailView.text = details.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
             locationDetailView.text = details.locationName
             addressDetailView.text = details.address

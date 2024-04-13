@@ -19,6 +19,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import com.google.android.material.button.MaterialButton
 import com.google.firebase.Firebase
 import com.google.firebase.database.database
+import com.google.firebase.database.values
 
 
 class LoginActivity : AppCompatActivity() {
@@ -99,25 +100,30 @@ class LoginActivity : AppCompatActivity() {
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
 
+        Obj.USERS_DB = Firebase.database.getReference("USERS")
+        Obj.EVENTS_DB = Firebase.database.getReference("EVENTS")
         Obj.getUserData(object : Obj.UserDataListener {
             override fun onUserDataLoad(user: Obj.User) {
+
+
                 if (user.image == "null") {
                     val user = Obj.User(
                         Obj.auth.currentUser!!.displayName.toString(),
                         Obj.auth.currentUser!!.email.toString(),
-                        Obj.auth.currentUser!!.photoUrl.toString()
+                        Obj.auth.currentUser!!.photoUrl.toString(),
+                        user.events
                     )
                     Obj.user = user
                     Obj.uploadUserData(user)
                 } else {
                     Obj.user = user
                 }
+
+                startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+                finish()
             }
         })
 
 
-
-        startActivity(Intent(this, MainActivity::class.java))
-        finish()
     }
 }

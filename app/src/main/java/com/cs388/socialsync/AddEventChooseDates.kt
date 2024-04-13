@@ -1,136 +1,107 @@
 package com.cs388.socialsync
 
-import android.content.BroadcastReceiver
-import android.content.Context
 import android.content.Intent
-import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
-import android.widget.*
+import android.widget.TextView
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.children
-import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.kizitonwose.calendar.core.*
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.CalendarMonth
+import com.kizitonwose.calendar.core.DayPosition
+import com.kizitonwose.calendar.core.daysOfWeek
 import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
-import java.text.SimpleDateFormat
 import java.time.LocalDate
-import java.time.LocalTime
 import java.time.YearMonth
-import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
-import java.util.*
+import java.util.Locale
 
-class DashboardFragment : Fragment() {
+class AddEventChooseDates: AppCompatActivity() {
 
-    // Views
-    private lateinit var timeTextView: TextView
     private lateinit var monthText: TextView
-    private lateinit var amPmTextView: TextView
     private lateinit var calendarView: CalendarView
-    private lateinit var eventsRecyclerView: RecyclerView
-    private lateinit var joinButton: AppCompatButton
-    private lateinit var roomView: EditText
-    private lateinit var addEventButton: ImageView
-
-    // Adapter
-    private lateinit var eventAdapter: EventAdapter
-
-    // Date format
-    private val dateFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
-
     // Selected date
     private var selectedDate: LocalDate? = null
-
     // Event list
-    //private val eventList: MutableList<Event> = mutableListOf()
-
+    private val eventList: MutableList<LocalDate> = mutableListOf()
     // Days of week
     private val daysOfWeek = daysOfWeek()
+    //RV
+    private lateinit var rv: RecyclerView
+    private lateinit var adapter: ChooseDateAdapter
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        val view = inflater.inflate(R.layout.fragment_dashboard, container, false)
-        initializeViews(view)
-        setupTimeReceiver()
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.new_event_choosing_dates)
+
+        calendarView = findViewById(R.id.calendarView)
+        monthText = findViewById(R.id.monthText)
+
         setupCalendarView()
 
-        joinButton.setOnClickListener {
-            hideKeyboard()
+        rv = findViewById<RecyclerView>(R.id.specificDates)
+        adapter = ChooseDateAdapter(this, eventList)
+        rv.adapter = adapter
+        rv.layoutManager = LinearLayoutManager(this)
+
+        val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
+        val btnBack = findViewById<AppCompatButton>(R.id.btnBack)
+
+        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+
+        adapter.onLongClick = {
+            eventList.remove(it)
+            adapter.notifyDataSetChanged()
         }
 
-        addEventButton.setOnClickListener {
-            val newEvent = Event()
+        btnFinish.setOnClickListener(){
+            event?.useSpecificDate=true
+            event?.optionalDates?.clear()
+            event?.optionalDates?.addAll(eventList)
 
-            newEvent.eventName = "test"
-            newEvent.optionStartTime = LocalTime.NOON
-            newEvent.optionEndTime= LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a"))
-            val newIntent = Intent(context,AddEventMainActivity::class.java)
+            // Send info back to the previous activity
+            val launchNextActivity: Intent = Intent(
+                this@AddEventChooseDates,
+                AddEventSelectDate::class.java
+            )
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, newEvent)
-            newIntent.putExtra("eventInfo",bundle)
-            startActivity(newIntent)
+            bundle.putSerializable(EVENT_ITEM, event)
+            launchNextActivity.putExtra("eventInfo",bundle)
+            startActivity(launchNextActivity)
+            finish()
         }
+        btnBack.setOnClickListener(){
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("Discard Choices?")
+                .setMessage("Are you sure you want to discard the choosen dates? (This will not discard new event work)")
+                .setPositiveButton("Discard") { dialog, which ->
+                    finish()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    dialog.cancel()
+                }
 
-        return view
-    }
-
-    private fun hideKeyboard() {
-        val imm =
-            requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-        imm.hideSoftInputFromWindow(roomView.windowToken, 0)
-    }
-
-    private fun initializeViews(view: View) {
-        timeTextView = view.findViewById(R.id.timeTextView)
-        amPmTextView = view.findViewById(R.id.amPmTextView)
-        calendarView = view.findViewById(R.id.calendarView)
-        monthText = view.findViewById(R.id.monthText)
-        joinButton = view.findViewById(R.id.joinButton)
-        roomView = view.findViewById(R.id.roomCode)
-        addEventButton = view.findViewById(R.id.addEvent)
-        eventsRecyclerView = view.findViewById(R.id.upcomingEvents_recyclerView)
-        eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-
-        Log.d("event list in dashboard", Obj.eventList.toString())
-        eventAdapter = EventAdapter(requireContext(), Obj.eventList)
-        eventsRecyclerView.adapter = eventAdapter
-    }
-
-    private fun setupTimeReceiver() {
-        updateTime()
-        val intentFilter = IntentFilter(Intent.ACTION_TIME_TICK)
-        activity?.registerReceiver(timeTickReceiver, intentFilter)
-    }
-
-    private val timeTickReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == Intent.ACTION_TIME_TICK) {
-                updateTime()
-            }
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
         }
     }
 
-    private fun updateTime() {
-        val currentTime = dateFormat.format(Date())
-        val timeParts = currentTime.split(" ")
-        timeTextView.text = timeParts[0]
-        "${timeParts[1][0]}\n${timeParts[1][1]}".also { amPmTextView.text = it }
-        amPmTextView.setLineSpacing(0f, 0.8f)
-    }
 
+    // Calender Items
     private fun setupCalendarView() {
         calendarView.monthScrollListener = { month ->
             val monthName =
@@ -189,14 +160,15 @@ class DashboardFragment : Fragment() {
                 if (currentSelection != day.date) {
                     selectedDate = day.date
                     calendarView.notifyDateChanged(day.date)
-                    Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT)
-                        .show()
                     currentSelection?.let {
                         calendarView.notifyDateChanged(it)
                     }
+                    if(!eventList.contains(selectedDate))
+                        eventList.add(selectedDate!!)
+                    eventList.sort()
+                    adapter.notifyDataSetChanged()
                 }
             }
-            Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT).show()
         }
 
         private fun updateDayView(data: CalendarDay) {
@@ -237,14 +209,5 @@ class DashboardFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        activity?.unregisterReceiver(timeTickReceiver)
-    }
 
-    companion object {
-        fun newInstance(): DashboardFragment {
-            return DashboardFragment()
-        }
-    }
 }

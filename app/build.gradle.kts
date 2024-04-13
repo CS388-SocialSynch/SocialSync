@@ -68,5 +68,7 @@ dependencies {
     implementation("com.github.bumptech.glide:glide:4.13.2")
     annotationProcessor("com.github.bumptech.glide:compiler:4.13.2")
     implementation("com.facebook.fresco:fresco:3.1.3")
+    implementation("com.android.volley:volley:1.2.1")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
 
 }
