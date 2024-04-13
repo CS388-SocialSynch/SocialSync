@@ -22,6 +22,7 @@ import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
 import java.time.LocalDate
 import java.time.YearMonth
+import java.time.format.DateTimeFormatter
 import java.time.format.TextStyle
 import java.util.Locale
 
@@ -56,7 +57,7 @@ class AddEventChooseDates: AppCompatActivity() {
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
         val btnBack = findViewById<AppCompatButton>(R.id.btnBack)
 
-        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
 
         adapter.onLongClick = {
             eventList.remove(it)
@@ -66,7 +67,10 @@ class AddEventChooseDates: AppCompatActivity() {
         btnFinish.setOnClickListener(){
             event?.useSpecificDate=true
             event?.optionalDates?.clear()
-//            event?.optionalDates?.addAll(eventList)
+
+            for(time:LocalDate in eventList){
+                event?.optionalDates?.add(time.format(DateTimeFormatter.ISO_LOCAL_TIME))
+            }
 
             // Send info back to the previous activity
             val launchNextActivity: Intent = Intent(

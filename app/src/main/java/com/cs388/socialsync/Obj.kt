@@ -21,6 +21,7 @@ object Obj {
     lateinit var user: User
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+    lateinit var event: Event
 
     fun uploadUserData(user: User) {
         USER_DB.child("displayName").setValue(user.displayName)

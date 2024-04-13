@@ -36,7 +36,7 @@ class AddEventMainActivity: AppCompatActivity() {
 
         val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
 
-        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
         var validationCheck = false
         var addressCheck = true
 

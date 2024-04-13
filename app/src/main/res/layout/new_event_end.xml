@@ -91,6 +91,23 @@
             />
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Back"
+            style="@style/appButton"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="100dp"
+            />
+
         <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnFinish"
                 android:layout_width="wrap_content"
@@ -102,6 +119,8 @@
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginVertical="100dp"
                 />
+        </LinearLayout>
+
 
     </LinearLayout> <!-- Full layout -->
 
