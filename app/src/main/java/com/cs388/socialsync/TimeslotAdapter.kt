@@ -68,10 +68,10 @@ class TimeslotAdapter(
             timeslotButton.text = time
 
             if (lastClickedPositions.contains(position)) {
-                timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.black_stroke)
+                timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_selected)
             } else {
                 // Revert to default background
-                timeslotButton.background =  ContextCompat.getDrawable(itemView.context, R.drawable.button_stroke)
+                timeslotButton.background =  ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_unselected)
             }
 
             if (lastClickedPositions.size >= 2){
