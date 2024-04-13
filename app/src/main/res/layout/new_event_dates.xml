@@ -217,8 +217,8 @@
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/btnSpecificDates"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Specfic Days"
+            android:layout_height="0dp"
+            android:text="@string/choose_specfic_days"
             android:layout_weight="1"
             android:layout_marginVertical="10dp"
             android:layout_marginHorizontal="30dp"
@@ -259,8 +259,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnNext"
-                android:text="Next"
-                style="@style/appButtonInvalid"
+                android:text="Submit"
+                style="@style/appButton"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 />

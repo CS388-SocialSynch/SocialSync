@@ -3,7 +3,9 @@ package com.cs388.socialsync
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -27,8 +29,16 @@ class AddEventMainActivity: AppCompatActivity() {
         val btnExit = findViewById<AppCompatButton>(R.id.btnExit)
         val btnNext = findViewById<AppCompatButton>(R.id.btnNext)
 
+        val streetEdit = findViewById<EditText>(R.id.eventStreet)
+        val townEdit = findViewById<EditText>(R.id.eventTown)
+        val stateEdit = findViewById<EditText>(R.id.eventState)
+        val countryEdit = findViewById<EditText>(R.id.eventCountry)
+
+        val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
+
         val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
         var validationCheck = false
+        var addressCheck = true
 
 
         // TODO DELETE *************
@@ -43,9 +53,26 @@ class AddEventMainActivity: AppCompatActivity() {
                 locationEdit.setText(details.locationName.toString())
             }
                 publicSwitch.isChecked = details.isPublic
-                inPerson.isChecked = details.isInPerson
                 showParticipants.isChecked=details.showParticipants
 
+            if (details.isInPerson){
+                inPerson.isChecked = details.isInPerson
+                addressSnippet.visibility = View.VISIBLE
+            }
+
+            if(details.addressStreet!= ""){
+                streetEdit.setText(details.addressStreet)
+            }
+            if(details.addressTown!= ""){
+                townEdit.setText(details.addressTown)
+            }
+            if(details.addressState!= ""){
+                stateEdit.setText(details.addressState)
+                validateText(stateEdit,Regex("^\\w\\w$"))
+            }
+            if(details.addressCountry!= ""){
+                countryEdit.setText(details.addressCountry)
+            }
         }
 
         // Validate event name filled out
@@ -59,15 +86,44 @@ class AddEventMainActivity: AppCompatActivity() {
             }
         }
 
+        stateEdit.doAfterTextChanged {
+            addressCheck = validateText(stateEdit,Regex("^\\w\\w$"))
+        }
+
+        inPerson.setOnClickListener(){
+            if(inPerson.isChecked){
+                addressSnippet.visibility = View.VISIBLE
+                event?.isInPerson = true
+            }
+            else{
+                addressSnippet.visibility = View.INVISIBLE
+                event?.isInPerson = false
+            }
+        }
+
 
         btnNext.setOnClickListener(){
             event?.let { details ->
-                // TODO: add validation
                 event.eventName = eventNameEdit.text.toString()
                 event.locationName = locationEdit.text.toString()
                 event.isPublic = publicSwitch.isChecked
                 event.isInPerson = inPerson.isChecked
                 event.showParticipants = showParticipants.isChecked
+
+                if(event.isInPerson){
+                    if(streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
+                        addressCheck= true
+                        event.addressStreet = streetEdit.text.toString()
+                        event.addressTown = townEdit.text.toString()
+                        event.addressState = stateEdit.text.toString()
+                        event.addressCountry = countryEdit.text.toString()
+                    }else{
+                        Toast.makeText(applicationContext,"Please fill out address", Toast.LENGTH_SHORT).show()
+                        addressCheck = false
+                    }
+                }else{
+                    addressCheck = true
+                }
 
                 // Validation checks
                 if(event.isInPerson && event.locationName == ""){
@@ -78,7 +134,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 }
             }
 
-            if (validationCheck) {
+            if (validationCheck && addressCheck) {
                 val intent = Intent(this, AddEventSelectDate::class.java)
                 val bundle = Bundle()
                 bundle.putSerializable(EVENT_ITEM, event)
@@ -106,5 +162,15 @@ class AddEventMainActivity: AppCompatActivity() {
             dialog.show()
         }
 
+    }
+
+    private fun validateText(editText: EditText, regex: Regex): Boolean{
+        if (!regex.containsMatchIn(editText.text.toString())) {
+            editText.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+            return false
+        } else {
+            editText.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
+            return true
+        }
     }
 }

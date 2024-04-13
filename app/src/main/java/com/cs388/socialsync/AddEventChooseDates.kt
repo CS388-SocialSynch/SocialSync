@@ -1,5 +1,6 @@
 package com.cs388.socialsync
 
+import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
@@ -8,9 +9,10 @@ import android.view.ViewGroup
 import android.widget.Adapter
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.children
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.kizitonwose.calendar.core.CalendarDay
@@ -21,8 +23,6 @@ import com.kizitonwose.calendar.view.CalendarView
 import com.kizitonwose.calendar.view.MonthDayBinder
 import com.kizitonwose.calendar.view.MonthHeaderFooterBinder
 import com.kizitonwose.calendar.view.ViewContainer
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.TextStyle
@@ -36,7 +36,7 @@ class AddEventChooseDates: AppCompatActivity() {
     private var selectedDate: LocalDate? = null
     // Event list
     private val eventList: MutableList<LocalDate> = mutableListOf()
-        // Days of week
+    // Days of week
     private val daysOfWeek = daysOfWeek()
     //RV
     private lateinit var rv: RecyclerView
@@ -49,26 +49,59 @@ class AddEventChooseDates: AppCompatActivity() {
         calendarView = findViewById(R.id.calendarView)
         monthText = findViewById(R.id.monthText)
 
-
         setupCalendarView()
-
 
         rv = findViewById<RecyclerView>(R.id.specificDates)
         adapter = ChooseDateAdapter(this, eventList)
         rv.adapter = adapter
         rv.layoutManager = LinearLayoutManager(this)
 
+        val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
+        val btnBack = findViewById<AppCompatButton>(R.id.btnBack)
+
         val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
-        Log.d("Choose", event.toString())
 
         adapter.onLongClick = {
             eventList.remove(it)
             adapter.notifyDataSetChanged()
         }
 
+        btnFinish.setOnClickListener(){
+            event?.specificDate=true
+            event?.optionalDates?.clear()
+            event?.optionalDates?.addAll(eventList)
+
+            // Send info back to the previous activity
+            val launchNextActivity: Intent = Intent(
+                this@AddEventChooseDates,
+                AddEventSelectDate::class.java
+            )
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+            val bundle = Bundle()
+            bundle.putSerializable(EVENT_ITEM, event)
+            launchNextActivity.putExtra("eventInfo",bundle)
+            startActivity(launchNextActivity)
+            finish()
+        }
+        btnBack.setOnClickListener(){
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("Discard Choices?")
+                .setMessage("Are you sure you want to discard the choosen dates? (This will not discard new event work)")
+                .setPositiveButton("Discard") { dialog, which ->
+                    finish()
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Cancel") { dialog, which ->
+                    dialog.cancel()
+                }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+        }
     }
-
-
 
 
     // Calender Items
@@ -132,12 +165,11 @@ class AddEventChooseDates: AppCompatActivity() {
                     calendarView.notifyDateChanged(day.date)
                     currentSelection?.let {
                         calendarView.notifyDateChanged(it)
-
                     }
                     if(!eventList.contains(selectedDate))
                         eventList.add(selectedDate!!)
+                    eventList.sort()
                     adapter.notifyDataSetChanged()
-                    Log.d("TEMP", eventList.toString())
                 }
             }
         }
@@ -182,6 +214,3 @@ class AddEventChooseDates: AppCompatActivity() {
 
 
 }
-//TODO
-// add a back button --> discards current work for specific days and goes back to last event --> dont finish chain
-// click done then go back to part 2 for final steps

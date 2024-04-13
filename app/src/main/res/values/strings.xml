@@ -43,5 +43,6 @@
     <string name="wed">WED</string>
     <string name="tue">TUE</string>
     <string name="mon">MON</string>
+    <string name="choose_specfic_days">Choose Specfic Days</string>
 
 </resources>

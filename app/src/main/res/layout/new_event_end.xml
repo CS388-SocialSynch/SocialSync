@@ -75,51 +75,34 @@
             android:id="@+id/labelRecorded"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="100dp"
+            android:layout_marginTop="100dp"
             android:text="Recorded"
             android:textAlignment="center"
-            style="@style/subtitle"
+            style="@style/header3"
             />
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnEditTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Your Time"
-            style="@style/appButton"
-            android:layout_gravity="center"
-            android:layout_marginTop="15sp"
-        />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginHorizontal="40sp"
-            android:layout_marginVertical="20dp">
+            android:text="Event Code:"
+            android:textAlignment="center"
+            style="@style/body"
+            />
 
-            <androidx.appcompat.widget.AppCompatButton
-                android:id="@+id/btnBack"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Back"
-                style="@style/appButton"
-                android:layout_weight="1"
-                android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
-                />
-            <androidx.appcompat.widget.AppCompatButton
+
+        <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/btnFinish"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Finish"
                 style="@style/appButton"
                 android:layout_weight="1"
+                android:layout_gravity="center"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginVertical="5dp"
+                android:layout_marginVertical="100dp"
                 />
 
-        </LinearLayout> <!-- Button layout -->
     </LinearLayout> <!-- Full layout -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
