@@ -71,16 +71,11 @@ class DashboardFragment : Fragment() {
         }
 
         addEventButton.setOnClickListener {
-            val newEvent = Event()
-
-            newEvent.eventName = "test"
-            newEvent.optionStartTime = LocalTime.NOON.toString()
-            newEvent.optionEndTime= LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a")).toString()
-            val newIntent = Intent(context,AddEventMainActivity::class.java)
-            val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, newEvent)
-            newIntent.putExtra("eventInfo",bundle)
-            startActivity(newIntent)
+            Obj.event = Event()
+            Obj.event.eventName = "test"
+            Obj.event.optionStartTime = LocalTime.NOON.toString()
+            Obj.event.optionEndTime= LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a")).toString()
+            startActivity(Intent(context, AddEventMainActivity::class.java))
         }
 
         return view

@@ -37,6 +37,7 @@ class AddEventFinished : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
+                    startActivity(nextIntent)
 
                 }
                 override fun onEventAdded() {

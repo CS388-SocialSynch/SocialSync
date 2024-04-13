@@ -111,7 +111,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 event.showParticipants = showParticipants.isChecked
 
                 if(event.isInPerson){
-                    if(streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
+                    if(addressCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
                         addressCheck= true
                         event.addressStreet = streetEdit.text.toString()
                         event.addressTown = townEdit.text.toString()

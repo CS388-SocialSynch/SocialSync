@@ -42,40 +42,54 @@ class AddEventSelectDate:AppCompatActivity() {
         var startTimeCheck = false
         var endTimeCheck = false
 
-        var start:LocalTime = LocalTime.MIDNIGHT
-        var end:LocalTime = LocalTime.MAX
+        var start: LocalTime = LocalTime.MIDNIGHT
+        var end: LocalTime = LocalTime.MAX
 
 
         // Preloading the events data
         val event = Obj.event
-        event.let { details->
+        event.let { details ->
             if (details?.optionStartTime != null && details?.optionStartTime != "") {
-                startTimeEdit.setText(LocalTime.parse(details.optionStartTime, DateTimeFormatter.ISO_LOCAL_TIME).format(timeFormatter).toString())
+                startTimeEdit.setText(
+                    LocalTime.parse(
+                        details.optionStartTime,
+                        DateTimeFormatter.ISO_LOCAL_TIME
+                    ).format(timeFormatter).toString()
+                )
                 if (!timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
                     startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                     startTimeCheck = false
                 } else {
                     startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
-                    start = LocalTime.parse(startTimeEdit.text.toString(),timeFormatter)
+                    start = LocalTime.parse(startTimeEdit.text.toString(), timeFormatter)
                     startTimeCheck = true
                 }
             }
             if (details?.optionEndTime != null && details?.optionEndTime != "") {
-                endTimeEdit.setText(LocalTime.parse(details.optionEndTime, DateTimeFormatter.ISO_LOCAL_TIME).format(timeFormatter).toString())
+                endTimeEdit.setText(
+                    LocalTime.parse(
+                        details.optionEndTime,
+                        DateTimeFormatter.ISO_LOCAL_TIME
+                    ).format(timeFormatter).toString()
+                )
                 if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
                     endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                     endTimeCheck = false
                 } else {
-                    end = LocalTime.parse(endTimeEdit.text.toString(),timeFormatter)
-                    if(end.compareTo(start) > 0) {
+                    end = LocalTime.parse(endTimeEdit.text.toString(), timeFormatter)
+                    if (end.compareTo(start) > 0) {
                         endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
                         endTimeCheck = true
-                    }else{
-                        Toast.makeText(applicationContext,"Make sure end time ends after start",Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(
+                            applicationContext,
+                            "Make sure end time ends after start",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             }
-            if (details!!.useSpecificDate){
+            if (details!!.useSpecificDate) {
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
             }
@@ -91,7 +105,7 @@ class AddEventSelectDate:AppCompatActivity() {
                 startTimeCheck = false
             } else {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
-                start = LocalTime.parse(startTimeEdit.text.toString(),timeFormatter)
+                start = LocalTime.parse(startTimeEdit.text.toString(), timeFormatter)
                 startTimeCheck = true
                 event?.optionStartTime = start.format(DateTimeFormatter.ISO_LOCAL_TIME)
             }
@@ -101,40 +115,44 @@ class AddEventSelectDate:AppCompatActivity() {
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeCheck = false
             } else {
-                end = LocalTime.parse(endTimeEdit.text.toString(),timeFormatter)
-                if(end.compareTo(start) > 0) {
+                end = LocalTime.parse(endTimeEdit.text.toString(), timeFormatter)
+                if (end.compareTo(start) > 0) {
                     endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
                     event?.optionEndTime = end.format(DateTimeFormatter.ISO_LOCAL_TIME)
                     endTimeCheck = true
-                }else{
-                    Toast.makeText(applicationContext,"Make sure end time ends after start",Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Make sure end time ends after start",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         }
 
-        btnMon.setOnClickListener(){
+        btnMon.setOnClickListener() {
             toggleButAction(btnMon, btnChooseSpecificDate, event)
         }
-        btnTue.setOnClickListener(){
+        btnTue.setOnClickListener() {
             toggleButAction(btnTue, btnChooseSpecificDate, event)
         }
-        btnWed.setOnClickListener(){
-            toggleButAction(btnWed,  btnChooseSpecificDate,event)
+        btnWed.setOnClickListener() {
+            toggleButAction(btnWed, btnChooseSpecificDate, event)
         }
-        btnThu.setOnClickListener(){
+        btnThu.setOnClickListener() {
             toggleButAction(btnThu, btnChooseSpecificDate, event)
         }
-        btnFri.setOnClickListener(){
+        btnFri.setOnClickListener() {
             toggleButAction(btnFri, btnChooseSpecificDate, event)
         }
-        btnSat.setOnClickListener(){
+        btnSat.setOnClickListener() {
             toggleButAction(btnSat, btnChooseSpecificDate, event)
         }
-        btnSun.setOnClickListener(){
+        btnSun.setOnClickListener() {
             toggleButAction(btnSun, btnChooseSpecificDate, event)
         }
 
-        btnChooseSpecificDate.setOnClickListener(){
+        btnChooseSpecificDate.setOnClickListener() {
             event?.optionalDays?.clear()
             btnMon.isChecked = false
             btnMon.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
@@ -149,21 +167,24 @@ class AddEventSelectDate:AppCompatActivity() {
             btnSat.isChecked = false
             btnSat.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
 
-            if (startTimeCheck && endTimeCheck){
+            if (startTimeCheck && endTimeCheck) {
                 val nextIntent = Intent(this@AddEventSelectDate, AddEventChooseDates::class.java)
-                bundleIntent(nextIntent,event)
                 startActivity(nextIntent)
-            } else{
+            } else {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
-                Toast.makeText(applicationContext,"Insert start and end time first", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    applicationContext,
+                    "Insert start and end time first",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
         //TODO add a check for the next or just have it a normal button with a toast
-        btnNext.setOnClickListener(){
+        btnNext.setOnClickListener() {
             // validation
-            if((event!!.useSpecificDate || event.optionalDays.isNotEmpty()) && startTimeCheck && endTimeCheck){
+            if ((event!!.useSpecificDate || event.optionalDays.isNotEmpty()) && startTimeCheck && endTimeCheck) {
 
                 // next step
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -172,8 +193,8 @@ class AddEventSelectDate:AppCompatActivity() {
                     .setMessage("Are you sure you want to submit?")
                     .setPositiveButton("Submit") { dialog, which ->
                         //When submit
-                        val launchNextActivity =Intent(this@AddEventSelectDate, AddEventFinished::class.java)
-                        bundleIntent(launchNextActivity,event)
+                        val launchNextActivity =
+                            Intent(this@AddEventSelectDate, AddEventFinished::class.java)
                         startActivity(launchNextActivity)
                         finish()
                         dialog.dismiss()
@@ -184,13 +205,17 @@ class AddEventSelectDate:AppCompatActivity() {
 
                 val dialog: AlertDialog = builder.create()
                 dialog.show()
-            }else {
-                Toast.makeText(applicationContext,"Please select days/dates and enter times", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(
+                    applicationContext,
+                    "Please select days/dates and enter times",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 
 
-        btnBack.setOnClickListener(){
+        btnBack.setOnClickListener() {
             val launchNextActivity: Intent = Intent(
                 this@AddEventSelectDate,
                 AddEventMainActivity::class.java
@@ -198,19 +223,22 @@ class AddEventSelectDate:AppCompatActivity() {
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            bundleIntent(launchNextActivity,event)
             startActivity(launchNextActivity)
             finish()
         }
 
         // Discard prompt / exit protocol
-        btnExit.setOnClickListener(){
+        btnExit.setOnClickListener() {
             discardView()
         }
 
     }
 
-    private fun toggleButAction(btn: AppCompatToggleButton, btnSpecificDate: AppCompatButton, event:Event?) {
+    private fun toggleButAction(
+        btn: AppCompatToggleButton,
+        btnSpecificDate: AppCompatButton,
+        event: Event?
+    ) {
         if (event != null) {
 
             if (btn.isChecked) {
@@ -219,22 +247,21 @@ class AddEventSelectDate:AppCompatActivity() {
             } else {
                 btn.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
                 event.optionalDays.remove(btn.textOn.toString())
-                if (event.optionalDays.isEmpty()){
-                    event.useSpecificDate= false
+                if (event.optionalDays.isEmpty()) {
+                    event.useSpecificDate = false
                 }
             }
 
-            if (event.useSpecificDate){
+            if (event.useSpecificDate) {
                 btnSpecificDate.setText(R.string.choose_specfic_days)
                 event.useSpecificDate = false
             }
-        }
-        else{
+        } else {
             Toast.makeText(applicationContext, "Something went wrong!", Toast.LENGTH_SHORT).show()
         }
     }
 
-    private fun discardView(){
+    private fun discardView() {
         val builder: AlertDialog.Builder = AlertDialog.Builder(this)
         builder
             .setTitle("Discard Event?")
@@ -249,11 +276,5 @@ class AddEventSelectDate:AppCompatActivity() {
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
-    }
-
-    private fun bundleIntent(nextIntent:Intent, event:Event?){
-        val bundle = Bundle()
-        bundle.putSerializable(EVENT_ITEM, event)
-        nextIntent.putExtra("eventInfo",bundle)
     }
 }

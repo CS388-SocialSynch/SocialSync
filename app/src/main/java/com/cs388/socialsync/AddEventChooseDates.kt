@@ -80,9 +80,6 @@ class AddEventChooseDates: AppCompatActivity() {
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
-            val bundle = Bundle()
-            bundle.putSerializable(EVENT_ITEM, event)
-            launchNextActivity.putExtra("eventInfo",bundle)
             startActivity(launchNextActivity)
             finish()
         }
