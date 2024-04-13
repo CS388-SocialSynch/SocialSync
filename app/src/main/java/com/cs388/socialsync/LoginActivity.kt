@@ -97,6 +97,8 @@ class LoginActivity : AppCompatActivity() {
 
     fun startNewActivity(flags: Boolean = false) {
 
+        Log.e("CUSTOM---->", "startNewActivity")
+
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
 
@@ -104,7 +106,7 @@ class LoginActivity : AppCompatActivity() {
         Obj.EVENTS_DB = Firebase.database.getReference("EVENTS")
         Obj.getUserData(object : Obj.UserDataListener {
             override fun onUserDataLoad(user: Obj.User) {
-
+                Log.e("CUSTOM---->", "onUserDataLoad")
 
                 if (user.image == "null") {
                     val user = Obj.User(
