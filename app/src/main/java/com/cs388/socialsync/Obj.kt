@@ -23,6 +23,27 @@ object Obj {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
 
+    interface SetOnEventFetchListener {
+        fun onEventFetch(event : Event)
+    }
+
+    fun fetchEventUsingCode(code: String,  listener:SetOnEventFetchListener) {
+        val eventDb = EVENTS_DB.child(code)
+        val dbListener = object : ValueEventListener {
+            override fun onDataChange(eventSnapshot: DataSnapshot) {
+                val event = createEventFromSnapshot(eventSnapshot)
+                listener.onEventFetch(event)
+                eventDb.removeEventListener(this)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // i guess we toast an error or something
+            }
+        }
+        eventDb.addListenerForSingleValueEvent(dbListener)
+    }
+
     fun uploadUserData(user: User) {
         USER_DB.child("displayName").setValue(user.displayName)
         USER_DB.child("email").setValue(user.email)
@@ -129,28 +150,28 @@ object Obj {
             eventSnapshot.child("startTime").value.toString(),
             eventSnapshot.child("endTime").value.toString(),
             eventSnapshot.child("date").value.toString(),
-            eventSnapshot.child("temperature").value as Int?,
+            eventSnapshot.child("temperature").value as Long,
             eventSnapshot.child("weatherCondition").value?.toString(),
             eventSnapshot.child("locationName").value?.toString(),
             eventSnapshot.child("address").value.toString(),
-            eventSnapshot.child("isHost").value as Boolean,
-            eventSnapshot.child("isPublic").value as Boolean,
+//            eventSnapshot.child("host").value as Boolean,
+            eventSnapshot.child("public").value as Boolean,
             eventSnapshot.child("showParticipants").value as Boolean,
-            eventSnapshot.child("isInPerson").value as Boolean,
-            eventSnapshot.child("hostUID").value as String,
-            eventSnapshot.child("optionStartTime").value as String,
-            eventSnapshot.child("optionEndTime").value as String,
+            eventSnapshot.child("inPerson").value as Boolean,
+            eventSnapshot.child("hostUID").value.toString(),
+            eventSnapshot.child("optionStartTime").value.toString(),
+            eventSnapshot.child("optionEndTime").value.toString(),
             optionalDatesList,
             optionalDayList,
             eventSnapshot.child("useSpecificDate").value as Boolean,
-            eventSnapshot.child("addressStreet").value as String,
-            eventSnapshot.child("addressTown").value as String,
-            eventSnapshot.child("addressState").value as String,
-            eventSnapshot.child("addressCountry").value as String,
-            eventSnapshot.child("isAPI").value as Boolean,
+            eventSnapshot.child("addressStreet").value.toString(),
+            eventSnapshot.child("addressTown").value.toString(),
+            eventSnapshot.child("addressState").value.toString(),
+            eventSnapshot.child("addressCountry").value.toString(),
+            eventSnapshot.child("api").value as Boolean,
             joinedList,
             participantsList,
-            eventSnapshot.child("eventCode").value as Int
+            eventSnapshot.child("eventCode").value as Long
         )
 
 

@@ -9,11 +9,11 @@ data class Event(
     var startTime: String? = null,
     var endTime: String? = null,
     var date: String = "",
-    var temperature: Int? = null, // in F degrees
+    var temperature: Long? = null, // in F degrees
     var weatherCondition: String? = null,
     var locationName: String? = null, // *** redundant should be deleted
     var address: String = "", // *** should be location
-    var isHost: Boolean = false, // *** should be deleted
+//    var isHost: Boolean = false, // *** should be deleted
 
     var isPublic: Boolean = false, // lets people from outside invite to see the event in the events section
     var showParticipants: Boolean = true, // allows if participants can be seen
@@ -31,7 +31,7 @@ data class Event(
     var isAPI: Boolean = false,
     val joined: MutableList<String> = mutableListOf(),
     val participants: MutableList<String> = mutableListOf(),
-    var eventCode: Int = -1
+    var eventCode: Long = -1
 
 ) : Serializable {
     constructor() : this("")

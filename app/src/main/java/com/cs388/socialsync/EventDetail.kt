@@ -103,7 +103,7 @@ class EventDetail : Fragment() {
     private fun handleEventVisibility(event: Event?) {
         event?.let { details ->
             val isPublicEvent = details.isPublic
-            val isHostOfEvent = details.isHost
+            val isHostOfEvent = true
 
             if (isPublicEvent) {
                 // Hide views for public events

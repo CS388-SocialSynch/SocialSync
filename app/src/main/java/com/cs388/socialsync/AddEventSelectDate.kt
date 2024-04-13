@@ -49,7 +49,7 @@ class AddEventSelectDate:AppCompatActivity() {
         // Preloading the events data
         val event = Obj.event
         event.let { details ->
-            if (details?.optionStartTime != null && details?.optionStartTime != "") {
+            if (details.optionStartTime != null && details.optionStartTime != "") {
                 startTimeEdit.setText(
                     LocalTime.parse(
                         details.optionStartTime,
@@ -65,7 +65,7 @@ class AddEventSelectDate:AppCompatActivity() {
                     startTimeCheck = true
                 }
             }
-            if (details?.optionEndTime != null && details?.optionEndTime != "") {
+            if (details.optionEndTime != null && details.optionEndTime != "") {
                 endTimeEdit.setText(
                     LocalTime.parse(
                         details.optionEndTime,
@@ -89,7 +89,7 @@ class AddEventSelectDate:AppCompatActivity() {
                     }
                 }
             }
-            if (details!!.useSpecificDate) {
+            if (details.useSpecificDate) {
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
             }
@@ -107,7 +107,7 @@ class AddEventSelectDate:AppCompatActivity() {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
                 start = LocalTime.parse(startTimeEdit.text.toString(), timeFormatter)
                 startTimeCheck = true
-                event?.optionStartTime = start.format(DateTimeFormatter.ISO_LOCAL_TIME)
+                event.optionStartTime = start.format(DateTimeFormatter.ISO_LOCAL_TIME)
             }
         }
         endTimeEdit.doAfterTextChanged {
@@ -118,7 +118,7 @@ class AddEventSelectDate:AppCompatActivity() {
                 end = LocalTime.parse(endTimeEdit.text.toString(), timeFormatter)
                 if (end.compareTo(start) > 0) {
                     endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
-                    event?.optionEndTime = end.format(DateTimeFormatter.ISO_LOCAL_TIME)
+                    event.optionEndTime = end.format(DateTimeFormatter.ISO_LOCAL_TIME)
                     endTimeCheck = true
                 } else {
                     Toast.makeText(
@@ -153,7 +153,7 @@ class AddEventSelectDate:AppCompatActivity() {
         }
 
         btnChooseSpecificDate.setOnClickListener() {
-            event?.optionalDays?.clear()
+            event.optionalDays?.clear()
             btnMon.isChecked = false
             btnMon.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
             btnTue.isChecked = false
@@ -170,6 +170,9 @@ class AddEventSelectDate:AppCompatActivity() {
             if (startTimeCheck && endTimeCheck) {
                 val nextIntent = Intent(this@AddEventSelectDate, AddEventChooseDates::class.java)
                 startActivity(nextIntent)
+                // TODO Implement an update the button
+                // TODO fix scrollview
+
             } else {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
@@ -181,10 +184,9 @@ class AddEventSelectDate:AppCompatActivity() {
             }
         }
 
-        //TODO add a check for the next or just have it a normal button with a toast
         btnNext.setOnClickListener() {
             // validation
-            if ((event!!.useSpecificDate || event.optionalDays.isNotEmpty()) && startTimeCheck && endTimeCheck) {
+            if ((event.useSpecificDate || event.optionalDays.isNotEmpty()) && startTimeCheck && endTimeCheck) {
 
                 // next step
                 val builder: AlertDialog.Builder = AlertDialog.Builder(this)
@@ -276,5 +278,9 @@ class AddEventSelectDate:AppCompatActivity() {
 
         val dialog: AlertDialog = builder.create()
         dialog.show()
+    }
+
+    private fun updateSpecificDates(){
+
     }
 }
