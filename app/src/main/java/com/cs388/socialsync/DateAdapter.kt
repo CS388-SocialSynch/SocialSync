@@ -20,11 +20,11 @@ import java.time.temporal.ChronoUnit
 
 class DateAdapter(
     private val context: Context,
-    private val startDate: String,
-    private val endDate: String
+    private val dates: List<String>,
+    private val listener: OnDateSelectionListener,
+    private val showDates: Boolean
 ) : RecyclerView.Adapter<DateAdapter.DateViewHolder>()  {
 
-    private val dates: List<String> = genDates(startDate, endDate)
     private var selectedPosition = RecyclerView.NO_POSITION
     override fun onBindViewHolder(holder: DateAdapter.DateViewHolder, position: Int) {
         holder.bind(dates[position],position==selectedPosition)
@@ -55,8 +55,9 @@ class DateAdapter(
             val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val outputFormatter = DateTimeFormatter.ofPattern("MM/dd")
             val currDate = LocalDate.parse(date, inputFormatter)
-            dateTV.text =  currDate.format(outputFormatter)
             dayTV.text = currDate.dayOfWeek.toString().substring(0, 3)
+            if(showDates)
+                dateTV.text =  currDate.format(outputFormatter)
             if (isSelected){
                 dateButton.background=AppCompatResources.getDrawable(itemView.context,R.drawable.selected_date)
             }else{
@@ -72,28 +73,14 @@ class DateAdapter(
                 selectedPosition = newPosition
                 notifyItemChanged(oldPosition)
                 notifyItemChanged(newPosition)
-                Toast.makeText(context, "You clicked on ${dates[position]}", Toast.LENGTH_SHORT)
-                    .show()
+                updateSelectedCount()
+                //Toast.makeText(context, "You clicked on ${dates[position]}", Toast.LENGTH_SHORT).show()
             }
         }
     }
-    private fun genDates(startDate: String, endDate: String): List<String> {
-        val dateList = mutableListOf<String>()
 
-        // Parse the start and end dates
-        val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
-        var currentDate = LocalDate.parse(startDate, formatter)
-        val finalDate = LocalDate.parse(endDate, formatter)
 
-        if (finalDate.isBefore(currentDate)) {
-            return dateList
-        }
-
-        while (!currentDate.isAfter(finalDate)) {
-            dateList.add(currentDate.format(formatter))
-            currentDate = currentDate.plusDays(1)
-        }
-
-        return dateList
+    private fun updateSelectedCount() {
+        listener.onDateSelected(dates[selectedPosition])
     }
 }
