@@ -3,12 +3,9 @@ package com.cs388.socialsync
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
@@ -67,7 +64,7 @@ class AddEventChooseDates: AppCompatActivity() {
         }
 
         btnFinish.setOnClickListener(){
-            event?.specificDate=true
+            event?.useSpecificDate=true
             event?.optionalDates?.clear()
             event?.optionalDates?.addAll(eventList)
 

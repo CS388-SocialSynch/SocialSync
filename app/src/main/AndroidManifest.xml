@@ -39,6 +39,8 @@
             android:exported="false"/>
         <activity android:name=".AddEventChooseDates"
             android:exported="false"/>
+        <activity android:name=".AddEventFinished"
+            android:exported="false"/>
 
     </application>
 

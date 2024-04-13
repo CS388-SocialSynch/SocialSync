@@ -1,6 +1,5 @@
 package com.cs388.socialsync
 
-import android.R
 import java.io.Serializable
 import java.time.LocalDate
 import java.time.LocalTime
@@ -23,11 +22,14 @@ data class Event(
     var optionEndTime: LocalTime? = null, // End time for all days/dates options
     val optionalDates: MutableList<LocalDate> = mutableListOf(), // list of avail days for users to choose from
     val optionalDays: MutableList<String> = mutableListOf(),
-    var specificDate: Boolean = false, // used cliently to determine if event has been edited
+    var useSpecificDate: Boolean = false, // used cliently to determine if event has been edited
     var addressStreet:String ="",
     var addressTown:String ="",
     var addressState:String ="",
-    var addressCountry:String =""
+    var addressCountry:String ="",
+    var isAPI:Boolean=false,
+    val participants: MutableList<String> = mutableListOf(),
+    var eventCode: Int = -1
 ) : Serializable {
     constructor(): this("")
 }

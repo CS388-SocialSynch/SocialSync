@@ -9,7 +9,6 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatToggleButton
-import androidx.core.widget.addTextChangedListener
 import androidx.core.widget.doAfterTextChanged
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -73,7 +72,7 @@ class AddEventSelectDate:AppCompatActivity() {
                     }
                 }
             }
-            if (details!!.specificDate){
+            if (details!!.useSpecificDate){
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
             }
@@ -159,7 +158,7 @@ class AddEventSelectDate:AppCompatActivity() {
         //TODO add a check for the next or just have it a normal button with a toast
         btnNext.setOnClickListener(){
             // validation
-            if((event!!.specificDate || event.optionalDays.isNotEmpty()) && startTimeCheck && endTimeCheck){
+            if((event!!.useSpecificDate || event.optionalDays.isNotEmpty()) && startTimeCheck && endTimeCheck){
 
 
 
@@ -217,13 +216,13 @@ class AddEventSelectDate:AppCompatActivity() {
                 btn.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
                 event.optionalDays.remove(btn.textOn.toString())
                 if (event.optionalDays.isEmpty()){
-                    event.specificDate= false
+                    event.useSpecificDate= false
                 }
             }
 
-            if (event.specificDate){
+            if (event.useSpecificDate){
                 btnSpecificDate.setText(R.string.choose_specfic_days)
-                event.specificDate = false
+                event.useSpecificDate = false
             }
         }
         else{
