@@ -1,12 +1,10 @@
 package com.cs388.socialsync
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.cs388.socialsync.databinding.FragmentEventsBinding
 import java.time.LocalDate
@@ -15,9 +13,9 @@ import kotlin.random.Random
 
 class EventsFragment : Fragment() {
 
-    private lateinit var binding: FragmentEventsBinding
-    private lateinit var publicEventAdapter: PublicEventAdapter
 
+    private lateinit var binding: FragmentEventsBinding
+    private lateinit var publicEventAdapter: EventAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,7 +29,7 @@ class EventsFragment : Fragment() {
 
         val events: List<Event> = createRandomEvents()
 
-        publicEventAdapter = PublicEventAdapter(events)
+        publicEventAdapter = EventAdapter(requireContext(), events)
         binding.publicEventsRecyclerView.adapter = publicEventAdapter
 
         return view
@@ -42,7 +40,14 @@ class EventsFragment : Fragment() {
         val eventNames = mutableListOf<String>()
 
         // Sample event names
-        val sampleNames = listOf("Birthday Bash", "Concert Night", "Tech Meetup", "Food Festival", "Art Exhibition", "Networking")
+        val sampleNames = listOf(
+            "Birthday Bash",
+            "Concert Night",
+            "Tech Meetup",
+            "Food Festival",
+            "Art Exhibition",
+            "Networking"
+        )
 
         repeat(6) {
             var eventName = ""
@@ -60,7 +65,19 @@ class EventsFragment : Fragment() {
             val location = "NJIT"
             val address = "CC"
 
-            val event = Event(eventName, startTime, endTime, date, temperature, weatherCondition, location, address, false, true)
+            val event = Event(
+                "what",
+                eventName,
+                startTime,
+                endTime,
+                date,
+                temperature,
+                weatherCondition,
+                location,
+                address,
+                false,
+                true
+            )
             events.add(event)
         }
         return events

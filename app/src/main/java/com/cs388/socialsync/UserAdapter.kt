@@ -36,12 +36,11 @@ class UserAdapter(
         }
 
         fun bind(user: User) {
-            userNameTextView.text = user.firstName
+            userNameTextView.text = user.name
 
             val attendingIconResource = when (user.attending) {
-                "yes" -> R.drawable.check_icon
-                "no" -> R.drawable.x_icon
-                else -> R.drawable.default_icon
+                true -> R.drawable.check_icon
+                false -> R.drawable.x_icon
             }
             Glide.with(context)
                 .load(attendingIconResource)
@@ -50,7 +49,7 @@ class UserAdapter(
 
         override fun onClick(v: View?) {
             val user = users[absoluteAdapterPosition]
-            Toast.makeText(context, "You clicked on ${user.firstName}!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "You clicked on ${user.name}!", Toast.LENGTH_SHORT).show()
         }
     }
 }

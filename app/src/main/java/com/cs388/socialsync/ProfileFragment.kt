@@ -45,6 +45,7 @@ class ProfileFragment : Fragment() {
         ivProfile = view.findViewById(R.id.ivProfile)
 
 
+
         etDisplayName = view.findViewById(R.id.etDisplayName)
         btnChangeDisplayName = view.findViewById(R.id.btnChangeDisplayName)
         change_display_photo = view.findViewById(R.id.change_display_photo)

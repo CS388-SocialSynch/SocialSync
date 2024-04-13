@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -51,7 +52,7 @@ class DashboardFragment : Fragment() {
     private var selectedDate: LocalDate? = null
 
     // Event list
-    private val eventList: MutableList<Event> = mutableListOf()
+    //private val eventList: MutableList<Event> = mutableListOf()
 
     // Days of week
     private val daysOfWeek = daysOfWeek()
@@ -100,16 +101,9 @@ class DashboardFragment : Fragment() {
         eventsRecyclerView = view.findViewById(R.id.upcomingEvents_recyclerView)
         eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        eventList.clear()
 
-        //Temp for array - used for making dates from format
-
-        eventList.addAll(listOf(
-            Event("Event 1", LocalTime.of(10,0), LocalTime.of(12,0), LocalDate.parse("2024-04-05"), 50, "cloudy", "CKB 124", "Newark, NJ 07102", false, true),
-            Event("Event 2", LocalTime.of(14,0), LocalTime.of(16,0), LocalDate.parse("2024-04-06"), 90, "sunny", "Top Golf", "Edison, NJ 08817", true, false),
-            Event("Event 3", LocalTime.of(9,0), LocalTime.of(11,0), LocalDate.parse("2024-04-07"), -10, "sunny", "Stairway To Heaven", "Vernon Township, NJ 07462", false, false)
-        ))
-        eventAdapter = EventAdapter(requireContext(), eventList)
+        Log.d("event list in dashboard", Obj.eventList.toString())
+        eventAdapter = EventAdapter(requireContext(), Obj.eventList)
         eventsRecyclerView.adapter = eventAdapter
     }
 
@@ -193,12 +187,12 @@ class DashboardFragment : Fragment() {
                 if (currentSelection != day.date) {
                     selectedDate = day.date
                     calendarView.notifyDateChanged(day.date)
-                    Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT).show()
                     currentSelection?.let {
                         calendarView.notifyDateChanged(it)
                     }
                 }
             }
+            Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT).show()
         }
 
         private fun updateDayView(data: CalendarDay) {
