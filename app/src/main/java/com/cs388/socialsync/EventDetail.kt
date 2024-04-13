@@ -48,14 +48,21 @@ class EventDetail : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
 
-
         // Initialize views
         initViews(view)
 
         // Get event details
         val event = arguments?.getSerializable(EVENT_ITEM) as? Event
 
+        Obj.addEventToDatabase(event!!, object : Obj.SetOnDuplicateEventCheckListener {
+            override fun onDuplicateEvent() {
+                Toast.makeText(activity, "duplicate", Toast.LENGTH_SHORT).show()
+            }
 
+            override fun onEventAdded() {
+                Toast.makeText(activity, "added", Toast.LENGTH_SHORT).show()
+            }
+        })
 
         // Handle event visibility based on type and ownership
         handleEventVisibility(event)
@@ -118,13 +125,13 @@ class EventDetail : Fragment() {
     }
 
     private fun initAdapters(event: Event?) {
-        event?.let {
-            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
-            incomingRecyclerView.apply {
-                layoutManager = LinearLayoutManager(requireContext())
-                adapter = userAdapterIncoming
-            }
-        }
+//        event?.let {
+//            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
+//            incomingRecyclerView.apply {
+//                layoutManager = LinearLayoutManager(requireContext())
+//                adapter = userAdapterIncoming
+//            }
+//        }
     }
 
     private fun setListeners() {

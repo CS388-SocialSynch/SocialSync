@@ -66,7 +66,7 @@ class AddEventChooseDates: AppCompatActivity() {
         btnFinish.setOnClickListener(){
             event?.useSpecificDate=true
             event?.optionalDates?.clear()
-            event?.optionalDates?.addAll(eventList)
+//            event?.optionalDates?.addAll(eventList)
 
             // Send info back to the previous activity
             val launchNextActivity: Intent = Intent(

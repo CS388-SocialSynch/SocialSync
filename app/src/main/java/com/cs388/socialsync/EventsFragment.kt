@@ -47,12 +47,12 @@ class EventsFragment : Fragment() {
         return view
     }
 
-    fun showProgress(){
+    fun showProgress() {
         binding.pbMain.visibility = View.VISIBLE
         binding.publicEventsRecyclerView.visibility = View.GONE
     }
 
-    fun hideProgress(){
+    fun hideProgress() {
         binding.pbMain.visibility = View.GONE
         binding.publicEventsRecyclerView.visibility = View.VISIBLE
     }
@@ -106,34 +106,29 @@ class EventsFragment : Fragment() {
                     val date = aa[0]
                     val time = aa[1].split("Z")[0]
 
-                    val startLocalTime = LocalTime.parse(time)
-                    val localDate = LocalDate.parse(date)
-                    var endLocalTime: LocalTime? = null
+                    val startLocalTime =
+                        LocalTime.parse(time).format(DateTimeFormatter.ISO_OFFSET_TIME)
+                    val localDate = LocalDate.parse(date).format(DateTimeFormatter.ISO_OFFSET_DATE_TIME)
+                    var endLocalTime: String? = null
                     if (eventJson.optString("predicted_end", "") != "") {
                         val endTime =
                             eventJson.optString("predicted_end", "TZ").split("T")[1].split("Z")[0]
-                        endLocalTime = LocalTime.parse(endTime)
+                        endLocalTime =
+                            LocalTime.parse(endTime).format(DateTimeFormatter.ISO_OFFSET_TIME)
                     }
 
+                    val event = Event()
 
-                    val event = Event(
-                        eventName = displayTitle,
-                        startTime = startLocalTime,
-                        endTime = endLocalTime,
-                        date = localDate,
-                        temperature = 57,
-                        weatherCondition = "sunny",
-                        locationName = locationName,
-                        address = formattedAddress,
-                        isHost = false,
-                        isPublic = true,
-                        showParticipants = false,
-                        isInPerson = false,
-                        hostUID = "",
-                        optionStartTime = null,
-                        optionEndTime = null,
-                        specificDate = false
-                    )
+                    event.eventName = eventJson.optString("title")
+                    event.startTime = startLocalTime
+                    event.endTime = endLocalTime!!
+                    event.address = formattedAddress
+                    event.temperature = 57
+                    event.weatherCondition = "Sunny"
+                    event.isPublic = true
+                    event.isAPI = true
+                    event.date = localDate
+
                     eventsList.add(event)
                 }
                 publicEventAdapter.notifyDataSetChanged()
