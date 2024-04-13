@@ -219,7 +219,7 @@
                     android:id="@+id/modifyTimeButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+
                     android:layout_weight="1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4dp"
@@ -238,7 +238,7 @@
                     android:id="@+id/leaveButton"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="6dp"
+
                     android:layout_weight="1"
                     android:paddingStart="4dp"
                     android:paddingEnd="4sp"
