@@ -61,7 +61,7 @@ class EventDetail : Fragment() {
         handleEventVisibility(event)
 
         // Initialize adapters
-        initAdapters()
+        initAdapters(event)
 
         // Set listeners
         setListeners()
@@ -117,19 +117,13 @@ class EventDetail : Fragment() {
         }
     }
 
-    private fun initAdapters() {
-        val userList = listOf(
-            User("Miquel", "yes"),
-            User("Saketh", "no"),
-            User("Ethan", "Maybe"),
-            User("Karam", "yes")
-        )
-
-        userAdapterIncoming = UserAdapter(requireContext(), userList)
-
-        incomingRecyclerView.apply {
-            layoutManager = LinearLayoutManager(requireContext())
-            adapter = userAdapterIncoming
+    private fun initAdapters(event: Event?) {
+        event?.let {
+            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
+            incomingRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = userAdapterIncoming
+            }
         }
     }
 

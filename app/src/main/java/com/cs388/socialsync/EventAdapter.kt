@@ -29,7 +29,6 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
 
 
-
         if (currentItem.endTime != null) {
 
 

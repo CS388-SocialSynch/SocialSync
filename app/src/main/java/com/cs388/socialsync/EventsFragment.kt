@@ -152,9 +152,5 @@ class EventsFragment : Fragment() {
                 }
             }
         queue.add(getRequest)
-
-
     }
-
-
 }

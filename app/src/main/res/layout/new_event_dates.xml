@@ -4,8 +4,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/background_gradient"
     >
 
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnExit"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_margin="15dp"
+        android:textAlignment="center"
+        android:text="@string/x"
+        android:textColor="@color/red"
+        android:background="@drawable/button_stroke"
+        android:textAppearance="@style/body"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -74,7 +88,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="ex: 5:15 pm"
+            android:hint="ex: 02:15 pm"
             style="@style/EditTextbox"
             />
         <!-- end Time-->
@@ -93,7 +107,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="ex: 5:15 pm"
+            android:hint="ex: 10:15 pm"
             style="@style/EditTextbox"
             />
 
@@ -114,41 +128,45 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             >
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/MON"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MON"
                 style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/mon"
+                android:textOff="@string/mon"
                 />
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/TUE"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 style="@style/appButtonUnselect"
-                android:text="TUE"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/tue"
+                android:textOff="@string/tue"
                 />
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/WED"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="WED"
                 style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/wed"
+                android:textOff="@string/wed"
                 />
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/THU"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="THU"
                 style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/thu"
+                android:textOff="@string/thu"
                 />
         </LinearLayout>
         <LinearLayout
@@ -157,32 +175,35 @@
             android:orientation="horizontal"
             android:layout_marginHorizontal="40sp"
             >
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/FRI"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="FRI"
                 style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/fri"
+                android:textOff="@string/fri"
                 />
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/SAT"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SAT"
                 style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/sat"
+                android:textOff="@string/sat"
                 />
-            <androidx.appcompat.widget.AppCompatButton
+            <androidx.appcompat.widget.AppCompatToggleButton
                 android:id="@+id/SUN"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SUN"
                 style="@style/appButtonUnselect"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:textOn="@string/sun"
+                android:textOff="@string/sun"
                 />
 
         </LinearLayout><!-- General Date-->
@@ -194,12 +215,13 @@
             android:background="@color/font"/>
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/specificDates"
+            android:id="@+id/btnSpecificDates"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Choose Specfic Days"
+            android:layout_height="0dp"
+            android:text="@string/choose_specfic_days"
             android:layout_weight="1"
-            android:layout_margin="10dp"
+            android:layout_marginVertical="10dp"
+            android:layout_marginHorizontal="30dp"
             android:layout_gravity="center"
             android:gravity="center"
             style="@style/appButton"
@@ -207,15 +229,15 @@
 
     </LinearLayout> <!-- Choosing Dates -->
 
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/btnAddTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Your Time"
-            style="@style/appButtonInvalid"
-            android:layout_gravity="center"
-            android:layout_marginTop="15sp"
-        />
+<!--        <androidx.appcompat.widget.AppCompatButton-->
+<!--            android:id="@+id/btnAddTime"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="Add Your Time"-->
+<!--            style="@style/appButtonInvalid"-->
+<!--            android:layout_gravity="center"-->
+<!--            android:layout_marginTop="15sp"-->
+<!--        />-->
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -237,7 +259,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnNext"
-                android:text="Next"
+                android:text="Submit"
                 style="@style/appButton"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
