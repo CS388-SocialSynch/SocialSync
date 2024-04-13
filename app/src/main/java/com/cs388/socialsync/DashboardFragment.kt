@@ -57,6 +57,25 @@ class DashboardFragment : Fragment() {
     // Days of week
     private val daysOfWeek = daysOfWeek()
 
+    var eventList: MutableList<Event> = mutableListOf()
+
+
+    override fun onResume() {
+        super.onResume()
+        Log.e("CUTOM---->", "onResume")
+
+        Obj.loadEvents(object : Obj.SetOnLoadEventListener {
+            override fun onDataLoad() {
+
+                Log.e("CUTOM---->", "onDataLoad")
+
+                eventList.clear()
+                eventList.addAll(Obj.eventList)
+                eventAdapter.notifyDataSetChanged()
+            }
+        })
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -75,11 +94,12 @@ class DashboardFragment : Fragment() {
 
             newEvent.eventName = "test"
             newEvent.optionStartTime = LocalTime.NOON.toString()
-            newEvent.optionEndTime= LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a")).toString()
-            val newIntent = Intent(context,AddEventMainActivity::class.java)
+            newEvent.optionEndTime =
+                LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a")).toString()
+            val newIntent = Intent(context, AddEventMainActivity::class.java)
             val bundle = Bundle()
             bundle.putSerializable(EVENT_ITEM, newEvent)
-            newIntent.putExtra("eventInfo",bundle)
+            newIntent.putExtra("eventInfo", bundle)
             startActivity(newIntent)
         }
 
@@ -102,11 +122,13 @@ class DashboardFragment : Fragment() {
         addEventButton = view.findViewById(R.id.addEvent)
         eventsRecyclerView = view.findViewById(R.id.upcomingEvents_recyclerView)
         eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        eventsRecyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-
-        Log.d("event list in dashboard", Obj.eventList.toString())
-        eventAdapter = EventAdapter(requireContext(), Obj.eventList)
+        Log.d("event list in dashboard", eventList.toString())
+        eventAdapter = EventAdapter(requireContext(), eventList)
         eventsRecyclerView.adapter = eventAdapter
+
+        Log.e("CUSTOM0000>", Obj.user.events.toString())
     }
 
     private fun setupTimeReceiver() {

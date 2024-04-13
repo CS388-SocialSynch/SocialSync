@@ -44,7 +44,9 @@ class AddEventFinished : AppCompatActivity() {
 
                         }
 
-                        override fun onEventAdded() {
+                        override fun onEventAdded(key: String) {
+
+
                             Toast.makeText(
                                 this@AddEventFinished,
                                 "Event added to Database",
