@@ -6,6 +6,8 @@
     <string name="profile">Profile</string>
     <!-- Change Event Time-->
     <string name="change_time">Change Time</string>
+    <string name="choose_time">Choose Available Times</string>
+    <string name="save_time">Save Times</string>
     <string name="change_settings">Change Settings</string>
     <string name="set_event_time">Set Event Time</string>
     <string name="cancel_event">Cancel Event</string>

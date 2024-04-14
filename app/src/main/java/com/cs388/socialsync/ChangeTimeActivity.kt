@@ -34,13 +34,6 @@ class ChangeTimeActivity: AppCompatActivity() , OnTimeslotSelectionListener, OnD
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val propTextView = findViewById<TextView>(R.id.eventPropertiesTextView)
 
-        /*Removed Next Button
-        val prevButton = findViewById<ImageButton>(R.id.prevButton)
-        val nextButton = findViewById<ImageButton>(R.id.nextButton)
-        val blackColor = ContextCompat.getColor(this, android.R.color.black)
-        nextButton.setColorFilter(blackColor, PorterDuff.Mode.SRC_IN)
-        prevButton.setColorFilter(blackColor,PorterDuff.Mode.SRC_IN)
-        */
         val datesRecyclerView = findViewById<RecyclerView>(R.id.dateRecyclerView)
         datesRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         dateAdapter = DateAdapter(this, genDates("2024-03-28", "2024-04-05"), this, showDates)
