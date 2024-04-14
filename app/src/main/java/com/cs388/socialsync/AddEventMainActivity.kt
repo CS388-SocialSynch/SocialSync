@@ -36,7 +36,7 @@ class AddEventMainActivity: AppCompatActivity() {
 
         val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
 
-        val event = intent.getBundleExtra("eventInfo")?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
         var validationCheck = false
         var addressCheck = true
 
@@ -103,7 +103,7 @@ class AddEventMainActivity: AppCompatActivity() {
 
 
         btnNext.setOnClickListener(){
-            event?.let { details ->
+            event.let { details ->
                 event.eventName = eventNameEdit.text.toString()
                 event.locationName = locationEdit.text.toString()
                 event.isPublic = publicSwitch.isChecked
@@ -111,7 +111,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 event.showParticipants = showParticipants.isChecked
 
                 if(event.isInPerson){
-                    if(streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
+                    if(addressCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
                         addressCheck= true
                         event.addressStreet = streetEdit.text.toString()
                         event.addressTown = townEdit.text.toString()
@@ -126,7 +126,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 }
 
                 // Validation checks
-                if(event.isInPerson && event.locationName == ""){
+                if(event.locationName == ""){
                     validationCheck=false
                     Toast.makeText(applicationContext,"Please enter location address", Toast.LENGTH_SHORT).show()
                 }else {
@@ -151,7 +151,14 @@ class AddEventMainActivity: AppCompatActivity() {
                 .setTitle("Discard Event?")
                 .setMessage("Are you sure you want to discard your work?")
                 .setPositiveButton("Discard") { dialog, which ->
-                    finish()
+                    val launchNextActivity: Intent = Intent(
+                        this@AddEventMainActivity,
+                        MainActivity::class.java
+                    )
+                    launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(launchNextActivity)
+                    dialog.dismiss()
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancel") { dialog, which ->

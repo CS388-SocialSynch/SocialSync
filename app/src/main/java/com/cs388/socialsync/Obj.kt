@@ -20,6 +20,28 @@ object Obj {
     lateinit var user: User
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+    lateinit var event: Event
+
+    interface SetOnEventFetchListener {
+        fun onEventFetch(event : Event)
+    }
+
+    fun fetchEventUsingCode(code: String,  listener:SetOnEventFetchListener) {
+        val eventDb = EVENTS_DB.child(code)
+        val dbListener = object : ValueEventListener {
+            override fun onDataChange(eventSnapshot: DataSnapshot) {
+                val event = createEventFromSnapshot(eventSnapshot)
+                listener.onEventFetch(event)
+                eventDb.removeEventListener(this)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // i guess we toast an error or something
+            }
+        }
+        eventDb.addListenerForSingleValueEvent(dbListener)
+    }
 
 
     fun uploadUserData(user: User) {
@@ -155,7 +177,7 @@ object Obj {
             eventSnapshot.child("startTime").value.toString(),
             eventSnapshot.child("endTime").value.toString(),
             eventSnapshot.child("date").value.toString(),
-            eventSnapshot.child("temperature").value as Long,
+            eventSnapshot.child("temperature").value as Long?,
             eventSnapshot.child("weatherCondition").value?.toString(),
             eventSnapshot.child("locationName").value?.toString(),
             eventSnapshot.child("address").value.toString(),

@@ -33,4 +33,8 @@ data class Event(
 
 ) : Serializable {
     constructor() : this("")
+
+    fun getCombinedAddress(): String{
+        return addressStreet + " " + addressTown + " " + addressState + ", " + addressCountry
+    }
 }

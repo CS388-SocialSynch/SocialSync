@@ -31,7 +31,6 @@ class ChooseDateAdapter(private val context: AddEventChooseDates, private val it
     override fun onBindViewHolder(holder: ChooseDateAdapter.ViewHolder, position: Int) {
         val item = items.get(position)
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        Log.d("TEST", "ADDED")
         holder.date.text =  item.format(dateFormatter)
         holder.day.text = item.dayOfWeek.toString().substring(0,3).uppercase()
 

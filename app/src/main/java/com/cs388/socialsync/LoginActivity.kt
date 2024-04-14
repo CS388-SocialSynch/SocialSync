@@ -97,8 +97,15 @@ class LoginActivity : AppCompatActivity() {
 
     fun startNewActivity(flags: Boolean = false) {
 
+        //if (flags) {
+            //startActivity(Intent(this@LoginActivity, MainActivity::class.java))
+           // finish()
+          //  return
+        //}
+
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
+
 
         Obj.USERS_DB = Firebase.database.getReference("USERS")
         Obj.EVENTS_DB = Firebase.database.reference.child("EVENTS")
