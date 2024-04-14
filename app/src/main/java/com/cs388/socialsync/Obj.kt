@@ -5,8 +5,10 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.values
+import com.google.firebase.firestore.FieldValue
 import java.time.format.DateTimeFormatter
 import java.util.Random
 
@@ -148,6 +150,40 @@ object Obj {
             }
         })
     }
+
+    fun removeUserFromEventAndParticipants(uidToRemove: String) {
+        Log.d("Uid to remove", uidToRemove)
+        Log.d("eventList before removeUser", eventList.toString())
+
+        // Remove the event from the local eventList
+        eventList.removeAll { event -> event.eventCode == uidToRemove }
+        Log.d("eventList in removeUser", eventList.toString())
+
+        // Update the events array in the user's document
+        val eventsRef = USER_DB.child("events")
+        eventsRef.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val events = dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
+                events?.let {
+                    val updatedEvents = it.filter { eventId -> eventId != uidToRemove }
+                    eventsRef.setValue(updatedEvents)
+                        .addOnSuccessListener {
+                            // UID removed successfully
+                            println("UID removed from user's events array.")
+                        }
+                        .addOnFailureListener { e ->
+                            // Error occurred while removing UID
+                            println("Error removing UID from user's events array: $e")
+                        }
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+                // Handle error if needed
+            }
+        })
+    }
+
 
     private fun createEventFromSnapshot(eventSnapshot: DataSnapshot): Event {
 

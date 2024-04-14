@@ -69,11 +69,11 @@ class EventDetail : Fragment() {
         // Handle event visibility based on type and ownership
         handleEventVisibility(event)
 
-        // Initialize adapters
-        initAdapters(event)
-
-        // Set listeners
-        setListeners()
+        // Initialize adapters and set listeners
+        if (event != null) {
+            initAdapters(event)
+            setListeners(event)
+        }
 
         // Display event details
         displayEventDetails(event)
@@ -110,8 +110,8 @@ class EventDetail : Fragment() {
             if (isPublicEvent) {
                 // Hide views for public events
                 val viewsToHide = listOf(
+                    attendingLayout,
                     modifyTimeButton,
-                    leaveButton,
                     modifyEventButton,
                     shareEventButton,
                     incomingRecyclerView,
@@ -126,7 +126,7 @@ class EventDetail : Fragment() {
         }
     }
 
-    private fun initAdapters(event: Event?) {
+    private fun initAdapters(event: Event) {
         // TODO update to utilize the Obj.User class
 //        event?.let {
 //            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
@@ -137,7 +137,7 @@ class EventDetail : Fragment() {
 //        }
     }
 
-    private fun setListeners() {
+    private fun setListeners(event: Event) {
 
         attendSwitch.setOnClickListener {
             Toast.makeText(context, attendSwitch.isChecked.toString(), Toast.LENGTH_SHORT).show()
@@ -149,6 +149,8 @@ class EventDetail : Fragment() {
 
         leaveButton.setOnClickListener {
             Toast.makeText(context, "Why leave :(", Toast.LENGTH_SHORT).show()
+            Obj.removeUserFromEventAndParticipants(event.eventCode)
+
         }
 
 

@@ -50,6 +50,7 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("com.kizitonwose.calendar:view:2.5.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
