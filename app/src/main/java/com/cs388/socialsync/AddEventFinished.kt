@@ -50,6 +50,7 @@ class AddEventFinished : AppCompatActivity() {
                     code.setText(code.text.toString() + " " + key)
                     var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip:ClipData = ClipData.newPlainText("Event Code", key)
+                    event.eventCode = key
                 }
             }
             Obj.addEventToDatabase(event, listener)
