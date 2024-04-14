@@ -93,8 +93,8 @@
                     android:gravity="start"
                     android:hint="@string/_2137"
                     android:importantForAutofill="no"
-                    android:inputType="number"
-                    android:maxLength="4"
+                    android:inputType="text"
+                    android:maxLength="6"
                     android:paddingHorizontal="20dp" />
 
                 <View

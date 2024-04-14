@@ -10,6 +10,8 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 const val EVENT_ITEM = "EVENT_ITEM"
@@ -27,25 +29,32 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val currentItem = eventList[position]
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-
+        var startStr = "null"
+        var endStr ="null"
+        if (currentItem.startTime != null && currentItem.startTime != "null"){
+            startStr = LocalTime.parse(currentItem.startTime, DateTimeFormatter.ISO_LOCAL_TIME).format(timeFormatter)
+        }
+        if (currentItem.endTime != null && currentItem.endTime != "null") {
+            endStr = LocalTime.parse(currentItem.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
+                .format(timeFormatter)
+        }
 
         if (currentItem.endTime != null) {
 
-
             holder.eventNameTextView.text = currentItem.eventName
-            "${currentItem.startTime!!.format(timeFormatter)} - ${
-                currentItem.endTime!!.format(
-                    timeFormatter
-                )
-            }".also { holder.timeTextView.text = it }
+            "${startStr} - ${endStr}".also { holder.timeTextView.text = it }
         } else {
             holder.eventNameTextView.text = currentItem.eventName
-            currentItem.startTime!!.format(timeFormatter).also {
+            startStr.also {
                 holder.timeTextView.text = it
             }
         }
 
-        holder.dateTextView.text = currentItem.date.format(dateFormatter)
+        var dateStr = "null"
+        if (currentItem.date != "" && currentItem.date != null){
+            dateStr=LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE).format(dateFormatter)
+        }
+        holder.dateTextView.text =dateStr
         "${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
         // Load weather image using Glide

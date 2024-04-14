@@ -6,10 +6,9 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import java.util.UUID
-import java.time.LocalDate
-import java.time.LocalTime
+import com.google.firebase.database.values
 import java.time.format.DateTimeFormatter
+import java.util.Random
 
 
 object Obj {
@@ -21,24 +20,49 @@ object Obj {
     lateinit var user: User
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
+    lateinit var event: Event
+
+    interface SetOnEventFetchListener {
+        fun onEventFetch(event : Event)
+    }
+
+    fun fetchEventUsingCode(code: String,  listener:SetOnEventFetchListener) {
+        val eventDb = EVENTS_DB.child(code)
+        val dbListener = object : ValueEventListener {
+            override fun onDataChange(eventSnapshot: DataSnapshot) {
+                val event = createEventFromSnapshot(eventSnapshot)
+                listener.onEventFetch(event)
+                eventDb.removeEventListener(this)
+
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // i guess we toast an error or something
+            }
+        }
+        eventDb.addListenerForSingleValueEvent(dbListener)
+    }
+
 
     fun uploadUserData(user: User) {
         USER_DB.child("displayName").setValue(user.displayName)
         USER_DB.child("email").setValue(user.email)
         USER_DB.child("image").setValue(user.image)
-
     }
 
     fun getUserData(listener: UserDataListener) {
+        Log.e("CUSTOM---->", "getUserData")
+
         val userDataListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
+                Log.e("CUSTOM---->", "onDataChange")
                 val user = createUserFromSnapshot(dataSnapshot)
-                loadEvents(user, listener)
                 USER_DB.removeEventListener(this)
+                listener.onUserDataLoad(user)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // i guess we toast an error or something
+                Log.e("CUSTOM---->", "ERROR_" + error.message)
             }
         }
 
@@ -49,25 +73,51 @@ object Obj {
         val displayName = dataSnapshot.child("displayName").value.toString()
         val email = dataSnapshot.child("email").value.toString()
         val image = dataSnapshot.child("image").value.toString()
-        val events = dataSnapshot.child("events").children.map { it.value.toString() }
+
+        val events = mutableListOf<String>()
+        for (eventId in dataSnapshot.child("events").children) {
+            events.add(eventId.value.toString())
+        }
+
         return User(displayName, email, image, events)
     }
 
-    private fun loadEvents(user: User, listener: UserDataListener) {
+    interface SetOnLoadEventListener {
+        fun onDataLoad()
+    }
+
+    fun loadEvents(listener: SetOnLoadEventListener) {
+
+        eventList.clear()
+        Log.e("CUSTOM---->", "loadEvents")
+
+        var count = 0
+
         user.events.forEach { uid ->
-            EVENTS_DB.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
+            val aaaa = EVENTS_DB.child(uid)
+
+            val lis = object : ValueEventListener {
                 override fun onDataChange(eventSnapshot: DataSnapshot) {
                     val event = createEventFromSnapshot(eventSnapshot)
                     eventList.add(event)
                     updateEventParticipants(event, eventSnapshot)
                     Log.d("Event", event.toString())
-                    listener.onUserDataLoad(user)
+
+
+
+                    aaaa.removeEventListener(this)
+                    count++
+                    if (count == user.events.size) {
+                        listener.onDataLoad()
+                    }
+                    Log.e("CUSTOM---->", "forEach")
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     // i guess we toast an error or something
                 }
-            })
+            }
+            aaaa.addListenerForSingleValueEvent(lis)
         }
     }
 
@@ -85,7 +135,6 @@ object Obj {
             }
         }
     }
-
 
     private fun fetchParticipantData(uid: String, callback: (String) -> Unit) {
         USERS_DB.child(uid).addListenerForSingleValueEvent(object : ValueEventListener {
@@ -128,28 +177,27 @@ object Obj {
             eventSnapshot.child("startTime").value.toString(),
             eventSnapshot.child("endTime").value.toString(),
             eventSnapshot.child("date").value.toString(),
-            eventSnapshot.child("temperature").value as Int?,
+            eventSnapshot.child("temperature").value as Long?,
             eventSnapshot.child("weatherCondition").value?.toString(),
             eventSnapshot.child("locationName").value?.toString(),
             eventSnapshot.child("address").value.toString(),
-            eventSnapshot.child("isHost").value as Boolean,
-            eventSnapshot.child("isPublic").value as Boolean,
+            eventSnapshot.child("public").value as Boolean,
             eventSnapshot.child("showParticipants").value as Boolean,
-            eventSnapshot.child("isInPerson").value as Boolean,
-            eventSnapshot.child("hostUID").value as String,
-            eventSnapshot.child("optionStartTime").value as String,
-            eventSnapshot.child("optionEndTime").value as String,
+            eventSnapshot.child("inPerson").value as Boolean,
+            eventSnapshot.child("hostUID").value.toString(),
+            eventSnapshot.child("optionStartTime").value.toString(),
+            eventSnapshot.child("optionEndTime").value.toString(),
             optionalDatesList,
             optionalDayList,
             eventSnapshot.child("useSpecificDate").value as Boolean,
-            eventSnapshot.child("addressStreet").value as String,
-            eventSnapshot.child("addressTown").value as String,
-            eventSnapshot.child("addressState").value as String,
-            eventSnapshot.child("addressCountry").value as String,
-            eventSnapshot.child("isAPI").value as Boolean,
+            eventSnapshot.child("addressStreet").value.toString(),
+            eventSnapshot.child("addressTown").value.toString(),
+            eventSnapshot.child("addressState").value.toString(),
+            eventSnapshot.child("addressCountry").value.toString(),
+            eventSnapshot.child("api").value as Boolean,
             joinedList,
             participantsList,
-            eventSnapshot.child("eventCode").value as Int
+            eventSnapshot.child("eventCode").value.toString()
         )
 
 
@@ -159,29 +207,52 @@ object Obj {
     interface SetOnDuplicateEventCheckListener {
         fun onDuplicateEvent()
 
-        fun onEventAdded()
+        fun onEventAdded(key: String)
     }
 
-    fun addEventToDatabase(event: Event, listener: SetOnDuplicateEventCheckListener) {
+    fun addEventToUser(key: String) {
+//        val events = mutableListOf<String>()
+        user.events.add(key)
+        USER_DB.child("events").setValue(user.events)
+    }
 
+    fun getUniqueCode(): String {
+        val zeros = "000000"
+        val rnd = Random()
+        var s = Integer.toString(rnd.nextInt(0X1000000), 16)
+        s = zeros.substring(s.length) + s
+        println("s = $s")
+        return s
+    }
+
+    fun addEventToDatabase(
+        event: Event,
+        listener: SetOnDuplicateEventCheckListener,
+        flag: Boolean = false
+    ) {
 
         val eventFetchListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
                 var flag = 0
+                var storedKey = ""
 
                 for (eventObj in dataSnapshot.children) {
-
                     if (eventObj.child("eventName").value.toString() == event.eventName) {
+                        storedKey = eventObj.key.toString()
                         flag++
+                        break;
                     }
                 }
                 if (flag != 0) {
                     listener.onDuplicateEvent()
+                    addEventToUser(storedKey)
                 } else {
-                    val aa = UUID.randomUUID().toString()
-                    EVENTS_DB.child(aa).setValue(event)
-                    listener.onEventAdded()
+                    val key = getUniqueCode()
+                    event.eventCode = key
+                    EVENTS_DB.child(key).setValue(event)
+                    listener.onEventAdded(key)
+                    addEventToUser(key)
                 }
                 EVENTS_DB.removeEventListener(this)
             }
@@ -198,11 +269,11 @@ object Obj {
         fun onUserDataLoad(user: User)
     }
 
-    data class User(
+    class User(
         var displayName: String,
         var email: String,
         var image: String,
-        var events: List<String>
+        var events: MutableList<String>
     )
 
 }

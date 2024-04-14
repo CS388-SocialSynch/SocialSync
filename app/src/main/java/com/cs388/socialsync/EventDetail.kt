@@ -15,8 +15,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
+import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
-import java.util.UUID
 
 class EventDetail : Fragment() {
 
@@ -54,15 +55,16 @@ class EventDetail : Fragment() {
         // Get event details
         val event = arguments?.getSerializable(EVENT_ITEM) as? Event
 
+
         Obj.addEventToDatabase(event!!, object : Obj.SetOnDuplicateEventCheckListener {
             override fun onDuplicateEvent() {
                 Toast.makeText(activity, "duplicate", Toast.LENGTH_SHORT).show()
             }
 
-            override fun onEventAdded() {
+            override fun onEventAdded(key: String) {
                 Toast.makeText(activity, "added", Toast.LENGTH_SHORT).show()
             }
-        })
+        }, true)
 
         // Handle event visibility based on type and ownership
         handleEventVisibility(event)
@@ -103,7 +105,7 @@ class EventDetail : Fragment() {
     private fun handleEventVisibility(event: Event?) {
         event?.let { details ->
             val isPublicEvent = details.isPublic
-            val isHostOfEvent = details.isHost
+            val isHostOfEvent = (details.hostUID == Obj.auth.currentUser!!.uid)
 
             if (isPublicEvent) {
                 // Hide views for public events
@@ -125,6 +127,7 @@ class EventDetail : Fragment() {
     }
 
     private fun initAdapters(event: Event?) {
+        // TODO update to utilize the Obj.User class
 //        event?.let {
 //            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
 //            incomingRecyclerView.apply {
@@ -165,28 +168,39 @@ class EventDetail : Fragment() {
 
         event?.let { details ->
             eventDetailView.text = details.eventName
+            var startStr = "null"
+            var endStr ="null"
+            if (details.startTime != null && details.startTime != "null"){
+                startStr = LocalTime.parse(details.startTime, DateTimeFormatter.ISO_LOCAL_TIME).format(timeFormatter)
+            }
+            if (details.endTime != null && details.endTime != "null") {
+                endStr = LocalTime.parse(details.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
+                    .format(timeFormatter)
+            }
 
             if (details.endTime != null) {
-                "${details.startTime!!.format(timeFormatter)} - ${
-                    details.endTime!!.format(
-                        timeFormatter
-                    )
-                }".also {
+                "${startStr} - ${endStr}".also {
                     timeDetailView.text = it
                 }
             } else {
-                "${details.startTime!!.format(timeFormatter)}".also {
+                "${startStr}".also {
                     timeDetailView.text = it
                 }
             }
 
 
+            var dateStr = "null"
+            if (details.date != "" && details.date != null){
+                dateStr= LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+            }
 
-
-            dateDetailView.text = details.date.format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+            dateDetailView.text = dateStr
             locationDetailView.text = details.locationName
-            addressDetailView.text = details.address
-
+            if(details.address == ""){
+                addressDetailView.text = details.getCombinedAddress()
+            }else {
+                addressDetailView.text = details.address
+            }
             // Load weather icon using Glide
             val weatherIconResId = when (details.weatherCondition) {
                 "cloudy" -> R.drawable.cloudy_icon
