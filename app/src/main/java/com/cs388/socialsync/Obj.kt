@@ -231,7 +231,6 @@ object Obj {
         flag: Boolean = false
     ) {
 
-
         val eventFetchListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
 
@@ -250,6 +249,7 @@ object Obj {
                     addEventToUser(storedKey)
                 } else {
                     val key = getUniqueCode()
+                    event.eventCode = key
                     EVENTS_DB.child(key).setValue(event)
                     listener.onEventAdded(key)
                     addEventToUser(key)

@@ -128,7 +128,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 // Validation checks
                 if(event.locationName == ""){
                     validationCheck=false
-                    Toast.makeText(applicationContext,"Please enter location address", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(applicationContext,"Please enter specific location/URL", Toast.LENGTH_SHORT).show()
                 }else {
                     validationCheck=true
                 }
