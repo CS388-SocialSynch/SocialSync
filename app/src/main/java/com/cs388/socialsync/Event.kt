@@ -29,7 +29,7 @@ data class Event(
     var isAPI: Boolean = false,
     val joined: MutableList<String> = mutableListOf(),
     val participants: MutableList<String> = mutableListOf(),
-    var eventCode: Long = -1
+    var eventCode: String = ""
 
 ) : Serializable {
     constructor() : this("")

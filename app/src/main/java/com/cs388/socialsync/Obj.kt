@@ -197,7 +197,7 @@ object Obj {
             eventSnapshot.child("api").value as Boolean,
             joinedList,
             participantsList,
-            eventSnapshot.child("eventCode").value as Long
+            eventSnapshot.child("eventCode").value.toString()
         )
 
 
