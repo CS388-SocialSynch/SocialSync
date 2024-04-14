@@ -12,8 +12,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.core.view.children
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -85,18 +87,34 @@ class DashboardFragment : Fragment() {
         setupTimeReceiver()
         setupCalendarView()
 
-        Obj.fetchEventUsingCode("1beb98", object : Obj.SetOnEventFetchListener {
-            override fun onEventFetch(event: Event) {
 
-                Toast.makeText(activity, event.eventName, Toast.LENGTH_LONG).show()
-
-            }
-
-        })
+        val reg = Regex("^[0-9a-fA-F]{6}$")
 
         joinButton.setOnClickListener {
-            hideKeyboard()
+            if(!(roomView.text.length == 6 && reg.containsMatchIn(roomView.text))){
+                Toast.makeText(activity, "Invalid join code", Toast.LENGTH_SHORT).show()
+            }
+            else{
             // TODO start detail activity with event
+            val id = roomView.text.toString().lowercase()
+            hideKeyboard()
+            Obj.fetchEventUsingCode(id, object : Obj.SetOnEventFetchListener {
+                override fun onEventFetch(event: Event) {
+                    Toast.makeText(activity, event.eventName, Toast.LENGTH_LONG).show()
+                    // generate a new fragment and then switch
+                    val fragment = EventDetail()
+                    val bundle = Bundle()
+                    bundle.putSerializable(EVENT_ITEM, event)
+                    fragment.arguments = bundle
+
+                    // how to switch fragments
+                    (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                        .replace(R.id.main_frame_layout, fragment)
+                        .addToBackStack(null)
+                        .commit()
+                }
+            })
+            }
         }
 
         addEventButton.setOnClickListener {

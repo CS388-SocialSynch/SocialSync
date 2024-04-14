@@ -1,5 +1,10 @@
 package com.cs388.socialsync
 
+import android.R.attr.label
+import android.R.attr.text
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -7,10 +12,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+
 
 class AddEventFinished : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,13 +24,12 @@ class AddEventFinished : AppCompatActivity() {
         val event = Obj.event
 
         val host = Obj.auth.currentUser!!.uid
-        event?.hostUID = host
-        event?.participants?.add(host)
+        event.hostUID = host
+        event.participants.add(host)
 
         //TODO DELETE THIS **********
         Log.d("EVENT CREATE", event.toString())
 
-        if (event != null) {
             val listener = object : Obj.SetOnDuplicateEventCheckListener {
                 override fun onDuplicateEvent() {
                     Toast.makeText(
@@ -39,12 +40,16 @@ class AddEventFinished : AppCompatActivity() {
                     val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
                     startActivity(nextIntent)
                 }
-                override fun onEventAdded() {
+
+                override fun onEventAdded(key: String) {
                     Toast.makeText(
                         this@AddEventFinished,
-                        "Event added to Database",
+                        "Event added to Database and key copied",
                         Toast.LENGTH_SHORT
                     ).show()
+                    code.setText(code.text.toString() + " " + key)
+                    var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip:ClipData = ClipData.newPlainText("Event Code", key)
                 }
             }
             Obj.addEventToDatabase(event, listener)
@@ -54,5 +59,4 @@ class AddEventFinished : AppCompatActivity() {
             }
 
         }
-    }
 }

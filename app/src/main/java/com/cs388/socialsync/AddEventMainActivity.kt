@@ -103,7 +103,7 @@ class AddEventMainActivity: AppCompatActivity() {
 
 
         btnNext.setOnClickListener(){
-            event?.let { details ->
+            event.let { details ->
                 event.eventName = eventNameEdit.text.toString()
                 event.locationName = locationEdit.text.toString()
                 event.isPublic = publicSwitch.isChecked
@@ -126,7 +126,7 @@ class AddEventMainActivity: AppCompatActivity() {
                 }
 
                 // Validation checks
-                if(event.isInPerson && event.locationName == ""){
+                if(event.locationName == ""){
                     validationCheck=false
                     Toast.makeText(applicationContext,"Please enter location address", Toast.LENGTH_SHORT).show()
                 }else {
@@ -151,7 +151,14 @@ class AddEventMainActivity: AppCompatActivity() {
                 .setTitle("Discard Event?")
                 .setMessage("Are you sure you want to discard your work?")
                 .setPositiveButton("Discard") { dialog, which ->
-                    finish()
+                    val launchNextActivity: Intent = Intent(
+                        this@AddEventMainActivity,
+                        MainActivity::class.java
+                    )
+                    launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                    launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                    startActivity(launchNextActivity)
+                    dialog.dismiss()
                     dialog.dismiss()
                 }
                 .setNegativeButton("Cancel") { dialog, which ->

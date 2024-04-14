@@ -177,7 +177,7 @@ object Obj {
             eventSnapshot.child("startTime").value.toString(),
             eventSnapshot.child("endTime").value.toString(),
             eventSnapshot.child("date").value.toString(),
-            eventSnapshot.child("temperature").value as Long,
+            eventSnapshot.child("temperature").value as Long?,
             eventSnapshot.child("weatherCondition").value?.toString(),
             eventSnapshot.child("locationName").value?.toString(),
             eventSnapshot.child("address").value.toString(),

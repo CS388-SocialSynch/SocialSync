@@ -47,7 +47,7 @@ class AddEventSelectDate:AppCompatActivity() {
 
 
         // Preloading the events data
-        val event = Obj.event
+        var event = Obj.event
         event.let { details ->
             if (details.optionStartTime != null && details.optionStartTime != "") {
                 startTimeEdit.setText(
@@ -93,6 +93,8 @@ class AddEventSelectDate:AppCompatActivity() {
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
             }
+
+
         }
 
         // TODO DELETE *************
@@ -153,7 +155,7 @@ class AddEventSelectDate:AppCompatActivity() {
         }
 
         btnChooseSpecificDate.setOnClickListener() {
-            event.optionalDays?.clear()
+            event.optionalDays.clear()
             btnMon.isChecked = false
             btnMon.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
             btnTue.isChecked = false
@@ -166,13 +168,12 @@ class AddEventSelectDate:AppCompatActivity() {
             btnFri.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
             btnSat.isChecked = false
             btnSat.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
+            btnSun.isChecked = false
+            btnSun.setBackgroundDrawable(getDrawable(R.drawable.button_stroke))
 
             if (startTimeCheck && endTimeCheck) {
                 val nextIntent = Intent(this@AddEventSelectDate, AddEventChooseDates::class.java)
                 startActivity(nextIntent)
-                // TODO Implement an update the button
-                // TODO fix scrollview
-
             } else {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
@@ -181,6 +182,11 @@ class AddEventSelectDate:AppCompatActivity() {
                     "Insert start and end time first",
                     Toast.LENGTH_SHORT
                 ).show()
+            }
+
+            if(event.useSpecificDate){
+                val temp = getString(R.string.choose_specfic_days) + " (selected)"
+                btnChooseSpecificDate.setText(temp)
             }
         }
 
@@ -222,9 +228,6 @@ class AddEventSelectDate:AppCompatActivity() {
                 this@AddEventSelectDate,
                 AddEventMainActivity::class.java
             )
-            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
             startActivity(launchNextActivity)
             finish()
         }
@@ -269,7 +272,13 @@ class AddEventSelectDate:AppCompatActivity() {
             .setTitle("Discard Event?")
             .setMessage("Are you sure you want to discard your work?")
             .setPositiveButton("Discard") { dialog, which ->
-                finish()
+                val launchNextActivity: Intent = Intent(
+                    this@AddEventSelectDate,
+                    MainActivity::class.java
+                )
+                launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(launchNextActivity)
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, which ->

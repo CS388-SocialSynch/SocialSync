@@ -3,6 +3,7 @@ package com.cs388.socialsync
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
+import android.security.identity.CipherSuiteNotSupportedException
 import android.util.Log
 import android.view.View
 import android.view.ViewGroup
@@ -61,19 +62,19 @@ class AddEventChooseDates: AppCompatActivity() {
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
         val btnBack = findViewById<AppCompatButton>(R.id.btnBack)
 
-        val event = Obj.event
         adapter.onLongClick = {
             eventList.remove(it)
             adapter.notifyDataSetChanged()
         }
 
         btnFinish.setOnClickListener(){
-            event.useSpecificDate=true
-            event.optionalDates.clear()
+            Obj.event.useSpecificDate=true
+            Obj.event.optionalDates.clear()
 
             eventList.forEach {
-                event.optionalDates.add(it.format(DateTimeFormatter.ISO_LOCAL_DATE).toString())
+                Obj.event.optionalDates.add(it.format(DateTimeFormatter.ISO_LOCAL_DATE).toString())
             }
+            startActivity(Intent(this@AddEventChooseDates, AddEventSelectDate::class.java))
             finish()
         }
         btnBack.setOnClickListener(){
