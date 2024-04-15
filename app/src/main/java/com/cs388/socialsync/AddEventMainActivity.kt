@@ -159,7 +159,6 @@ class AddEventMainActivity: AppCompatActivity() {
                     launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
                     startActivity(launchNextActivity)
                     dialog.dismiss()
-                    dialog.dismiss()
                 }
                 .setNegativeButton("Cancel") { dialog, which ->
                     dialog.cancel()

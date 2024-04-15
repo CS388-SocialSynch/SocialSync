@@ -56,7 +56,13 @@ class AddEventFinished : AppCompatActivity() {
             Obj.addEventToDatabase(event, listener)
 
             btnFinish.setOnClickListener() {
-                finish()
+                val launchNextActivity: Intent = Intent(
+                    this@AddEventFinished,
+                    MainActivity::class.java
+                )
+                launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                startActivity(launchNextActivity)
             }
 
         }
