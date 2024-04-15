@@ -265,6 +265,39 @@ object Obj {
 
     }
 
+    fun updateEventOnDatabase(
+        event: Event,
+        eventID: String,
+        listener: SetOnDuplicateEventCheckListener,
+        flag: Boolean = false
+    ) {
+        val eventFetchListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var flag = 0
+                var storedKey = ""
+                for (eventObj in dataSnapshot.children) {
+                    if (eventObj.child("eventName").value.toString() == event.eventName) {
+                        storedKey = eventObj.key.toString()
+                        flag++
+                        break;
+                    }
+                }
+                if (flag != 0) {
+                    listener.onDuplicateEvent()
+                    addEventToUser(storedKey)
+                } else {
+                    EVENTS_DB.child(eventID).setValue(event)
+                    listener.onEventAdded(eventID)
+                    addEventToUser(eventID)
+                }
+                EVENTS_DB.removeEventListener(this)
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        EVENTS_DB.addValueEventListener(eventFetchListener)
+    }
+
     interface UserDataListener {
         fun onUserDataLoad(user: User)
     }

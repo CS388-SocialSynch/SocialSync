@@ -25,7 +25,7 @@ class AddEventFinished : AppCompatActivity() {
 
         val host = Obj.auth.currentUser!!.uid
         event.hostUID = host
-        event.participants.add(host)
+        event.joined.add(host)
 
         //TODO DELETE THIS **********
         Log.d("EVENT CREATE", event.toString())
