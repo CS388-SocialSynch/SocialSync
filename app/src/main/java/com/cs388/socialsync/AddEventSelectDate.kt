@@ -46,6 +46,7 @@ class AddEventSelectDate:AppCompatActivity() {
         var end: LocalTime = LocalTime.MAX
 
 
+
         // Preloading the events data
         var event = Obj.event
         event.let { details ->

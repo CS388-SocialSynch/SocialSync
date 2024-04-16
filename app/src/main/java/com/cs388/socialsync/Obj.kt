@@ -25,6 +25,7 @@ object Obj {
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
+    var updateEvent: String = ""
 
     interface SetOnEventFetchListener {
         fun onEventFetch(event : Event)
@@ -324,7 +325,8 @@ object Obj {
     fun addEventToDatabase(
         event: Event,
         listener: SetOnDuplicateEventCheckListener,
-        flag: Boolean = false
+        flag: Boolean = false,
+        customEvent: Boolean = false
     ) {
         val eventFetchListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -352,7 +354,7 @@ object Obj {
                     listener.onEventAdded(key)
                 }
 
-                if (!user.events.contains(storedKey)) {
+                if (!customEvent && !user.events.contains(storedKey)) {
                     addEventToUser(storedKey)
                 }
 
@@ -367,6 +369,38 @@ object Obj {
         EVENTS_DB.addListenerForSingleValueEvent(eventFetchListener)
     }
 
+    fun updateEventOnDatabase(
+        event: Event,
+        eventID: String,
+        listener: SetOnDuplicateEventCheckListener,
+        flag: Boolean = false
+    ) {
+        val eventFetchListener = object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                var flag = 0
+                var storedKey = ""
+                for (eventObj in dataSnapshot.children) {
+                    if (eventObj.child("eventName").value.toString() == event.eventName) {
+                        storedKey = eventObj.key.toString()
+                        flag++
+                        break;
+                    }
+                }
+                if (flag != 0) {
+                    listener.onDuplicateEvent()
+                    addEventToUser(storedKey)
+                } else {
+                    EVENTS_DB.child(eventID).setValue(event)
+                    listener.onEventAdded(eventID)
+                    addEventToUser(eventID)
+                }
+                EVENTS_DB.removeEventListener(this)
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        }
+        EVENTS_DB.addValueEventListener(eventFetchListener)
+    }
 
     interface UserDataListener {
         fun onUserDataLoad(user: User)
