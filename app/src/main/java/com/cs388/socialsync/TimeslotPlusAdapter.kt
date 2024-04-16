@@ -59,9 +59,11 @@ class TimeslotPlusAdapter(
 
             if (timeslot.isSelected) {
                 timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_selected)
+                timeslotButton.alpha = 1f
             } else {
                 // Revert to default background
                 timeslotButton.background =  ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_unselected)
+                timeslotButton.alpha= 0.5f
             }
         }
 
