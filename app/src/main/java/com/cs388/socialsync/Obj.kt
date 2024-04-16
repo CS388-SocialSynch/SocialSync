@@ -22,6 +22,8 @@ object Obj {
     lateinit var auth: FirebaseAuth
     lateinit var user: User
     lateinit var loggedUserID : String
+
+
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
@@ -289,6 +291,7 @@ object Obj {
             eventSnapshot.child("addressTown").value.toString(),
             eventSnapshot.child("addressState").value.toString(),
             eventSnapshot.child("addressCountry").value.toString(),
+            eventSnapshot.child("addressZipcode").value as Int,
             eventSnapshot.child("api").value as Boolean,
             joinedList,
             participantsList,
