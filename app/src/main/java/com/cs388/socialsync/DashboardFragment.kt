@@ -88,7 +88,6 @@ class DashboardFragment : Fragment() {
         setupTimeReceiver()
         setupCalendarView()
 
-
         val reg = Regex("^[0-9a-fA-F]{6}$")
 
         joinButton.setOnClickListener {
@@ -121,10 +120,7 @@ class DashboardFragment : Fragment() {
         addEventButton.setOnClickListener {
 
             Obj.event = Event()
-            Obj.event.eventName = "test"
-            Obj.event.optionStartTime = LocalTime.NOON.toString()
-            Obj.event.optionEndTime =
-                LocalTime.parse("05:30 PM", DateTimeFormatter.ofPattern("hh:mm a")).toString()
+            Obj.updateEvent = ""
             startActivity(Intent(context, AddEventMainActivity::class.java))
         }
 

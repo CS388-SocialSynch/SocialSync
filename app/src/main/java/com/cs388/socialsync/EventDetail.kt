@@ -187,6 +187,8 @@ class EventDetail : Fragment() {
 
         modifyTimeButton.setOnClickListener {
             val intent = Intent(requireContext(), ChooseTimeActivity::class.java)
+            Obj.event = event
+            Obj.updateEvent = event.eventCode
             startActivity(intent)
         }
 

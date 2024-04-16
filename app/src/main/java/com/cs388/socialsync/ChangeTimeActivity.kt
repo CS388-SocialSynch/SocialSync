@@ -1,5 +1,6 @@
 package com.cs388.socialsync
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
@@ -33,7 +34,8 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         settingsButton.setOnClickListener {
-            showToast("Open Ethan's Activity")
+            val intent = Intent(this@ChangeTimeActivity, AddEventMainActivity::class.java)
+            startActivity(intent)
         }
 
 

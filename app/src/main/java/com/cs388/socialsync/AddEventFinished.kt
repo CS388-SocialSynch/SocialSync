@@ -23,9 +23,10 @@ class AddEventFinished : AppCompatActivity() {
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
         val event = Obj.event
 
+        if(Obj.updateEvent == ""){
         val host = Obj.auth.currentUser!!.uid
         event.hostUID = host
-        event.participants.add(host)
+        event.joined.add(host)
 
         //TODO DELETE THIS **********
         Log.d("EVENT CREATE", event.toString())
@@ -51,19 +52,46 @@ class AddEventFinished : AppCompatActivity() {
                     var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip:ClipData = ClipData.newPlainText("Event Code", key)
                     event.eventCode = key
+                    Obj.addEventToUser(event.eventCode)
                 }
             }
-            Obj.addEventToDatabase(event, listener)
+            Obj.addEventToDatabase(event, listener, false,true)
 
-            btnFinish.setOnClickListener() {
-                val launchNextActivity: Intent = Intent(
+    }else{
+        Obj.updateEventOnDatabase(event, Obj.updateEvent, object: Obj.SetOnDuplicateEventCheckListener{
+            override fun onDuplicateEvent() {
+                Toast.makeText(
                     this@AddEventFinished,
-                    MainActivity::class.java
-                )
-                launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
-                startActivity(launchNextActivity)
+                    "Please change event name",
+                    Toast.LENGTH_SHORT
+                ).show()
+                val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
+                startActivity(nextIntent)
             }
 
+            override fun onEventAdded(key: String) {
+                Toast.makeText(
+                    this@AddEventFinished,
+                    "Event added to Database", //and key copied",
+                    Toast.LENGTH_SHORT
+                ).show()
+                code.setText(code.text.toString() + " " + key)
+//                var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+//                val clip:ClipData = ClipData.newPlainText("Event Code", key)
+                event.eventCode = key
+            }
+        })
+    }
+
+        btnFinish.setOnClickListener() {
+            val launchNextActivity: Intent = Intent(
+                this@AddEventFinished,
+                MainActivity::class.java
+            )
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(launchNextActivity)
         }
+
+    }
 }
