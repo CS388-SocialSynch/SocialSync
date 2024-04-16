@@ -6,10 +6,12 @@
     <string name="profile">Profile</string>
     <!-- Change Event Time-->
     <string name="change_time">Change Time</string>
+    <string name="choose_time">Choose Available Times</string>
+    <string name="save_time">Save Times</string>
     <string name="change_settings">Change Settings</string>
     <string name="set_event_time">Set Event Time</string>
     <string name="cancel_event">Cancel Event</string>
-    <string name="defaultProperties">"Start:\nEnd:\nJoin CODE: ----"</string>
+    <string name="defaultProperties">"Date:\nStart Time:\nEnd Time:\nJoin CODE: ----"</string>
     <string name="defaultDate">"XXX\n99"</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -45,5 +47,6 @@
     <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
     <string name="leaveEvent">Leave</string>
     <string name="attending">Attending?</string>
+    <string name="back">Back</string>
 
 </resources>

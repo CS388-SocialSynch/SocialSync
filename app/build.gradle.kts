@@ -50,11 +50,13 @@ android {
 dependencies {
 
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("com.google.firebase:firebase-firestore-ktx:24.11.1")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
     implementation("com.kizitonwose.calendar:view:2.5.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3")
     implementation("com.google.firebase:firebase-auth:22.3.1")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

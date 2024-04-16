@@ -2,6 +2,7 @@ package com.cs388.socialsync
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,9 +31,10 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
         var startStr = "null"
-        var endStr ="null"
-        if (currentItem.startTime != null && currentItem.startTime != "null"){
-            startStr = LocalTime.parse(currentItem.startTime, DateTimeFormatter.ISO_LOCAL_TIME).format(timeFormatter)
+        var endStr = "null"
+        if (currentItem.startTime != null && currentItem.startTime != "null") {
+            startStr = LocalTime.parse(currentItem.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
+                .format(timeFormatter)
         }
         if (currentItem.endTime != null && currentItem.endTime != "null") {
             endStr = LocalTime.parse(currentItem.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
@@ -51,22 +53,46 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         }
 
         var dateStr = "null"
-        if (currentItem.date != "" && currentItem.date != null){
-            dateStr=LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE).format(dateFormatter)
+        if (currentItem.date != "" && currentItem.date != null) {
+            dateStr = LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
+                .format(dateFormatter)
         }
-        holder.dateTextView.text =dateStr
-        "${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
+        holder.dateTextView.text = dateStr
+        //"${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
-        // Load weather image using Glide
-        val weatherIconResource = when (currentItem.weatherCondition) {
-            "cloudy" -> R.drawable.cloudy_icon
-            "sunny" -> R.drawable.sunny_icon
-            else -> R.drawable.default_icon
+        val weatherFetcher = WeatherFetcher()
+
+        val zipCode = currentItem.address
+        Log.d("zipcode", zipCode)
+        // Call fetchWeather method to fetch weather data
+        weatherFetcher.fetchWeather(zipCode) { weatherCondition, temperature, humidity, windSpeed, feelLike ->
+            // Update UI with fetched weather data
+            val weatherIconResource = when (weatherCondition) {
+                "Clear" -> R.drawable.sunny_icon
+                "Clouds", "Mist", "Haze", "Fog" -> R.drawable.cloudy_icon
+                "Rain", "Drizzle" -> R.drawable.rainy_icon
+                "Thunderstorm" -> R.drawable.stormy_icon
+                "Snow" -> R.drawable.snowy_icon
+                else -> R.drawable.default_icon
+            }
+            Log.d("humidity", humidity.toString())
+            Log.d("wind", windSpeed.toString())
+            Log.d("feelsLike", feelLike.toString())
+            currentItem.temperature = temperature
+            currentItem.weatherCondition = weatherCondition
+            currentItem.windSpeed = windSpeed
+            currentItem.humidity = humidity
+            currentItem.feelLike = feelLike
+            // Load weather image using Glide on the main thread
+            (holder.itemView.context as AppCompatActivity).runOnUiThread {
+                Glide.with(holder.itemView.context)
+                    .load(weatherIconResource)
+                    .into(holder.weatherImageView)
+
+                // Set temperature text on the main thread
+                "${temperature}°F".also { holder.temperatureTextView.text = it }
+            }
         }
-
-        Glide.with(holder.itemView.context)
-            .load(weatherIconResource)
-            .into(holder.weatherImageView)
     }
 
     override fun getItemCount() = eventList.size
@@ -85,7 +111,6 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
         override fun onClick(v: View?) {
             val event = eventList[absoluteAdapterPosition]
-
             // generate a new fragment and then switch
             val fragment = EventDetail()
             val bundle = Bundle()

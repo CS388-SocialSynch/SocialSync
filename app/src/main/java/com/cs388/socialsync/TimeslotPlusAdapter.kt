@@ -11,24 +11,27 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.time.temporal.ChronoUnit
 
-class TimeslotAdapter(
+
+class TimeslotPlusAdapter(
     private val context: Context,
     private val startTime: String,
     private val endTime: String,
     private val listener: OnTimeslotSelectionListener
-) : RecyclerView.Adapter<TimeslotAdapter.TimeslotViewHolder>()  {
+) : RecyclerView.Adapter<TimeslotPlusAdapter.TimeslotViewHolder>()  {
 
-    private val timeslots: List<String> = genTimeslots(startTime, endTime)
-    private val lastClickedPositions = mutableListOf<Int>()
-    override fun onBindViewHolder(holder: TimeslotAdapter.TimeslotViewHolder, position: Int) {
+    data class Timeslot(val time: String, var isSelected: Boolean)
+
+    private val timeslots: List<Timeslot> = genTimeslots(startTime, endTime).map{Timeslot(it, isSelected = false)}
+
+    override fun onBindViewHolder(holder: TimeslotPlusAdapter.TimeslotViewHolder, position: Int) {
         holder.bind(timeslots[position],position)
     }
 
     override fun getItemCount(): Int = timeslots.size
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeslotAdapter.TimeslotViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TimeslotPlusAdapter.TimeslotViewHolder {
         return TimeslotViewHolder(
             LayoutInflater.from(parent.context)
-            .inflate(R.layout.timeslot_item, parent, false))
+                .inflate(R.layout.timeslot_item, parent, false))
     }
 
 
@@ -37,41 +40,30 @@ class TimeslotAdapter(
 
         private val timeslotButton: Button = itemView.findViewById(R.id.timeslotButton)
         init {
-           timeslotButton.setOnClickListener {
+            timeslotButton.setOnClickListener {
 
-               val position = absoluteAdapterPosition
-               val time = timeslots[position]
-               //Toast.makeText(itemView.context, "$time : ${lastClickedPositions.joinToString()}", Toast.LENGTH_SHORT).show()
+                val position = absoluteAdapterPosition
+                val time = timeslots[position]
+                //Toast.makeText(itemView.context, "$time : ${lastClickedPositions.joinToString()}", Toast.LENGTH_SHORT).show()
+                time.isSelected = !time.isSelected
 
-               if (lastClickedPositions.contains(position)) {
-                   lastClickedPositions.remove(position)
-               } else {
-                   if (lastClickedPositions.size >= 2) {
-                       lastClickedPositions.removeAt(0)
-                   }
-                   lastClickedPositions.add(position)
+                // Notify the adapter to refresh items. This is a simple but not the most efficient way.
+                notifyItemChanged(position)
+                updateSelectedCount()
 
-               }
-
-               // Notify the adapter to refresh items. This is a simple but not the most efficient way.
-               notifyDataSetChanged()
-               updateSelectedCount()
-
-           }
+            }
 
         }
-        fun bind(time: String, position: Int) {
-            timeslotButton.text = time
+        fun bind(timeslot: Timeslot, position: Int) {
+            timeslotButton.text = timeslot.time
 
-            if (lastClickedPositions.contains(position)) {
+            if (timeslot.isSelected) {
                 timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_selected)
+                timeslotButton.alpha = 1f
             } else {
                 // Revert to default background
                 timeslotButton.background =  ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_unselected)
-            }
-
-            if (lastClickedPositions.size >= 2){
-
+                timeslotButton.alpha= 0.5f
             }
         }
 
@@ -96,10 +88,9 @@ class TimeslotAdapter(
     }
 
     private fun updateSelectedCount() {
-        val times =  mutableListOf<String>()
-        for(pos in lastClickedPositions){
-            times.add(timeslots[pos])
-        }
+        val times: List<String> = timeslots
+            .filter { it.isSelected }
+            .map { it.time }
         listener.onTimeslotsSelected(times)
     }
 }
