@@ -25,6 +25,7 @@ object Obj {
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
+    var updateEvent: String = ""
 
     interface SetOnEventFetchListener {
         fun onEventFetch(event : Event)
@@ -324,7 +325,8 @@ object Obj {
     fun addEventToDatabase(
         event: Event,
         listener: SetOnDuplicateEventCheckListener,
-        flag: Boolean = false
+        flag: Boolean = false,
+        customEvent: Boolean = false
     ) {
         val eventFetchListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
@@ -352,7 +354,7 @@ object Obj {
                     listener.onEventAdded(key)
                 }
 
-                if (!user.events.contains(storedKey)) {
+                if (!customEvent && !user.events.contains(storedKey)) {
                     addEventToUser(storedKey)
                 }
 

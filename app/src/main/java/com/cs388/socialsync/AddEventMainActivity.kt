@@ -136,9 +136,9 @@ class AddEventMainActivity: AppCompatActivity() {
 
             if (validationCheck && addressCheck) {
                 val intent = Intent(this, AddEventSelectDate::class.java)
-                val bundle = Bundle()
-                bundle.putSerializable(EVENT_ITEM, event)
-                intent.putExtra("eventInfo", bundle)
+//                val bundle = Bundle()
+//                bundle.putSerializable(EVENT_ITEM, event)
+//                intent.putExtra("eventInfo", bundle)
                 startActivity(intent)
                 finish()
             }
