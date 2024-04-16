@@ -54,12 +54,12 @@ class DashboardFragment : Fragment() {
     private var selectedDate: LocalDate? = null
 
     // Event list
-    //private val eventList: MutableList<Event> = mutableListOf()
+    private val eventList: MutableList<Event> = mutableListOf()
 
     // Days of week
     private val daysOfWeek = daysOfWeek()
 
-    var eventList: MutableList<Event> = mutableListOf()
+    //var eventList: MutableList<Event> = mutableListOf()
 
 
     override fun onResume() {
@@ -69,10 +69,11 @@ class DashboardFragment : Fragment() {
         Obj.loadEvents(object : Obj.SetOnLoadEventListener {
             override fun onDataLoad() {
 
-                Log.e("CUTOM---->", "onDataLoad")
+                Log.d("CUTOM---->", "onDataLoad")
 
                 eventList.clear()
                 eventList.addAll(Obj.eventList)
+                Log.d("event list", eventList.toString())
                 eventAdapter.notifyDataSetChanged()
             }
         })

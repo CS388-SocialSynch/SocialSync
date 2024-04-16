@@ -54,7 +54,7 @@
             android:layout_height="40dp"
             android:scaleType="fitCenter"
             android:layout_gravity="end"
-            android:src="@drawable/add_event_icon"/>
+            android:src="@drawable/default_icon"/>
 
         <TextView
             android:id="@+id/temperatureTextView"
@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
             style="@style/small"
-            android:text="Temperature"/>
+            android:text="Loading..."/>
 
     </LinearLayout>
 

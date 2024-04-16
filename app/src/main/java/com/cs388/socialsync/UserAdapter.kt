@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide
 
 class UserAdapter(
     private val context: Context,
-    private val users: ArrayList<Obj.User>
+    private val users: MutableList<User>
 ) : RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -28,18 +28,16 @@ class UserAdapter(
 
     inner class UserViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
         private val userNameTextView: TextView = itemView.findViewById(R.id.nameUserItem)
-        private val profileImageView: ImageView = itemView.findViewById(R.id.profilePic)
         private val attendingImageView: ImageView = itemView.findViewById(R.id.attending)
 
         init {
             itemView.setOnClickListener(this)
         }
 
-        fun bind(user: Obj.User) {
-            userNameTextView.text = user.displayName
+        fun bind(user: User) {
+            userNameTextView.text = user.name
 
-            TODO("EDIT TO ACCOMODATE FOR UID AND ATTENDING LIST")
-            val attendingIconResource = when (true) {
+            val attendingIconResource = when (user.attending) {
                 true -> R.drawable.check_icon
                 false -> R.drawable.x_icon
             }
@@ -50,7 +48,7 @@ class UserAdapter(
 
         override fun onClick(v: View?) {
             val user = users[absoluteAdapterPosition]
-            Toast.makeText(context, "You clicked on ${user.displayName}!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "You clicked on ${user.name}!", Toast.LENGTH_SHORT).show()
         }
     }
 }

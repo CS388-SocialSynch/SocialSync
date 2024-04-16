@@ -4,5 +4,5 @@ import java.io.Serializable
 
 data class User(
     val name: String,
-    val attending: Boolean,
+    var attending: Boolean,
 ) : Serializable

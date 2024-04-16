@@ -2,6 +2,7 @@ package com.cs388.socialsync
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
@@ -43,17 +48,23 @@ class EventDetail : Fragment() {
     // Adapters
     private lateinit var userAdapterIncoming: UserAdapter
 
+    // Users
+    private var users: MutableList<User> = mutableListOf()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
+        // Get event details
+        val event = arguments?.getSerializable(EVENT_ITEM) as? Event
+        val isCurrentUserAttending = event?.participants?.contains(Obj.loggedUserID)
 
         // Initialize views
         initViews(view)
-
-        // Get event details
-        val event = arguments?.getSerializable(EVENT_ITEM) as? Event
+        if (isCurrentUserAttending != null) {
+            attendSwitch.isChecked = isCurrentUserAttending
+        }
 
 
         Obj.addEventToDatabase(event!!, object : Obj.SetOnDuplicateEventCheckListener {
@@ -71,10 +82,11 @@ class EventDetail : Fragment() {
 
         // Initialize adapters and set listeners
         if (event != null) {
-            initAdapters(event)
+            if (!event.isPublic) {
+                initAdapters(event)
+            }
             setListeners(event)
         }
-
         // Display event details
         displayEventDetails(event)
 
@@ -127,20 +139,50 @@ class EventDetail : Fragment() {
     }
 
     private fun initAdapters(event: Event) {
-        // TODO update to utilize the Obj.User class
-//        event?.let {
-//            userAdapterIncoming = UserAdapter(requireContext(), it.participants)
-//            incomingRecyclerView.apply {
-//                layoutManager = LinearLayoutManager(requireContext())
-//                adapter = userAdapterIncoming
-//            }
-//        }
-    }
+        var fetchCount = 0
 
+        if (event.joined.isEmpty()) {
+            userAdapterIncoming = UserAdapter(requireContext(), users)
+            incomingRecyclerView.apply {
+                layoutManager = LinearLayoutManager(requireContext())
+                adapter = userAdapterIncoming
+            }
+        } else {
+            event.joined.forEach { uid ->
+                Obj.fetchParticipantData(uid) { userName ->
+                    val isAttending = event.participants.contains(uid)
+                    val user = User(userName, isAttending)
+                    users.add(user)
+
+                    fetchCount++
+
+                    if (fetchCount == event.joined.size) {
+                        userAdapterIncoming = UserAdapter(requireContext(), users)
+                        incomingRecyclerView.apply {
+                            layoutManager = LinearLayoutManager(requireContext())
+                            adapter = userAdapterIncoming
+                        }
+                    }
+                }
+            }
+        }
+    }
     private fun setListeners(event: Event) {
 
-        attendSwitch.setOnClickListener {
-            Toast.makeText(context, attendSwitch.isChecked.toString(), Toast.LENGTH_SHORT).show()
+        attendSwitch.setOnCheckedChangeListener { _, isChecked ->
+            CoroutineScope(Dispatchers.IO).launch {
+                // Perform the database update
+                Obj.updateUserAttendanceInEvent(event.eventCode, Obj.loggedUserID, isChecked)
+
+                // Update the UI on the main thread
+                withContext(Dispatchers.Main) {
+                    val currentUser = users.find { it.name == Obj.user.displayName }
+                    currentUser?.let {
+                        currentUser.attending = isChecked
+                        userAdapterIncoming.notifyItemChanged(users.indexOf(currentUser))
+                    }
+                }
+            }
         }
 
         modifyTimeButton.setOnClickListener {
@@ -149,9 +191,11 @@ class EventDetail : Fragment() {
 
         leaveButton.setOnClickListener {
             Toast.makeText(context, "Why leave :(", Toast.LENGTH_SHORT).show()
-            Obj.removeUserFromEventAndParticipants(event.eventCode)
-
+            Obj.user.events.remove(event.eventCode)
+            Obj.removeUserFromEventAndParticipants(event, Obj.loggedUserID)
+            fragmentManager?.popBackStack()
         }
+
 
 
         modifyEventButton.setOnClickListener {
@@ -171,9 +215,10 @@ class EventDetail : Fragment() {
         event?.let { details ->
             eventDetailView.text = details.eventName
             var startStr = "null"
-            var endStr ="null"
-            if (details.startTime != null && details.startTime != "null"){
-                startStr = LocalTime.parse(details.startTime, DateTimeFormatter.ISO_LOCAL_TIME).format(timeFormatter)
+            var endStr = "null"
+            if (details.startTime != null && details.startTime != "null") {
+                startStr = LocalTime.parse(details.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
+                    .format(timeFormatter)
             }
             if (details.endTime != null && details.endTime != "null") {
                 endStr = LocalTime.parse(details.endTime, DateTimeFormatter.ISO_LOCAL_TIME)
@@ -192,21 +237,28 @@ class EventDetail : Fragment() {
 
 
             var dateStr = "null"
-            if (details.date != "" && details.date != null){
-                dateStr= LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE).format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+            if (details.date != "" && details.date != null) {
+                dateStr = LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE)
+                    .format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
             }
 
             dateDetailView.text = dateStr
             locationDetailView.text = details.locationName
-            if(details.address == ""){
+            if (details.address == "") {
                 addressDetailView.text = details.getCombinedAddress()
-            }else {
+            } else {
                 addressDetailView.text = details.address
             }
+            "Feels like: ${details.feelLike.toString()}°F".also { feelLikeTextView.text = it }
+            "Humidity: ${details.humidity.toString()}%".also { humidityTextView.text = it }
+            "Wind: ${details.windSpeed.toString()} mph".also { windTextView.text = it }
             // Load weather icon using Glide
             val weatherIconResId = when (details.weatherCondition) {
-                "cloudy" -> R.drawable.cloudy_icon
-                "sunny" -> R.drawable.sunny_icon
+                "Clear" -> R.drawable.sunny_icon
+                "Clouds", "Mist", "Haze", "Fog" -> R.drawable.cloudy_icon
+                "Rain", "Drizzle" -> R.drawable.rainy_icon
+                "Thunderstorm" -> R.drawable.stormy_icon
+                "Snow" -> R.drawable.snowy_icon
                 else -> R.drawable.default_icon
             }
             Glide.with(this).load(weatherIconResId).into(weatherIconDetailView)
