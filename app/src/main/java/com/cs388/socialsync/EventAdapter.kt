@@ -60,12 +60,10 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         holder.dateTextView.text = dateStr
         //"${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
-        // Load weather image using Glide
         val weatherFetcher = WeatherFetcher()
 
-        // Example zip code
-        val zipCode = "07026" // Replace with the actual zip code from event.address
-
+        val zipCode = currentItem.address
+        Log.d("zipcode", zipCode)
         // Call fetchWeather method to fetch weather data
         weatherFetcher.fetchWeather(zipCode) { weatherCondition, temperature, humidity, windSpeed, feelLike ->
             // Update UI with fetched weather data
