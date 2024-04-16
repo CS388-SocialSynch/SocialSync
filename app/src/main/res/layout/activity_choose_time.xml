@@ -45,11 +45,22 @@
         android:layout_marginBottom="5dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
-        style="@style/appButton"
+        style="@style/appButtonInvalid"
         android:id="@+id/saveTimesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/save_time"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/appButton"
+        android:id="@+id/chooseTimeBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
         android:textColor="@color/black"
         android:layout_gravity="center"
         android:textSize="17sp"

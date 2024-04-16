@@ -47,5 +47,6 @@
     <string name="default_web_client_id">528899061837-9k3r3d9bs4hcjugio51kkub1mdvech27.apps.googleusercontent.com</string>
     <string name="leaveEvent">Leave</string>
     <string name="attending">Attending?</string>
+    <string name="back">Back</string>
 
 </resources>
