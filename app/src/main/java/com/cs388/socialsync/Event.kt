@@ -1,16 +1,18 @@
 package com.cs388.socialsync
 
 import java.io.Serializable
-import java.time.LocalDate
-import java.time.LocalTime
+
 
 data class Event(
     var eventName: String = "",
     var startTime: String? = null,
     var endTime: String? = null,
     var date: String = "",
-    var temperature: Long? = null, // in F degrees
+    var temperature: Int? = null, // in F degrees
     var weatherCondition: String? = null,
+    var feelLike: Int? = null,
+    var humidity: Int? = null,
+    var windSpeed: Int? = null,
     var locationName: String? = null, // *** redundant should be deleted
     var address: String = "", // *** should be location
     var isPublic: Boolean = false, // lets people from outside invite to see the event in the events section
