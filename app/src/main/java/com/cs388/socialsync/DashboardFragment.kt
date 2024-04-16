@@ -153,7 +153,7 @@ class DashboardFragment : Fragment() {
         eventAdapter = EventAdapter(requireContext(), eventList)
         eventsRecyclerView.adapter = eventAdapter
 
-        Log.e("CUSTOM0000>", Obj.user.events.toString())
+        //Log.e("CUSTOM0000>", Obj.user.events.toString())
     }
 
     private fun setupTimeReceiver() {

@@ -21,16 +21,16 @@ object Obj {
     lateinit var EVENTS_DB: DatabaseReference
     lateinit var auth: FirebaseAuth
     lateinit var user: User
-    lateinit var loggedUserID : String
+    lateinit var loggedUserID: String
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
 
     interface SetOnEventFetchListener {
-        fun onEventFetch(event : Event)
+        fun onEventFetch(event: Event)
     }
 
-    fun fetchEventUsingCode(code: String,  listener:SetOnEventFetchListener) {
+    fun fetchEventUsingCode(code: String, listener: SetOnEventFetchListener) {
         val eventDb = EVENTS_DB.child(code)
         val dbListener = object : ValueEventListener {
             override fun onDataChange(eventSnapshot: DataSnapshot) {
@@ -106,6 +106,7 @@ object Obj {
 
             val lis = object : ValueEventListener {
                 override fun onDataChange(eventSnapshot: DataSnapshot) {
+
                     val event = createEventFromSnapshot(eventSnapshot)
                     eventList.add(event)
                     //updateEventParticipants(event, eventSnapshot)
@@ -214,7 +215,8 @@ object Obj {
         val eventParticipantsRef = EVENTS_DB.child(eventCode).child("participants")
         eventParticipantsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val participants = dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
+                val participants =
+                    dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
                 participants?.let {
                     val updatedParticipants = it.toMutableList()
                     if (addParticipant) {
@@ -262,6 +264,10 @@ object Obj {
             joinedList.add(joined.value.toString())
         }
 
+        for (aa in eventSnapshot.children) {
+            Log.e("CUSTOM====>", aa.key.toString() + "     " + aa.value)
+
+        }
 
         val event = Event(
             eventSnapshot.child("eventName").value.toString(),
@@ -288,6 +294,7 @@ object Obj {
             eventSnapshot.child("addressTown").value.toString(),
             eventSnapshot.child("addressState").value.toString(),
             eventSnapshot.child("addressCountry").value.toString(),
+            eventSnapshot.child("addressZipcode").value.toString(),
             eventSnapshot.child("api").value as Boolean,
             joinedList,
             participantsList,
@@ -330,6 +337,7 @@ object Obj {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var isDuplicate = false
                 var storedKey = ""
+                Log.e("Event in add event to db", event.toString());
 
                 // Check if the event already exists in the database
                 for (eventObj in dataSnapshot.children) {
@@ -347,14 +355,18 @@ object Obj {
                 } else {
                     // If it's not a duplicate, generate a unique key and add the event to the database
                     val key = getUniqueCode()
+                    Log.e("ERROR----> key", key)
+
                     event.eventCode = key
                     EVENTS_DB.child(key).setValue(event)
                     listener.onEventAdded(key)
+                    storedKey = key
                 }
 
-                if (!user.events.contains(storedKey)) {
-                    addEventToUser(storedKey)
-                }
+                Log.e("ERROR----> storedKey", storedKey)
+//                if (!user.events.contains(storedKey)) {
+                addEventToUser(storedKey)
+//                }
 
                 // Remove the ValueEventListener to prevent memory leaks
                 EVENTS_DB.removeEventListener(this)
