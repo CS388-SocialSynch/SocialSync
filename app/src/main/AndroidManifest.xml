@@ -28,6 +28,9 @@
         <activity
             android:name=".ChangeTimeActivity"
             android:exported="true" />
+        <activity
+            android:name=".ChooseTimeActivity"
+            android:exported="true" />
 
         <activity android:name=".AddEventMainActivity"
             android:exported="false"/>

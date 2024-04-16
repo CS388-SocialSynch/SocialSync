@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/prim1"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/chooseTimeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/choose_time"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.029"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.004" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chooseDateRecyclerView"
+        android:layout_width="match_parent"
+        tools:listitem="@layout/date_item"
+        android:orientation="horizontal"
+        android:layout_height="90sp"
+        android:layout_marginBottom="5dp"/>
+
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/chooseTimeslotsRecyclerView"
+        android:layout_width="407dp"
+        android:layout_height="500dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/changeSettingsButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0"
+        tools:listitem="@layout/timeslot_item"
+        android:layout_marginBottom="5dp"/>
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/appButtonInvalid"
+        android:id="@+id/saveTimesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_time"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+        />
+
+    <androidx.appcompat.widget.AppCompatButton
+        style="@style/appButton"
+        android:id="@+id/chooseTimeBackButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/back"
+        android:textColor="@color/black"
+        android:layout_gravity="center"
+        android:textSize="17sp"
+        android:layout_marginBottom="5dp"
+        />
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+
+
+

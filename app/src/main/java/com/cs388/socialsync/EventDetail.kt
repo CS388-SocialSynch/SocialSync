@@ -186,7 +186,8 @@ class EventDetail : Fragment() {
         }
 
         modifyTimeButton.setOnClickListener {
-            Toast.makeText(context, "You clicked on modify time", Toast.LENGTH_SHORT).show()
+            val intent = Intent(requireContext(), ChooseTimeActivity::class.java)
+            startActivity(intent)
         }
 
         leaveButton.setOnClickListener {
