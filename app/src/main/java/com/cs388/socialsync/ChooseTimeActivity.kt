@@ -2,22 +2,18 @@ package com.cs388.socialsync
 
 import android.os.Bundle
 import android.widget.Button
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
-import java.time.LocalDate
-import java.time.format.DateTimeFormatter
 
 class ChooseTimeActivity: ChXXXeTimeActivity()  {
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_time)
-
         val showDates: Boolean = true //Get this from database
-
+        startTime = "OOF"
         val chooseDatesRecyclerView = findViewById<RecyclerView>(R.id.chooseDateRecyclerView)
         chooseDatesRecyclerView.layoutManager=
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
@@ -26,7 +22,7 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
 
         val chooseTimeslotRecyclerView = findViewById<RecyclerView>(R.id.chooseTimeslotsRecyclerView)
         chooseTimeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        timeslotAdapter = TimeslotAdapter(this, "8:00 AM", "11:00 AM",this)
+        val timeslotAdapter = TimeslotPlusAdapter(this, "8:00 AM", "11:00 AM",this)
         chooseTimeslotRecyclerView.adapter = timeslotAdapter
 
         toggleButton = findViewById<Button>(R.id.saveTimesButton)
@@ -43,5 +39,11 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
         backButton.setOnClickListener {
             finish()
         }
+    }
+
+    override fun onTimeslotsSelected(selectedTimeslots: List<String>) {
+        if ( date != null) {
+                enableButton(toggleButton)
+        } else { disableButton(toggleButton) }
     }
 }

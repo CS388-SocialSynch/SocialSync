@@ -10,12 +10,14 @@ import java.time.format.DateTimeFormatter
 
 open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener, OnDateSelectionListener {
 
-    protected lateinit var timeslotAdapter: TimeslotAdapter
+
     protected lateinit var dateAdapter: DateAdapter
     protected lateinit var toggleButton: Button
     protected var startTime: String? = null
     protected var endTime: String? = null
     protected var date: String? = null
+    var minTimes: Int = 2
+    var maxTimes: Int = 2
     protected fun enableButton(button: Button){
         button.setBackgroundResource(R.drawable.button_normal)
         button.setTextColor(ContextCompat.getColor(this, R.color.black))
@@ -35,9 +37,9 @@ open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener,
         } else {disableButton(toggleButton)}
     }
 
-    override fun onTimeslotsSelected(selectedTimeslots: MutableList<String>) {
+    override fun onTimeslotsSelected(selectedTimeslots: List<String>) {
 
-        if (selectedTimeslots.size == 2) {
+        if (selectedTimeslots.size == 2 ) {
             //showToast(selectedTimeslots[0]+" "+selectedTimeslots[1])
             if(date != null){
                 enableButton(toggleButton)
@@ -55,7 +57,6 @@ open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener,
                 endTime = selectedTimeslots[0]
             }
         } else { disableButton(toggleButton) }
-
     }
 
     protected fun genDates(startDate: String, endDate: String): List<String> {

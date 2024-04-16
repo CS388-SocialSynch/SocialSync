@@ -1,27 +1,19 @@
 package com.cs388.socialsync
 
-import android.graphics.PorterDuff
 import android.os.Bundle
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
-import java.util.Date
 
 class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, OnDateSelectionListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_time)
-
         val showDates: Boolean = true
         val settingsButton = findViewById<Button>(R.id.changeSettingsButton)
         toggleButton = findViewById<Button>(R.id.setTimeButton)
@@ -35,7 +27,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
         val timeslotRecyclerView = findViewById<RecyclerView>(R.id.timeslotsRecyclerView)
         timeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        timeslotAdapter = TimeslotAdapter(this, "8:00 AM", "11:00 AM",this)
+        val timeslotAdapter = TimeslotAdapter(this, "8:00 AM", "11:00 AM",this)
         timeslotRecyclerView.adapter = timeslotAdapter
 
 
@@ -57,6 +49,8 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                 propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ---"
             }
         }
+
+
 
 
 
