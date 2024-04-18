@@ -37,7 +37,7 @@ class AddEventSelectDate:AppCompatActivity() {
         val startTimeEdit = findViewById<EditText>(R.id.startTime)
         val endTimeEdit = findViewById<EditText>(R.id.endTime)
 
-        val timeMatch = Regex("^((0[0-9])|(1[0-2])):((00)|(15)|(30)|(45))\\s((AM)|(am)|(PM)|(pm))$")
+        val timeMatch = Regex("^((0[0-9])|(1[0-2])):((00)|(15)|(30)|(45))\\s((AM)|(PM))$")
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
 
         var startTimeCheck = false
