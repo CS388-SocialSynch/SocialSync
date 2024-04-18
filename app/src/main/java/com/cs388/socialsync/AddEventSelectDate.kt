@@ -128,7 +128,7 @@ class AddEventSelectDate:AppCompatActivity() {
             if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeCheck = false
-            } else {
+            } else if (startTimeCheck) {
                 end = LocalTime.parse(endTimeEdit.text.toString(), timeFormatter)
                 if (end.compareTo(start) > 0) {
                     endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
@@ -141,6 +141,12 @@ class AddEventSelectDate:AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            } else{
+                Toast.makeText(
+                    applicationContext,
+                    "Make sure start time is valid",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

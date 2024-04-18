@@ -120,6 +120,7 @@ class DashboardFragment : Fragment() {
 
         addEventButton.setOnClickListener {
             Obj.event = Event()
+            Obj.event.addressZipcode = ""
             startActivity(Intent(context, AddEventMainActivity::class.java))
         }
 
