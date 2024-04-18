@@ -120,7 +120,6 @@ class DashboardFragment : Fragment() {
 
         addEventButton.setOnClickListener {
             Obj.event = Event()
-            Obj.updateEvent = ""
             startActivity(Intent(context, AddEventMainActivity::class.java))
         }
 

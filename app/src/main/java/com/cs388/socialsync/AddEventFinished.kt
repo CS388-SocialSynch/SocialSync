@@ -23,7 +23,7 @@ class AddEventFinished : AppCompatActivity() {
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
         val event = Obj.event
 
-        if(Obj.updateEvent == ""){
+        if(Obj.event.eventCode == ""){
             val host = Obj.auth.currentUser!!.uid
             event.hostUID = host
             event.joined.add(host)
@@ -57,7 +57,7 @@ class AddEventFinished : AppCompatActivity() {
                 }
                 Obj.addEventToDatabase(event, listener, false,true)
         }else{
-
+            Log.d("UPDATE TAG", "onCreate: " + event.eventCode + " " + Obj.updateEventOldName)
             Obj.updateEventOnDatabase(event, event.eventCode, Obj.updateEventOldName, object: Obj.SetOnDuplicateEventCheckListener{
                 override fun onDuplicateEvent() {
                     Toast.makeText(
@@ -72,7 +72,7 @@ class AddEventFinished : AppCompatActivity() {
                 override fun onEventAdded(key: String) {
                     Toast.makeText(
                         this@AddEventFinished,
-                        "Event added to Database", //and key copied",
+                        "Event added to Database and key copied",
                         Toast.LENGTH_SHORT
                     ).show()
                     code.setText(code.text.toString() + " " + key)

@@ -25,7 +25,6 @@ object Obj {
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
-    var updateEvent: String = ""
     var updateEventOldName: String = ""
 
     interface SetOnEventFetchListener {

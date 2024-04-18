@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatToggleButton
 import androidx.core.widget.doAfterTextChanged
+import com.kizitonwose.calendar.core.daysOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -44,6 +45,9 @@ class AddEventSelectDate:AppCompatActivity() {
 
         var start: LocalTime = LocalTime.MIDNIGHT
         var end: LocalTime = LocalTime.MAX
+
+        val toggleBtns = arrayOf(btnMon,btnTue,btnWed,btnThu,btnFri,btnSat,btnSun)
+        val fullWeek = arrayOf("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
 
 
         // Preloading the events data
@@ -89,9 +93,18 @@ class AddEventSelectDate:AppCompatActivity() {
                     }
                 }
             }
+
+
             if (details.useSpecificDate) {
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
+            }else if ( details.optionalDays.isNotEmpty() ){
+                // TODO FIX THE LOAD IN DAYS
+                details.optionalDays.forEach {
+                    val btn = toggleBtns[fullWeek.indexOf(it)]
+                    Log.d("OPTIONAL DAYS", btn.text.toString() + " " + fullWeek.indexOf(it))
+                    btn.isChecked = true
+                }
             }
 
         }

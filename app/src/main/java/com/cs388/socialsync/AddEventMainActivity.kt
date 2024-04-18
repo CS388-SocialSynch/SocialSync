@@ -41,7 +41,6 @@ class AddEventMainActivity: AppCompatActivity() {
         var validationCheck = false
         var addressCheck = true
         var zipCheck = false
-        var editEvent = (event.eventCode != "");
 
 
         // TODO DELETE *************
@@ -82,9 +81,6 @@ class AddEventMainActivity: AppCompatActivity() {
                 zipCheck = validateText(zipEdit,Regex("^\\d{5}$"))
             }
 
-            if(editEvent){
-                Obj.updateEventOldName = event.eventName
-            }
         }
 
         // Validate event name filled out
