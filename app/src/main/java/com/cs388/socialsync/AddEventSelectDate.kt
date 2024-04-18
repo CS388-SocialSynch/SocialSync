@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.AppCompatToggleButton
 import androidx.core.widget.doAfterTextChanged
+import com.kizitonwose.calendar.core.daysOfWeek
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
@@ -36,7 +37,7 @@ class AddEventSelectDate:AppCompatActivity() {
         val startTimeEdit = findViewById<EditText>(R.id.startTime)
         val endTimeEdit = findViewById<EditText>(R.id.endTime)
 
-        val timeMatch = Regex("^((0[0-9])|(1[0-2])):((00)|(15)|(30)|(45))\\s((AM)|(am)|(PM)|(pm))$")
+        val timeMatch = Regex("^((0[0-9])|(1[0-2])):((00)|(15)|(30)|(45))\\s((AM)|(PM))$")
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
 
         var startTimeCheck = false
@@ -45,6 +46,8 @@ class AddEventSelectDate:AppCompatActivity() {
         var start: LocalTime = LocalTime.MIDNIGHT
         var end: LocalTime = LocalTime.MAX
 
+        val toggleBtns = arrayOf(btnMon,btnTue,btnWed,btnThu,btnFri,btnSat,btnSun)
+        val fullWeek = arrayOf("MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN")
 
 
         // Preloading the events data
@@ -90,11 +93,19 @@ class AddEventSelectDate:AppCompatActivity() {
                     }
                 }
             }
+
+
             if (details.useSpecificDate) {
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
+            }else if ( details.optionalDays.isNotEmpty() ){
+                // TODO FIX THE LOAD IN DAYS
+                details.optionalDays.forEach {
+                    val btn = toggleBtns[fullWeek.indexOf(it)]
+                    Log.d("OPTIONAL DAYS", btn.text.toString() + " " + fullWeek.indexOf(it))
+                    btn.isChecked = true
+                }
             }
-
 
         }
 
@@ -117,7 +128,7 @@ class AddEventSelectDate:AppCompatActivity() {
             if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeCheck = false
-            } else {
+            } else if (startTimeCheck) {
                 end = LocalTime.parse(endTimeEdit.text.toString(), timeFormatter)
                 if (end.compareTo(start) > 0) {
                     endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
@@ -130,6 +141,12 @@ class AddEventSelectDate:AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
+            } else{
+                Toast.makeText(
+                    applicationContext,
+                    "Make sure start time is valid",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
 

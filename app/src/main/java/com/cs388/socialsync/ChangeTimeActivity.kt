@@ -2,6 +2,7 @@ package com.cs388.socialsync
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -21,6 +22,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val propTextView = findViewById<TextView>(R.id.eventPropertiesTextView)
 
+
         val datesRecyclerView = findViewById<RecyclerView>(R.id.dateRecyclerView)
         datesRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         dateAdapter = DateAdapter(this, genDates("2024-03-28", "2024-04-05"), this, showDates)
@@ -34,10 +36,10 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         settingsButton.setOnClickListener {
+//            Log.e("LETS TRY THIS", "CHECK " + Obj.event)
             val intent = Intent(this@ChangeTimeActivity, AddEventMainActivity::class.java)
             startActivity(intent)
         }
-
 
         //setEventButton.isEnabled = false
         //setEventButton.alpha = 0.5f

@@ -33,12 +33,14 @@ class AddEventMainActivity: AppCompatActivity() {
         val townEdit = findViewById<EditText>(R.id.eventTown)
         val stateEdit = findViewById<EditText>(R.id.eventState)
         val countryEdit = findViewById<EditText>(R.id.eventCountry)
+        val zipEdit = findViewById<EditText>(R.id.eventZip)
 
         val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
 
         val event = Obj.event
         var validationCheck = false
         var addressCheck = true
+        var zipCheck = false
 
 
         // TODO DELETE *************
@@ -68,11 +70,17 @@ class AddEventMainActivity: AppCompatActivity() {
             }
             if(details.addressState!= ""){
                 stateEdit.setText(details.addressState)
-                validateText(stateEdit,Regex("^\\w\\w$"))
+                addressCheck =validateText(stateEdit,Regex("^\\w\\w$"))
             }
             if(details.addressCountry!= ""){
                 countryEdit.setText(details.addressCountry)
+
             }
+            if(details.addressZipcode!= ""){
+                zipEdit.setText(details.addressZipcode)
+                zipCheck = validateText(zipEdit,Regex("^\\d{5}$"))
+            }
+
         }
 
         // Validate event name filled out
@@ -88,6 +96,10 @@ class AddEventMainActivity: AppCompatActivity() {
 
         stateEdit.doAfterTextChanged {
             addressCheck = validateText(stateEdit,Regex("^\\w\\w$"))
+        }
+
+        zipEdit.doAfterTextChanged {
+            zipCheck = validateText(zipEdit,Regex("^\\d{5}$"))
         }
 
         inPerson.setOnClickListener(){
@@ -111,12 +123,13 @@ class AddEventMainActivity: AppCompatActivity() {
                 event.showParticipants = showParticipants.isChecked
 
                 if(event.isInPerson){
-                    if(addressCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
+                    if(addressCheck && zipCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
                         addressCheck= true
                         event.addressStreet = streetEdit.text.toString()
                         event.addressTown = townEdit.text.toString()
                         event.addressState = stateEdit.text.toString()
                         event.addressCountry = countryEdit.text.toString()
+                        event.addressZipcode = zipEdit.text.toString()
                     }else{
                         Toast.makeText(applicationContext,"Please fill out address", Toast.LENGTH_SHORT).show()
                         addressCheck = false

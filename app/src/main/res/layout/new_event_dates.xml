@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="ex: 02:15 pm"
+            android:hint="ex: 02:15 PM"
             style="@style/EditTextbox"
             />
         <!-- end Time-->
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="ex: 10:15 pm"
+            android:hint="ex: 10:15 PM"
             style="@style/EditTextbox"
             />
 

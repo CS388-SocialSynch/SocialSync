@@ -89,6 +89,7 @@ class DashboardFragment : Fragment() {
         setupCalendarView()
 
         val reg = Regex("^[0-9a-fA-F]{6}$")
+        Obj.loggedUserID=Obj.auth.currentUser!!.uid
 
         joinButton.setOnClickListener {
             if(!(roomView.text.length == 6 && reg.containsMatchIn(roomView.text))){
@@ -118,9 +119,8 @@ class DashboardFragment : Fragment() {
         }
 
         addEventButton.setOnClickListener {
-
             Obj.event = Event()
-            Obj.updateEvent = ""
+            Obj.event.addressZipcode = ""
             startActivity(Intent(context, AddEventMainActivity::class.java))
         }
 
