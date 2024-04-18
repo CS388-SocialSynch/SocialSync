@@ -196,7 +196,7 @@ from the original requirements
 # Milestone 3 - Build Sprint 2 (Unit 9) 
 
 ## GitHub Project board
-<img src="YOUR_WIREFRAME_IMAGE_URL" width=600>
+<img src="./_other/M3-Work.png" width=600>
 
 ## Completed user stories
 
@@ -211,8 +211,8 @@ from the original requirements
 from the original requirements
 
 [Add video/gif of your current application that shows build progress]
-<img src="./_other/MS3-Work.png" width=600>
+
 
 ## App Demo Video
-
+[Video](https://www.youtube.com/watch?v=bvC49m5uj6Q)
 - Embed the YouTube/Vimeo link of your Completed Demo Day prep video
