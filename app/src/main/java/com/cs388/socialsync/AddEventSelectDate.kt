@@ -37,7 +37,7 @@ class AddEventSelectDate:AppCompatActivity() {
         val startTimeEdit = findViewById<EditText>(R.id.startTime)
         val endTimeEdit = findViewById<EditText>(R.id.endTime)
 
-        val timeMatch = Regex("^((0[0-9])|(1[0-2])):((00)|(15)|(30)|(45))\\s((AM)|(am)|(PM)|(pm))$")
+        val timeMatch = Regex("^((0[0-9])|(1[0-2])):((00)|(15)|(30)|(45))\\s((AM)|(PM))$")
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
 
         var startTimeCheck = false
@@ -60,13 +60,30 @@ class AddEventSelectDate:AppCompatActivity() {
                         DateTimeFormatter.ISO_LOCAL_TIME
                     ).format(timeFormatter).toString()
                 )
-                if (!timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
+                if (!timeMatch.containsMatchIn(startTimeEdit.text.toString()) && startTimeEdit.text.length == 8) {
                     startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                     startTimeCheck = false
-                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Make sure the format is like 00:00 PM and correct",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else if (!timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
+                    startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                    startTimeCheck = false
+                } else if (timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
                     startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
                     start = LocalTime.parse(startTimeEdit.text.toString(), timeFormatter)
                     startTimeCheck = true
+                    event.optionStartTime = start.format(DateTimeFormatter.ISO_LOCAL_TIME)
+                }
+                else{
+                    Toast.makeText(
+                        applicationContext,
+                        "Error has occured",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
             if (details.optionEndTime != null && details.optionEndTime != "") {
@@ -76,13 +93,22 @@ class AddEventSelectDate:AppCompatActivity() {
                         DateTimeFormatter.ISO_LOCAL_TIME
                     ).format(timeFormatter).toString()
                 )
-                if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
+                if (!timeMatch.containsMatchIn(endTimeEdit.text.toString()) && endTimeEdit.text.length == 8) {
                     endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                     endTimeCheck = false
-                } else {
+                    Toast.makeText(
+                        applicationContext,
+                        "Make sure the format is like 00:00 PM and correct",
+                        Toast.LENGTH_SHORT
+                    ).show()}
+                else if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
+                    endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                    endTimeCheck = false
+                } else if (startTimeCheck) {
                     end = LocalTime.parse(endTimeEdit.text.toString(), timeFormatter)
                     if (end.compareTo(start) > 0) {
                         endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.green_stroke))
+                        event.optionEndTime = end.format(DateTimeFormatter.ISO_LOCAL_TIME)
                         endTimeCheck = true
                     } else {
                         Toast.makeText(
@@ -91,6 +117,19 @@ class AddEventSelectDate:AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                     }
+                } else if (!startTimeCheck) {
+                    Toast.makeText(
+                        applicationContext,
+                        "Make sure start time is valid",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+                else{
+                    Toast.makeText(
+                        applicationContext,
+                        "Make sure time is valid",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
 
@@ -114,7 +153,16 @@ class AddEventSelectDate:AppCompatActivity() {
 
 //        check the value with an update and then make the add your time legal
         startTimeEdit.doAfterTextChanged {
-            if (!timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
+            if (!timeMatch.containsMatchIn(startTimeEdit.text.toString()) && startTimeEdit.text.length == 8) {
+                startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                startTimeCheck = false
+                Toast.makeText(
+                    applicationContext,
+                    "Make sure the format is like 00:00 PM",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else if (!timeMatch.containsMatchIn(startTimeEdit.text.toString())) {
                 startTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 startTimeCheck = false
             } else {
@@ -125,7 +173,15 @@ class AddEventSelectDate:AppCompatActivity() {
             }
         }
         endTimeEdit.doAfterTextChanged {
-            if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
+            if (!timeMatch.containsMatchIn(endTimeEdit.text.toString()) && endTimeEdit.text.length == 8) {
+                endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
+                endTimeCheck = false
+                Toast.makeText(
+                    applicationContext,
+                    "Make sure the format is like 00:00 PM",
+                    Toast.LENGTH_SHORT
+                ).show()}
+            else if (!timeMatch.containsMatchIn(endTimeEdit.text.toString())) {
                 endTimeEdit.setBackgroundDrawable(getDrawable(R.drawable.red_stroke))
                 endTimeCheck = false
             } else if (startTimeCheck) {
@@ -141,10 +197,17 @@ class AddEventSelectDate:AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                 }
-            } else{
+            } else if (!startTimeCheck) {
                 Toast.makeText(
                     applicationContext,
                     "Make sure start time is valid",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+            else{
+                Toast.makeText(
+                    applicationContext,
+                    "Make sure time is valid",
                     Toast.LENGTH_SHORT
                 ).show()
             }

@@ -412,6 +412,11 @@ object Obj {
         }
         EVENTS_DB.addValueEventListener(eventFetchListener)
     }
+    fun removeEvent(eventID: String) {
+        if(EVENTS_DB.child(eventID).child("hostUID").get().toString() == auth.currentUser!!.uid.toString()){
+            EVENTS_DB.child(eventID).removeValue()
+        }
+    }
 
     interface UserDataListener {
         fun onUserDataLoad(user: User)
