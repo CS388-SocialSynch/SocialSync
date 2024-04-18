@@ -33,6 +33,7 @@ class AddEventMainActivity: AppCompatActivity() {
         val townEdit = findViewById<EditText>(R.id.eventTown)
         val stateEdit = findViewById<EditText>(R.id.eventState)
         val countryEdit = findViewById<EditText>(R.id.eventCountry)
+        val zipEdit = findViewById<EditText>(R.id.eventZip)
 
         val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
 
@@ -72,6 +73,9 @@ class AddEventMainActivity: AppCompatActivity() {
             }
             if(details.addressCountry!= ""){
                 countryEdit.setText(details.addressCountry)
+            }
+            if(details.addressZipCode!= ""){
+                zipEdit.setText(details.addressZipCode)
             }
         }
 

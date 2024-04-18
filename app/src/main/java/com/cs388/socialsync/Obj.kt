@@ -291,7 +291,7 @@ object Obj {
             eventSnapshot.child("addressTown").value.toString(),
             eventSnapshot.child("addressState").value.toString(),
             eventSnapshot.child("addressCountry").value.toString(),
-            eventSnapshot.child("addressZipcode").value as Int,
+            eventSnapshot.child("addressZipcode").value.toString(),
             eventSnapshot.child("api").value as Boolean,
             joinedList,
             participantsList,
