@@ -49,16 +49,16 @@ class AddEventFinished : AppCompatActivity() {
                             Toast.LENGTH_SHORT
                         ).show()
                         code.setText(code.text.toString() + " " + key)
-//                        var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-//                        val clip:ClipData = ClipData.newPlainText("Event Code", key)
-                        event.eventCode = key
+                        var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                        val clip:ClipData = ClipData.newPlainText("Event Code", key)
+                        myClipboard.setPrimaryClip(clip)
                         Obj.addEventToUser(event.eventCode)
                     }
                 }
                 Obj.addEventToDatabase(event, listener, false,true)
         }else{
-            Log.d("UPDATE EVENT", Obj.updateEvent.toString() + " " + event.eventCode)
-            Obj.updateEventOnDatabase(event, event.eventCode, object: Obj.SetOnDuplicateEventCheckListener{
+
+            Obj.updateEventOnDatabase(event, event.eventCode, Obj.updateEventOldName, object: Obj.SetOnDuplicateEventCheckListener{
                 override fun onDuplicateEvent() {
                     Toast.makeText(
                         this@AddEventFinished,
@@ -76,8 +76,9 @@ class AddEventFinished : AppCompatActivity() {
                         Toast.LENGTH_SHORT
                     ).show()
                     code.setText(code.text.toString() + " " + key)
-    //                var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    //                val clip:ClipData = ClipData.newPlainText("Event Code", key)
+                    var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip:ClipData = ClipData.newPlainText("Event Code", key)
+                    myClipboard.setPrimaryClip(clip)
                     event.eventCode = key
                 }
             })

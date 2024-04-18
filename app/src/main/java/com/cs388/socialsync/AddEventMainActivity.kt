@@ -41,6 +41,7 @@ class AddEventMainActivity: AppCompatActivity() {
         var validationCheck = false
         var addressCheck = true
         var zipCheck = false
+        var editEvent = (event.eventCode != "");
 
 
         // TODO DELETE *************
@@ -75,8 +76,12 @@ class AddEventMainActivity: AppCompatActivity() {
             if(details.addressCountry!= ""){
                 countryEdit.setText(details.addressCountry)
             }
-            if(details.addressZipCode!= ""){
-                zipEdit.setText(details.addressZipCode)
+            if(details.addressZipcode!= ""){
+                zipEdit.setText(details.addressZipcode)
+            }
+
+            if(editEvent){
+                Obj.updateEventOldName = event.eventName
             }
         }
 
@@ -126,7 +131,7 @@ class AddEventMainActivity: AppCompatActivity() {
                         event.addressTown = townEdit.text.toString()
                         event.addressState = stateEdit.text.toString()
                         event.addressCountry = countryEdit.text.toString()
-                        event.addressZipCode = zipEdit.text.toString()
+                        event.addressZipcode = zipEdit.text.toString()
                     }else{
                         Toast.makeText(applicationContext,"Please fill out address", Toast.LENGTH_SHORT).show()
                         addressCheck = false

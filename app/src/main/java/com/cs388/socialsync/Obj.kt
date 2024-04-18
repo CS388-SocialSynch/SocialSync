@@ -26,6 +26,7 @@ object Obj {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
     var updateEvent: String = ""
+    var updateEventOldName: String = ""
 
     interface SetOnEventFetchListener {
         fun onEventFetch(event: Event)
@@ -386,6 +387,7 @@ object Obj {
     fun updateEventOnDatabase(
         event: Event,
         eventID: String,
+        oldEventName: String,
         listener: SetOnDuplicateEventCheckListener,
         flag: Boolean = false
     ) {
@@ -398,7 +400,7 @@ object Obj {
                         break;
                     }
                 }
-                if (flag != 0) {
+                if (flag != 0 && oldEventName != event.eventName) {
                     listener.onDuplicateEvent()
                 } else {
                     EVENTS_DB.child(eventID).setValue(event)
