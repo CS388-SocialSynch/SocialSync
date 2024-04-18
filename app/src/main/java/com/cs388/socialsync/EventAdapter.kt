@@ -62,7 +62,7 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
         val weatherFetcher = WeatherFetcher()
 
-        val zipCode = currentItem.address
+        val zipCode = currentItem.addressZipcode.toString()
         Log.d("zipcode", zipCode)
         // Call fetchWeather method to fetch weather data
         weatherFetcher.fetchWeather(zipCode) { weatherCondition, temperature, humidity, windSpeed, feelLike ->

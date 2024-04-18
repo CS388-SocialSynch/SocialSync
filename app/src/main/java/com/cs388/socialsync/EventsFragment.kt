@@ -1,10 +1,14 @@
 package com.cs388.socialsync
 
+import android.location.Address
+import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,6 +27,7 @@ import java.time.LocalDateTime
 import java.time.ZonedDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class EventsFragment : Fragment() {
 
@@ -102,6 +107,43 @@ class EventsFragment : Fragment() {
                     //val formattedAddress = "unknown"
                     //val eventDate = LocalDate.parse(eventJson.getString("start"), DateTimeFormatter.ISO_DATE)
 
+
+                    val locationArr = eventJson.getJSONArray("location")
+                    var latitude: String = "40.7357";
+                    var longitude: String = "-74.1724";
+                    if (locationArr.length() > 0) {
+                        latitude = locationArr.get(1).toString();
+                        longitude = locationArr.get(0).toString();
+                    }
+
+                    val local = Locale("en_us", "United States");
+                    val geocoder = Geocoder(requireContext(), local)
+                    val maxResult = 1
+                    var zipCode = "07103";
+
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+
+                        geocoder.getFromLocation(latitude.toDouble(),
+                            longitude.toDouble(),
+                            maxResult,
+                            //                        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
+                            object : Geocoder.GeocodeListener {
+                                override fun onGeocode(addresses: MutableList<Address>) {
+
+                                    Log.d("Address: ", addresses.toString())
+                                    Log.d("ZIP CODE: ", addresses[0].postalCode)
+                                    zipCode = addresses[0].postalCode
+                                }
+
+                                override fun onError(errorMessage: String?) {
+                                    super.onError(errorMessage)
+
+                                }
+                            })
+
+                    }
+
+
                     val aa = startDateTime.split("T")
                     val date = aa[0]
                     val time = aa[1].split("Z")[0]
@@ -113,6 +155,7 @@ class EventsFragment : Fragment() {
 
                     val localDate = LocalDate.parse(date)
                         .format(DateTimeFormatter.ISO_DATE) as String
+
 
                     var endLocalTime: String? = null
                     if (eventJson.optString("predicted_end", "") != "") {
@@ -133,6 +176,7 @@ class EventsFragment : Fragment() {
                     event.isPublic = true
                     event.isAPI = true
                     event.date = localDate
+                    event.addressZipcode = zipCode;
 
                     eventsList.add(event)
                 }
