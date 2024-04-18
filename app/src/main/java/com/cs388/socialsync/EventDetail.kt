@@ -57,7 +57,7 @@ class EventDetail : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
         // Get event details
-        val event = arguments?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
         val isCurrentUserAttending = event?.participants?.contains(Obj.loggedUserID)
 
         // Initialize views
