@@ -28,7 +28,7 @@ data class Event(
     var addressTown: String = "",
     var addressState: String = "",
     var addressCountry: String = "",
-    var addressZipCode: String = "",
+    var addressZipcode: String? = "07103",
     var isAPI: Boolean = false,
     val joined: MutableList<String> = mutableListOf(),
     val participants: MutableList<String> = mutableListOf(),
