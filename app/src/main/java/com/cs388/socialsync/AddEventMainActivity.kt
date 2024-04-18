@@ -40,6 +40,7 @@ class AddEventMainActivity: AppCompatActivity() {
         val event = Obj.event
         var validationCheck = false
         var addressCheck = true
+        var zipCheck = false
 
 
         // TODO DELETE *************
@@ -94,6 +95,10 @@ class AddEventMainActivity: AppCompatActivity() {
             addressCheck = validateText(stateEdit,Regex("^\\w\\w$"))
         }
 
+        zipEdit.doAfterTextChanged {
+            zipCheck = validateText(zipEdit,Regex("^\\d{5}$"))
+        }
+
         inPerson.setOnClickListener(){
             if(inPerson.isChecked){
                 addressSnippet.visibility = View.VISIBLE
@@ -115,12 +120,13 @@ class AddEventMainActivity: AppCompatActivity() {
                 event.showParticipants = showParticipants.isChecked
 
                 if(event.isInPerson){
-                    if(addressCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
+                    if(addressCheck && zipCheck && streetEdit.text.toString() != "" && townEdit.text.toString() != "" && stateEdit.text.toString() != ""  && countryEdit.text.toString() != ""){
                         addressCheck= true
                         event.addressStreet = streetEdit.text.toString()
                         event.addressTown = townEdit.text.toString()
                         event.addressState = stateEdit.text.toString()
                         event.addressCountry = countryEdit.text.toString()
+                        event.addressZipCode = zipEdit.text.toString()
                     }else{
                         Toast.makeText(applicationContext,"Please fill out address", Toast.LENGTH_SHORT).show()
                         addressCheck = false
