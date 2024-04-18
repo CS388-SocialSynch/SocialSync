@@ -71,13 +71,15 @@ class AddEventMainActivity: AppCompatActivity() {
             }
             if(details.addressState!= ""){
                 stateEdit.setText(details.addressState)
-                validateText(stateEdit,Regex("^\\w\\w$"))
+                addressCheck =validateText(stateEdit,Regex("^\\w\\w$"))
             }
             if(details.addressCountry!= ""){
                 countryEdit.setText(details.addressCountry)
+
             }
             if(details.addressZipcode!= ""){
                 zipEdit.setText(details.addressZipcode)
+                zipCheck = validateText(zipEdit,Regex("^\\d{5}$"))
             }
 
             if(editEvent){
