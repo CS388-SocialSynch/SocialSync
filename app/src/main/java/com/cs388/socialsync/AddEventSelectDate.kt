@@ -46,7 +46,6 @@ class AddEventSelectDate:AppCompatActivity() {
         var end: LocalTime = LocalTime.MAX
 
 
-
         // Preloading the events data
         var event = Obj.event
         event.let { details ->
@@ -94,7 +93,6 @@ class AddEventSelectDate:AppCompatActivity() {
                 val temp = getString(R.string.choose_specfic_days) + " (selected)"
                 btnChooseSpecificDate.setText(temp)
             }
-
 
         }
 
