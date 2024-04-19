@@ -94,6 +94,17 @@ class AddEventFinished : AppCompatActivity() {
             startActivity(launchNextActivity)
         }
 
+        code.setOnClickListener(){
+            var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip:ClipData = ClipData.newPlainText("Event Code", Obj.event.eventCode)
+            myClipboard.setPrimaryClip(clip)
+            Toast.makeText(
+                this@AddEventFinished,
+                "Event code copied",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
     }
 }
 //todo add a tap event code to copy
