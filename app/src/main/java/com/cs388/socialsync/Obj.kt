@@ -1,6 +1,7 @@
 package com.cs388.socialsync
 
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -412,10 +413,34 @@ object Obj {
         }
         EVENTS_DB.addValueEventListener(eventFetchListener)
     }
-    fun removeEvent(eventID: String) {
-        if(EVENTS_DB.child(eventID).child("hostUID").get().toString() == auth.currentUser!!.uid.toString()){
-            EVENTS_DB.child(eventID).removeValue()
-        }
+
+    interface eventDeleteListener {
+        fun onEventDelete()
+        fun onCancelled(err: String)
+    }
+    fun removeEvent(eventID: String, listener: eventDeleteListener) {
+        fetchEventUsingCode(eventID, object : SetOnEventFetchListener{
+            override fun onEventFetch(eventTemp: Event) {
+                Log.d("REMOVE_EVENT", eventID + " " + eventTemp.hostUID + " "+ auth.currentUser!!.uid.toString())
+
+                if(eventTemp.hostUID == auth.currentUser!!.uid.toString()){
+                    if (Obj.event.eventCode == eventID) {
+                        removeEventFromUser(eventTemp)
+                        user.events.remove(eventID)
+                        EVENTS_DB.child(eventID).removeValue()
+                        listener.onEventDelete()
+                    }else {
+                        listener.onCancelled("Invalid event")
+                        Log.e("REMOVE_EVENT", "removeEvent: Fail 1", )
+                    }
+                }
+                else {
+                    listener.onCancelled("Not Host")
+                    Log.e("REMOVE_EVENT", "removeEvent: Fail 2", )
+                }
+            }
+        })
+
     }
 
     interface UserDataListener {
