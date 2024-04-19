@@ -96,3 +96,4 @@ class AddEventFinished : AppCompatActivity() {
 
     }
 }
+//todo add a tap event code to copy
