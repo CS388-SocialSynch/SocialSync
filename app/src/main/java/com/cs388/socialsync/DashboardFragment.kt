@@ -101,12 +101,14 @@ class DashboardFragment : Fragment() {
             hideKeyboard()
             Obj.fetchEventUsingCode(id, object : Obj.SetOnEventFetchListener {
                 override fun onEventFetch(event: Event) {
-                    Toast.makeText(activity, event.eventName, Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity, "Joined" + event.eventName, Toast.LENGTH_LONG).show()
                     // generate a new fragment and then switch
                     val fragment = EventDetail()
-                    val bundle = Bundle()
-                    bundle.putSerializable(EVENT_ITEM, event)
-                    fragment.arguments = bundle
+//                    val bundle = Bundle()
+//                    bundle.putSerializable(EVENT_ITEM, event)
+//                    fragment.arguments = bundle
+                   Obj.event = event
+                   roomView.setText("")
 
                     // how to switch fragments
                     (context as AppCompatActivity).supportFragmentManager.beginTransaction()

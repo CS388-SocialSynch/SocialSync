@@ -36,7 +36,6 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         settingsButton.setOnClickListener {
-//            Log.e("LETS TRY THIS", "CHECK " + Obj.event)
             val intent = Intent(this@ChangeTimeActivity, AddEventMainActivity::class.java)
             startActivity(intent)
         }
@@ -59,6 +58,14 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         cancelButton.setOnClickListener {
+            Obj.removeEvent(Obj.event.eventCode)
+            val launchNextActivity: Intent = Intent(
+                this@ChangeTimeActivity,
+                MainActivity::class.java
+            )
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+            startActivity(launchNextActivity)
             showToast("You have canceled this event")
         }
 
