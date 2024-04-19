@@ -72,7 +72,7 @@ class AddEventFinished : AppCompatActivity() {
                 override fun onEventAdded(key: String) {
                     Toast.makeText(
                         this@AddEventFinished,
-                        "Event added to Database and key copied",
+                        "Event updated on Database and key copied",
                         Toast.LENGTH_SHORT
                     ).show()
                     code.setText(code.text.toString() + " " + key)

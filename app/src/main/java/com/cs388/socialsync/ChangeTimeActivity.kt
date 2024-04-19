@@ -36,6 +36,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         settingsButton.setOnClickListener {
+            Obj.updateEventOldName = Obj.event.eventName
             val intent = Intent(this@ChangeTimeActivity, AddEventMainActivity::class.java)
             startActivity(intent)
         }
