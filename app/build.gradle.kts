@@ -15,7 +15,7 @@ android {
     defaultConfig {
         applicationId = "com.cs388.socialsync"
         multiDexEnabled = true
-        minSdk = 24
+        minSdk = 26
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"

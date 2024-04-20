@@ -4,10 +4,11 @@
     <color name="white">#FFFFFFFF</color>
     <color name="affirm">#60C257</color>
     <color name="blank">#BCBCBC</color>
-    <color name="prim1">#B1DBDC</color>
-    <color name="prim2">#AAD9BB</color>
-    <color name="secondary1">#E88B57</color>
-    <color name="secondary2">#E2CA75</color>
+    <color name="prim1">#D1F2EB</color>
+<!--    <color name="secondary2">#D0E6D7</color>-->
+    <color name="prim2">#D1F2EB</color>
+    <color name="secondary1">#F8F8F8</color>
+    <color name="secondary2">#F8F8F8</color>
     <color name="font">#000740</color>
     <color name="transparent">#00000000</color>
     <color name="editBackground">#80EEEEEE</color>
