@@ -50,6 +50,8 @@
         <activity
             android:name=".AddEventFinished"
             android:exported="false" />
+
+        <receiver android:name=".ReminderBroadcast"/>
     </application>
 
 </manifest>

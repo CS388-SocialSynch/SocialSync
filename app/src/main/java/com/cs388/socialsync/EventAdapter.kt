@@ -116,7 +116,7 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
             val bundle = Bundle()
             bundle.putSerializable(EVENT_ITEM, event)
             fragment.arguments = bundle
-
+            Obj.event = event
 
             // how to switch fragments
             (context as AppCompatActivity).supportFragmentManager.beginTransaction()

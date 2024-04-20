@@ -1,5 +1,7 @@
 package com.cs388.socialsync
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -10,6 +12,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,9 +23,14 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Calendar
+import java.util.Date
+import java.util.Locale
+import java.util.TimeZone
 
 class EventDetail : Fragment() {
 
@@ -44,6 +52,7 @@ class EventDetail : Fragment() {
     private lateinit var attendSwitch: SwitchMaterial
     private lateinit var attendingLayout: LinearLayout
     private lateinit var incomingRecyclerView: RecyclerView
+    lateinit var btnNotifyEvent: AppCompatButton
 
     // Adapters
     private lateinit var userAdapterIncoming: UserAdapter
@@ -59,6 +68,7 @@ class EventDetail : Fragment() {
         // Get event details
         val event = Obj.event
         val isCurrentUserAttending = event?.participants?.contains(Obj.loggedUserID)
+
 
         // Initialize views
         initViews(view)
@@ -113,6 +123,78 @@ class EventDetail : Fragment() {
         attendingLayout = view.findViewById(R.id.attendingLayout)
         incomingRecyclerView = view.findViewById(R.id.IncomingRecycler)
         modifyEventButton = view.findViewById(R.id.modifyEventButton)
+        btnNotifyEvent = view.findViewById(R.id.btnNotifyEvent)
+
+        btnNotifyEvent.setOnClickListener {
+            Toast.makeText(activity, "Remainder Set", Toast.LENGTH_SHORT).show()
+
+            val intent = Intent(activity, ReminderBroadcast::class.java)
+
+            intent.putExtra("msg", eventDetailView.text.toString())
+            intent.extras!!.putString("test", "hello")
+
+            val pendingIntent = PendingIntent.getBroadcast(
+                activity, (Math.random() * 1000).toInt(), intent,
+                PendingIntent.FLAG_MUTABLE
+            )
+
+
+            val alarmManager =
+                context?.getSystemService(AppCompatActivity.ALARM_SERVICE) as AlarmManager
+
+            val timeAtButtonClick = System.currentTimeMillis()
+            val format = SimpleDateFormat("MM/dd/yyyy", Locale.US)
+            val date = format.parse(dateDetailView.text.toString())
+            val timeInMilliEventDate = date!!.time
+
+
+            val time = timeDetailView.text.toString().split("-")[0]
+            val timeInMilli = timeStringToMillis(time)
+//            val timeInMilli = timeStringToMillis("04:00 PM")
+
+
+            Log.e("CUSTOM=======>", timeInMilli.toString())
+            Log.e("CUSTOM=======>", timeInMilliEventDate.toString())
+            val aa = timeInMilliEventDate + timeInMilli
+            Log.e("CUSTOM=======>", aa.toString())
+
+
+
+
+            val deductMillies = 1000 * 1 * 60 * 30
+            val bb = aa - deductMillies
+            Log.e("TIME====>aa", convertMillisToDateTime(aa))
+            Log.e("TIME====>bb", convertMillisToDateTime(bb))
+
+            alarmManager.set(
+                AlarmManager.RTC_WAKEUP,
+                bb,
+                pendingIntent
+            )
+
+        }
+    }
+
+
+    fun convertMillisToDateTime(millis: Long): String {
+        val date = Date(millis)
+        val format = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.US)
+        return format.format(date)
+    }
+
+
+    fun timeStringToMillis(timeString: String): Long {
+        val format = SimpleDateFormat("hh:mm a", Locale.US)
+
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC")).apply {
+            timeInMillis = 0
+            time = format.parse(timeString) ?: return -1
+        }
+
+        Log.e("CUSTOM==", calendar.toString())
+        Log.e("CUSTOM==", calendar.time.toString())
+        Log.e("CUSTOM==", calendar.timeZone.toString())
+        return (calendar.timeInMillis - (1000 * 1 * 60 * 60 * 5))
     }
 
     private fun handleEventVisibility(event: Event?) {
@@ -168,6 +250,7 @@ class EventDetail : Fragment() {
             }
         }
     }
+
     private fun setListeners(event: Event) {
 
         attendSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -207,7 +290,8 @@ class EventDetail : Fragment() {
         }
 
         shareEventButton.setOnClickListener {
-            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 

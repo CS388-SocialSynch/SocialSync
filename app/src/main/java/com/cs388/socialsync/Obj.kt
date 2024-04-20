@@ -1,5 +1,9 @@
 package com.cs388.socialsync
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -79,7 +83,8 @@ object Obj {
         val displayName = dataSnapshot.child("displayName").value.toString()
         val email = dataSnapshot.child("email").value.toString()
         val image = dataSnapshot.child("image").value.toString()
-        val notificationsEnabled = dataSnapshot.child("notificationsEnabled").value as? Boolean ?:false;
+        val notificationsEnabled =
+            dataSnapshot.child("notificationsEnabled").value as? Boolean ?: false;
 
         val events = mutableListOf<String>()
         for (eventId in dataSnapshot.child("events").children) {
@@ -409,6 +414,7 @@ object Obj {
                 }
                 EVENTS_DB.removeEventListener(this)
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
         }
@@ -426,5 +432,17 @@ object Obj {
         var events: MutableList<String>,
         var notificationsEnabled: Boolean
     )
+
+
+    fun createNotificationChannel(context: Context) {
+        val name = "SocialSyncRemainderChannel";
+        val description = "Event Notification!"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT;
+        val channel = NotificationChannel("socialSyncNotif", name, importance);
+        channel.description = description;
+
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
+    }
 
 }

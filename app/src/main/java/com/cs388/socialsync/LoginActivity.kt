@@ -96,6 +96,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun startNewActivity(flags: Boolean = false) {
+        Obj.createNotificationChannel(this@LoginActivity)
 
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
