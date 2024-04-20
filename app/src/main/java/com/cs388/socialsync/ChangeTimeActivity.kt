@@ -56,10 +56,6 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
             }
         }
 
-
-
-
-
         cancelButton.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder
