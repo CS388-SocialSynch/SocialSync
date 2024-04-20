@@ -1,6 +1,7 @@
 package com.cs388.socialsync
 
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -27,7 +28,7 @@ object Obj {
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
-    var updateEvent: String = ""
+    var updateEventOldName: String = ""
 
     interface SetOnEventFetchListener {
         fun onEventFetch(event: Event)
@@ -436,27 +437,24 @@ object Obj {
     fun updateEventOnDatabase(
         event: Event,
         eventID: String,
+        oldEventName: String,
         listener: SetOnDuplicateEventCheckListener,
         flag: Boolean = false
     ) {
         val eventFetchListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var flag = 0
-                var storedKey = ""
                 for (eventObj in dataSnapshot.children) {
                     if (eventObj.child("eventName").value.toString() == event.eventName) {
-                        storedKey = eventObj.key.toString()
                         flag++
                         break;
                     }
                 }
-                if (flag != 0) {
+                if (flag != 0 && oldEventName != event.eventName) {
                     listener.onDuplicateEvent()
-                    addEventToUser(storedKey)
                 } else {
                     EVENTS_DB.child(eventID).setValue(event)
                     listener.onEventAdded(eventID)
-                    addEventToUser(eventID)
                 }
                 EVENTS_DB.removeEventListener(this)
             }
@@ -464,6 +462,35 @@ object Obj {
             }
         }
         EVENTS_DB.addValueEventListener(eventFetchListener)
+    }
+
+    interface eventDeleteListener {
+        fun onEventDelete()
+        fun onCancelled(err: String)
+    }
+    fun removeEvent(eventID: String, listener: eventDeleteListener) {
+        fetchEventUsingCode(eventID, object : SetOnEventFetchListener{
+            override fun onEventFetch(eventTemp: Event) {
+                Log.d("REMOVE_EVENT", eventID + " " + eventTemp.hostUID + " "+ auth.currentUser!!.uid.toString())
+
+                if(eventTemp.hostUID == auth.currentUser!!.uid.toString()){
+                    if (Obj.event.eventCode == eventID) {
+                        removeEventFromUser(eventTemp)
+                        user.events.remove(eventID)
+                        EVENTS_DB.child(eventID).removeValue()
+                        listener.onEventDelete()
+                    }else {
+                        listener.onCancelled("Invalid event")
+                        Log.e("REMOVE_EVENT", "removeEvent: Fail 1", )
+                    }
+                }
+                else {
+                    listener.onCancelled("Not Host")
+                    Log.e("REMOVE_EVENT", "removeEvent: Fail 2", )
+                }
+            }
+        })
+
     }
 
     interface UserDataListener {
