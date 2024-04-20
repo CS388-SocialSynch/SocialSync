@@ -48,5 +48,6 @@
     <string name="leaveEvent">Leave</string>
     <string name="attending">Attending?</string>
     <string name="back">Back</string>
+    <string name="push_notifications">Push Notifications?</string>
 
 </resources>

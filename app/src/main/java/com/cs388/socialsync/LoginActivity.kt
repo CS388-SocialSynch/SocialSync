@@ -112,7 +112,9 @@ class LoginActivity : AppCompatActivity() {
                         Obj.auth.currentUser!!.displayName.toString(),
                         Obj.auth.currentUser!!.email.toString(),
                         Obj.auth.currentUser!!.photoUrl.toString(),
-                        user.events
+                        user.events,
+                        notificationsEnabled = false
+
                     )
                     Obj.user = user
                     Obj.uploadUserData(user)

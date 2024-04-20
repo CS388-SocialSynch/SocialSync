@@ -23,13 +23,13 @@ class AddEventFinished : AppCompatActivity() {
         val btnFinish = findViewById<AppCompatButton>(R.id.btnFinish)
         val event = Obj.event
 
-        if(Obj.updateEvent == ""){
-        val host = Obj.auth.currentUser!!.uid
-        event.hostUID = host
-        event.joined.add(host)
+        if(Obj.event.eventCode == ""){
+            val host = Obj.auth.currentUser!!.uid
+            event.hostUID = host
+            event.joined.add(host)
 
-        //TODO DELETE THIS **********
-        Log.d("EVENT CREATE", event.toString())
+            //TODO DELETE THIS **********
+            Log.d("EVENT CREATE", event.toString())
 
             val listener = object : Obj.SetOnDuplicateEventCheckListener {
                 override fun onDuplicateEvent() {
@@ -51,37 +51,38 @@ class AddEventFinished : AppCompatActivity() {
                     code.setText(code.text.toString() + " " + key)
                     var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
                     val clip:ClipData = ClipData.newPlainText("Event Code", key)
-                    event.eventCode = key
+                    myClipboard.setPrimaryClip(clip)
                     Obj.addEventToUser(event.eventCode)
                 }
             }
             Obj.addEventToDatabase(event, listener, false,true)
+        }else{
+            Log.d("UPDATE TAG", "onCreate: " + event.eventCode + " " + Obj.updateEventOldName)
+            Obj.updateEventOnDatabase(event, event.eventCode, Obj.updateEventOldName, object: Obj.SetOnDuplicateEventCheckListener{
+                override fun onDuplicateEvent() {
+                    Toast.makeText(
+                        this@AddEventFinished,
+                        "Please change event name",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
+                    startActivity(nextIntent)
+                }
 
-    }else{
-        Obj.updateEventOnDatabase(event, Obj.updateEvent, object: Obj.SetOnDuplicateEventCheckListener{
-            override fun onDuplicateEvent() {
-                Toast.makeText(
-                    this@AddEventFinished,
-                    "Please change event name",
-                    Toast.LENGTH_SHORT
-                ).show()
-                val nextIntent= Intent(this@AddEventFinished, AddEventMainActivity::class.java)
-                startActivity(nextIntent)
-            }
-
-            override fun onEventAdded(key: String) {
-                Toast.makeText(
-                    this@AddEventFinished,
-                    "Event added to Database", //and key copied",
-                    Toast.LENGTH_SHORT
-                ).show()
-                code.setText(code.text.toString() + " " + key)
-//                var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-//                val clip:ClipData = ClipData.newPlainText("Event Code", key)
-                event.eventCode = key
-            }
-        })
-    }
+                override fun onEventAdded(key: String) {
+                    Toast.makeText(
+                        this@AddEventFinished,
+                        "Event added to Database and key copied",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                    code.setText(code.text.toString() + " " + key)
+                    var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+                    val clip:ClipData = ClipData.newPlainText("Event Code", key)
+                    myClipboard.setPrimaryClip(clip)
+                    event.eventCode = key
+                }
+            })
+        }
 
         btnFinish.setOnClickListener() {
             val launchNextActivity: Intent = Intent(

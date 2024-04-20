@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.Switch
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.PickVisualMediaRequest
@@ -29,11 +30,11 @@ class ProfileFragment : Fragment() {
 
     lateinit var tvDisplayName: TextView
     lateinit var ivProfile: SimpleDraweeView
-
     lateinit var etDisplayName: EditText
     lateinit var btnChangeDisplayName: Button
     lateinit var logout: Button
     lateinit var change_display_photo: Button
+    lateinit var switchNotifications: Switch
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -44,20 +45,20 @@ class ProfileFragment : Fragment() {
         tvDisplayName = view.findViewById(R.id.tvDisplayName)
         ivProfile = view.findViewById(R.id.ivProfile)
 
-
-
         etDisplayName = view.findViewById(R.id.etDisplayName)
         btnChangeDisplayName = view.findViewById(R.id.btnChangeDisplayName)
         change_display_photo = view.findViewById(R.id.change_display_photo)
         logout = view.findViewById(R.id.logout)
+        switchNotifications = view.findViewById(R.id.switch1)
 
         tvDisplayName.text = Obj.user.displayName
         ivProfile.setImageURI(Obj.user.image)
         getUserData()
 
 
-
         val displayName: TextView = view.findViewById(R.id.displayName)
+
+
 
         logout.setOnClickListener{
             // logging out the user :)
@@ -67,6 +68,11 @@ class ProfileFragment : Fragment() {
             loginIntent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             startActivity(loginIntent)
             Toast.makeText(context, "Logged out successfully", Toast.LENGTH_SHORT).show()
+        }
+
+        switchNotifications.setOnCheckedChangeListener { _, isChecked ->
+            Obj.user.notificationsEnabled = isChecked
+            Obj.uploadUserData(Obj.user)
         }
 
 
@@ -132,6 +138,7 @@ class ProfileFragment : Fragment() {
                 Obj.user = user
                 tvDisplayName.text = user.displayName
                 ivProfile.setImageURI(user.image)
+                switchNotifications.isChecked = user.notificationsEnabled
             }
         })
     }

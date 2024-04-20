@@ -57,7 +57,7 @@ class EventDetail : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
         // Get event details
-        val event = arguments?.getSerializable(EVENT_ITEM) as? Event
+        val event = Obj.event
         val isCurrentUserAttending = event?.participants?.contains(Obj.loggedUserID)
 
         // Initialize views
@@ -69,11 +69,12 @@ class EventDetail : Fragment() {
 
         Obj.addEventToDatabase(event!!, object : Obj.SetOnDuplicateEventCheckListener {
             override fun onDuplicateEvent() {
-                Toast.makeText(activity, "duplicate", Toast.LENGTH_SHORT).show()
+                // Prevent the duplicate message from popping up on every open
+//                Toast.makeText(activity, "duplicate", Toast.LENGTH_SHORT).show()
             }
 
             override fun onEventAdded(key: String) {
-                Toast.makeText(activity, "added", Toast.LENGTH_SHORT).show()
+                Toast.makeText(activity, "Event Added", Toast.LENGTH_SHORT).show()
             }
         }, true)
 
@@ -188,12 +189,11 @@ class EventDetail : Fragment() {
         modifyTimeButton.setOnClickListener {
             val intent = Intent(requireContext(), ChooseTimeActivity::class.java)
             Obj.event = event
-            Obj.updateEvent = event.eventCode
             startActivity(intent)
         }
 
         leaveButton.setOnClickListener {
-            Toast.makeText(context, "Why leave :(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Event Left", Toast.LENGTH_SHORT).show()
             Obj.user.events.remove(event.eventCode)
             Obj.removeUserFromEventAndParticipants(event, Obj.loggedUserID)
             fragmentManager?.popBackStack()
@@ -207,7 +207,7 @@ class EventDetail : Fragment() {
         }
 
         shareEventButton.setOnClickListener {
-            Toast.makeText(context, "There is nothing to share >:(", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT).show()
         }
     }
 

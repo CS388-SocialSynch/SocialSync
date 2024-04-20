@@ -25,7 +25,7 @@ object Obj {
     var eventList: MutableList<Event> = mutableListOf()
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
-    var updateEvent: String = ""
+    var updateEventOldName: String = ""
 
     interface SetOnEventFetchListener {
         fun onEventFetch(event: Event)
@@ -53,6 +53,7 @@ object Obj {
         USER_DB.child("displayName").setValue(user.displayName)
         USER_DB.child("email").setValue(user.email)
         USER_DB.child("image").setValue(user.image)
+        USER_DB.child("notificationsEnabled").setValue(user.notificationsEnabled)
     }
 
     fun getUserData(listener: UserDataListener) {
@@ -78,13 +79,14 @@ object Obj {
         val displayName = dataSnapshot.child("displayName").value.toString()
         val email = dataSnapshot.child("email").value.toString()
         val image = dataSnapshot.child("image").value.toString()
+        val notificationsEnabled = dataSnapshot.child("notificationsEnabled").value as? Boolean ?:false;
 
         val events = mutableListOf<String>()
         for (eventId in dataSnapshot.child("events").children) {
             events.add(eventId.value.toString())
         }
 
-        return User(displayName, email, image, events)
+        return User(displayName, email, image, events, notificationsEnabled)
     }
 
     interface SetOnLoadEventListener {
@@ -386,27 +388,24 @@ object Obj {
     fun updateEventOnDatabase(
         event: Event,
         eventID: String,
+        oldEventName: String,
         listener: SetOnDuplicateEventCheckListener,
         flag: Boolean = false
     ) {
         val eventFetchListener = object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 var flag = 0
-                var storedKey = ""
                 for (eventObj in dataSnapshot.children) {
                     if (eventObj.child("eventName").value.toString() == event.eventName) {
-                        storedKey = eventObj.key.toString()
                         flag++
                         break;
                     }
                 }
-                if (flag != 0) {
+                if (flag != 0 && oldEventName != event.eventName) {
                     listener.onDuplicateEvent()
-                    addEventToUser(storedKey)
                 } else {
                     EVENTS_DB.child(eventID).setValue(event)
                     listener.onEventAdded(eventID)
-                    addEventToUser(eventID)
                 }
                 EVENTS_DB.removeEventListener(this)
             }
@@ -424,7 +423,8 @@ object Obj {
         var displayName: String,
         var email: String,
         var image: String,
-        var events: MutableList<String>
+        var events: MutableList<String>,
+        var notificationsEnabled: Boolean
     )
 
 }
