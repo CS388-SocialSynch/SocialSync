@@ -21,6 +21,8 @@
         app:menu="@menu/bottom_navigation_menu"
         android:background="@drawable/navigation_shadow"
         app:itemIconSize="32dp"
+        app:itemIconTint="@drawable/bottom_nav_icon_color_selector"
+        app:itemTextColor="@drawable/bottom_nav_icon_color_selector"
         app:itemTextAppearanceActive="@style/small"
         app:itemTextAppearanceInactive="@style/small"/>
 

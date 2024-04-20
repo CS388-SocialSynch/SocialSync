@@ -23,14 +23,11 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import org.json.JSONObject
 import java.time.LocalDate
-import java.time.LocalDateTime
-import java.time.ZonedDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
 class EventsFragment : Fragment() {
-
 
     private lateinit var binding: FragmentEventsBinding
     private lateinit var publicEventAdapter: EventAdapter
@@ -82,9 +79,7 @@ class EventsFragment : Fragment() {
                 val resultsArray = json.getJSONArray("results")
                 Log.e("CUSTOM---->", resultsArray.getJSONObject(0).getString("title"))
 
-
                 for (i in 0 until resultsArray.length()) {
-
                     val eventJson = resultsArray.getJSONObject(i)
                     val title = eventJson.getString("title")
                     val words = title.split(" ")
@@ -103,10 +98,6 @@ class EventsFragment : Fragment() {
                         Log.e("Formatted Address", formattedAddress)
                     }
                     val startDateTime = eventJson.getString("start")
-                    //val endDateTime = LocalTime.parse(eventJson.getString("end"), DateTimeFormatter.ISO_DATE_TIME)
-                    //val formattedAddress = "unknown"
-                    //val eventDate = LocalDate.parse(eventJson.getString("start"), DateTimeFormatter.ISO_DATE)
-
 
                     val locationArr = eventJson.getJSONArray("location")
                     var latitude: String = "40.7357";
@@ -119,71 +110,23 @@ class EventsFragment : Fragment() {
                     val local = Locale("en_us", "United States");
                     val geocoder = Geocoder(requireContext(), local)
                     val maxResult = 1
-                    var zipCode = "07103";
 
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-
-                        geocoder.getFromLocation(latitude.toDouble(),
+                        geocoder.getFromLocation(
+                            latitude.toDouble(),
                             longitude.toDouble(),
-                            maxResult,
-                            //                        @RequiresApi(Build.VERSION_CODES.TIRAMISU)
-                            object : Geocoder.GeocodeListener {
-                                override fun onGeocode(addresses: MutableList<Address>) {
-
-                                    Log.d("Address: ", addresses.toString())
-                                    Log.d("ZIP CODE: ", addresses[0].postalCode)
-                                    zipCode = addresses[0].postalCode
-                                }
-
-                                override fun onError(errorMessage: String?) {
-                                    super.onError(errorMessage)
-
-                                }
-                            })
-
+                            maxResult
+                        ) { addresses ->
+                            Log.d("Address: ", addresses.toString())
+                            val zipCode = addresses.getOrNull(0)?.postalCode
+                            handleEventCreation(eventJson, formattedAddress, zipCode, eventsList)
+                        }
+                    } else {
+                        // Handle unsupported SDK version
                     }
-
-
-                    val aa = startDateTime.split("T")
-                    val date = aa[0]
-                    val time = aa[1].split("Z")[0]
-
-                    val aaaa = LocalTime.parse(time)
-
-                    val startLocalTime =
-                        aaaa.format(DateTimeFormatter.ISO_LOCAL_TIME) as String
-
-                    val localDate = LocalDate.parse(date)
-                        .format(DateTimeFormatter.ISO_DATE) as String
-
-
-                    var endLocalTime: String? = null
-                    if (eventJson.optString("predicted_end", "") != "") {
-                        val endTime =
-                            eventJson.optString("predicted_end", "TZ").split("T")[1].split("Z")[0]
-                        endLocalTime =
-                            LocalTime.parse(endTime).format(DateTimeFormatter.ISO_TIME)
-                    }
-
-                    val event = Event()
-
-                    event.eventName = eventJson.optString("title")
-                    event.startTime = startLocalTime
-                    event.endTime = endLocalTime
-                    event.address = formattedAddress
-                    event.temperature = 57
-                    event.weatherCondition = "Sunny"
-                    event.isPublic = true
-                    event.isAPI = true
-                    event.date = localDate
-                    event.addressZipcode = zipCode;
-
-                    eventsList.add(event)
                 }
                 publicEventAdapter.notifyDataSetChanged()
                 hideProgress()
-
-
             }, Response.ErrorListener {
                 Log.e("CUSTOM---->", it.message.toString())
             }) {
@@ -196,5 +139,40 @@ class EventsFragment : Fragment() {
                 }
             }
         queue.add(getRequest)
+    }
+
+    private fun handleEventCreation(
+        eventJson: JSONObject,
+        formattedAddress: String,
+        zipCode: String?,
+        eventsList: ArrayList<Event>
+    ) {
+        val aa = eventJson.getString("start").split("T")
+        val date = aa[0]
+        val time = aa[1].split("Z")[0]
+
+        val aaaa = LocalTime.parse(time)
+        val startLocalTime = aaaa.format(DateTimeFormatter.ISO_LOCAL_TIME)
+
+        val localDate = LocalDate.parse(date).format(DateTimeFormatter.ISO_DATE)
+
+        var endLocalTime: String? = null
+        if (eventJson.optString("predicted_end", "") != "") {
+            val endTime = eventJson.optString("predicted_end", "TZ").split("T")[1].split("Z")[0]
+            endLocalTime = LocalTime.parse(endTime).format(DateTimeFormatter.ISO_TIME)
+        }
+
+        val event = Event()
+        event.eventName = eventJson.optString("title")
+        event.startTime = startLocalTime
+        event.endTime = endLocalTime
+        event.address = formattedAddress
+        event.temperature = 57
+        event.weatherCondition = "Sunny"
+        event.isPublic = true
+        event.isAPI = true
+        event.date = localDate
+        event.addressZipcode = zipCode
+        eventsList.add(event)
     }
 }
