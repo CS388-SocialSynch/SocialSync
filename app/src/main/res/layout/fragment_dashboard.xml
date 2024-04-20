@@ -85,11 +85,11 @@
 
                 <EditText
                     android:id="@+id/roomCode"
-                    style="@style/subtitle"
+                    style="@style/EditTextbox"
+                    android:textAppearance="@style/subtitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/rounded_blank"
                     android:gravity="start"
                     android:hint="@string/_2137"
                     android:importantForAutofill="no"

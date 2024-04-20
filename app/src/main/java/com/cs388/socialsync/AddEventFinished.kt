@@ -72,7 +72,7 @@ class AddEventFinished : AppCompatActivity() {
                 override fun onEventAdded(key: String) {
                     Toast.makeText(
                         this@AddEventFinished,
-                        "Event added to Database and key copied",
+                        "Event updated on Database and key copied",
                         Toast.LENGTH_SHORT
                     ).show()
                     code.setText(code.text.toString() + " " + key)
@@ -92,6 +92,17 @@ class AddEventFinished : AppCompatActivity() {
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
             startActivity(launchNextActivity)
+        }
+
+        code.setOnClickListener(){
+            var myClipboard = getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+            val clip:ClipData = ClipData.newPlainText("Event Code", Obj.event.eventCode)
+            myClipboard.setPrimaryClip(clip)
+            Toast.makeText(
+                this@AddEventFinished,
+                "Event code copied",
+                Toast.LENGTH_SHORT
+            ).show()
         }
 
     }
