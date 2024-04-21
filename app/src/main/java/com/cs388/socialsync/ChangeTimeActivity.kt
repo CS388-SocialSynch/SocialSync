@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -45,7 +47,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         settingsButton.setOnClickListener {
-//            Log.e("LETS TRY THIS", "CHECK " + Obj.event)
+            Obj.updateEventOldName = Obj.event.eventName
             val intent = Intent(this@ChangeTimeActivity, AddEventMainActivity::class.java)
             startActivity(intent)
         }
@@ -64,9 +66,44 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
             startTime?.let { it1 -> endTime?.let { it2 -> Obj.setTimes(it1, it2) } }
         }
 
+        cancelButton.setOnClickListener {
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("DELETE/CANCEL Event?")
+                .setMessage("Are you sure you want to DELETE your event?")
+                .setPositiveButton("Remove") { dialog, which ->
+                    Log.d("CANCEL CONFIRM", Obj.event.toString())
+
+                    Obj.removeEvent(Obj.event.eventCode, object: Obj.eventDeleteListener{
+                        override fun onEventDelete() {
+                            val launchNextActivity: Intent = Intent(
+                                this@ChangeTimeActivity,
+                                MainActivity::class.java
+                            )
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(launchNextActivity)
+                            showToast("You have canceled this event")
+                        }
+
+                        override fun onCancelled(err: String) {
+                            Toast.makeText(applicationContext, "An error has occured", Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Nevermind") { dialog, which ->
+                    dialog.cancel()
+                }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+
 
         cancelButton.setOnClickListener {
             showToast("You have canceled this event")
+
         }
 
         // Any initialization or setup code can go here

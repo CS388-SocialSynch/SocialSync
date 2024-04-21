@@ -1,6 +1,7 @@
 package com.cs388.socialsync
 
 import android.util.Log
+import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -14,6 +15,9 @@ import okhttp3.Request
 import org.json.JSONObject
 import java.text.SimpleDateFormat
 import java.util.Locale
+import kotlin.math.abs
+import kotlin.reflect.typeOf
+
 
 
 object Obj {
@@ -36,21 +40,46 @@ object Obj {
 
     fun fetchEventUsingCode(code: String, listener: SetOnEventFetchListener) {
         val eventDb = EVENTS_DB.child(code)
-        val dbListener = object : ValueEventListener {
-            override fun onDataChange(eventSnapshot: DataSnapshot) {
-                val event = createEventFromSnapshot(eventSnapshot)
-                listener.onEventFetch(event)
-                eventDb.removeEventListener(this)
+        val joiningListDb = EVENTS_DB.child(code).child("joined")
 
+        joiningListDb.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val userAlreadyJoined = dataSnapshot.children.any { it.value == loggedUserID }
+
+                if (userAlreadyJoined) {
+                    // User is already part of the event, make a toast or something
+                    println("User is already part of the event.")
+                } else {
+                    // Add custom event to user
+                    val numericalValue = generateNumericalValue()
+                    joiningListDb.child(numericalValue.toString()).setValue(loggedUserID)
+
+                    val dbListener = object : ValueEventListener {
+                        override fun onDataChange(eventSnapshot: DataSnapshot) {
+                            val event = createEventFromSnapshot(eventSnapshot)
+                            listener.onEventFetch(event)
+                            eventDb.removeEventListener(this)
+                        }
+
+                        override fun onCancelled(error: DatabaseError) {
+                        }
+                    }
+                    eventDb.addListenerForSingleValueEvent(dbListener)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // i guess we toast an error or something
             }
-        }
-        eventDb.addListenerForSingleValueEvent(dbListener)
+        })
     }
+    private fun generateNumericalValue(): Int {
+        // Generate your numerical value here, such as incrementing a counter or using a timestamp
+        // For example, you can use a timestamp
+        val timestamp = System.currentTimeMillis()
 
+        // Ensure the value is positive
+        return abs(timestamp.toInt())
+    }
 
     fun uploadUserData(user: User) {
         USER_DB.child("displayName").setValue(user.displayName)
@@ -161,14 +190,20 @@ object Obj {
     }
 
     fun removeUserFromEventAndParticipants(event: Event, userID: String) {
-        removeEventFromUser(event)
+        // Remove the user from the "participants" attribute
         removeUserFromArray(EVENTS_DB.child(event.eventCode).child("participants"), userID) {
             println("User removed from participants array.")
         }
+
+        // Remove the user from the "joined" attribute
         removeUserFromArray(EVENTS_DB.child(event.eventCode).child("joined"), userID) {
             println("User removed from joined array.")
         }
+
+        // Remove the event from the user's list of events
+        removeEventFromUser(event)
     }
+
 
     private fun removeEventFromUser(event: Event) {
         val eventsRef = USER_DB.child("events")
@@ -193,58 +228,75 @@ object Obj {
         })
     }
 
-    private fun removeUserFromArray(ref: DatabaseReference, userID: String, onSuccess: () -> Unit) {
+    private fun removeUserFromArray(ref: DatabaseReference, userID: String, onSuccess: (String) -> Unit) {
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val array = dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
-                array?.let {
-                    val updatedArray = it.filter { item -> item != userID }
-                    ref.setValue(updatedArray)
-                        .addOnSuccessListener {
-                            onSuccess.invoke()
+                if (dataSnapshot.exists() && dataSnapshot.value != null) {
+                    val data = dataSnapshot.value as? MutableMap<*, *>
+                    data?.let {
+                        if (it.containsValue(userID)) {
+                            val keyToRemove = it.filterValues { value -> value == userID }.keys.firstOrNull()
+                            keyToRemove?.let { key ->
+                                it.remove(key)
+                                ref.setValue(it)
+                                    .addOnSuccessListener {
+                                        onSuccess.invoke(userID)
+                                    }
+                                    .addOnFailureListener { e ->
+                                        println("Error removing user from array: $e")
+                                    }
+                            } ?: run {
+                                println("Failed to find key for the user ID: $userID")
+                            }
+                        } else {
+                            println("User ID not found in the array")
                         }
-                        .addOnFailureListener { e ->
-                            println("Error removing user from array: $e")
-                        }
+                    } ?: run {
+                        println("Data is null or not in the expected format")
+                    }
+                } else {
+                    println("DataSnapshot is null or does not exist")
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error if needed
+                println("Database error: ${databaseError.message}")
             }
         })
     }
-
     fun updateUserAttendanceInEvent(eventCode: String, userID: String, addParticipant: Boolean) {
         val eventParticipantsRef = EVENTS_DB.child(eventCode).child("participants")
         eventParticipantsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val participants =
-                    dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
-                participants?.let {
-                    val updatedParticipants = it.toMutableList()
-                    if (addParticipant) {
-                        updatedParticipants.add(userID)
-                        println("User added to participants array.")
-                    } else {
-                        updatedParticipants.remove(userID)
-                        println("User removed from participants array.")
-                    }
-                    eventParticipantsRef.setValue(updatedParticipants)
-                        .addOnSuccessListener {
-                            println("Updated participants array in database.")
-                        }
-                        .addOnFailureListener { e ->
-                            println("Error updating participants array: $e")
-                        }
+                val participants = dataSnapshot.value as? HashMap<String, String> ?: hashMapOf()
+                val random = generateNumericalValue()
+                // If addParticipant is true, add the user to participants with the UID as the key,
+                // otherwise remove the user with the specified UID from participants
+                if (addParticipant) {
+                    participants[random.toString()] = userID
+                    println("User added to participants.")
+                } else {
+                    // Remove the user with the specified UID from the participants map
+                    participants.entries.removeIf { entry -> entry.value == userID }
+                    println("User removed from participants.")
                 }
+
+                // Set the updated participants map back to the database
+                eventParticipantsRef.setValue(participants)
+                    .addOnSuccessListener {
+                        println("Updated participants map in database.")
+                    }
+                    .addOnFailureListener { e ->
+                        println("Error updating participants map: $e")
+                    }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Handle error if needed
+                println("Database error: ${databaseError.message}")
             }
         })
     }
+
 
     private fun createEventFromSnapshot(eventSnapshot: DataSnapshot): Event {
 
@@ -490,6 +542,32 @@ object Obj {
             }
         }
         EVENTS_DB.addValueEventListener(eventFetchListener)
+    }
+
+    interface eventDeleteListener {
+        fun onEventDelete()
+        fun onCancelled(err: String)
+    }
+    fun removeEvent(eventID: String, listener: eventDeleteListener) {
+        Log.d("REMOVE_EVENT_NEXT", "removeEvent: " + eventID)
+        val eventTemp = event
+        Log.d("REMOVE_EVENT", eventID + " " + eventTemp.hostUID + " "+ auth.currentUser!!.uid.toString())
+
+        if(eventID == eventTemp.eventCode && eventTemp.hostUID == auth.currentUser!!.uid.toString()){
+            if (Obj.event.eventCode == eventID) {
+                removeEventFromUser(eventTemp)
+                user.events.remove(eventID)
+                EVENTS_DB.child(eventID).removeValue()
+                listener.onEventDelete()
+            }else {
+                listener.onCancelled("Invalid event")
+                Log.e("REMOVE_EVENT", "removeEvent: Fail 1", )
+            }
+        }
+        else {
+            listener.onCancelled("Not Host")
+            Log.e("REMOVE_EVENT", "removeEvent: Fail 2", )
+        }
     }
 
     interface UserDataListener {

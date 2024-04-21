@@ -78,7 +78,7 @@
             android:id="@+id/labelStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Time (15 minute increments)"
+            android:text="Earliest Possible Time (15 minute increments)"
             style="@style/body"
             />
 
@@ -97,7 +97,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Time (15 minute increments)"
+            android:text="Latest Possible Time (15 minute increments)"
             style="@style/body"
             />
 

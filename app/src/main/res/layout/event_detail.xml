@@ -197,6 +197,7 @@
                         android:id="@+id/attendSwitch"
                         android:checked="false"
                         android:layout_width="0dp"
+                        android:textColor="@color/black"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:paddingHorizontal="16dp"
