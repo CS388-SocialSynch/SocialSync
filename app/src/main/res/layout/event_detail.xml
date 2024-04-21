@@ -263,6 +263,7 @@
                         android:layout_weight="1"
                         android:paddingStart="4dp"
                         android:paddingEnd="4dp"
+                        android:textSize="15dp"
                         android:text="Modify Event"
                         android:visibility="gone" />
                 </LinearLayout>
