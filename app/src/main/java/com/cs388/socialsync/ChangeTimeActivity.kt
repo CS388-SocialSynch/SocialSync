@@ -61,7 +61,9 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                 val dayOfWeek = currDate.dayOfWeek.toString().lowercase().capitalize()
                 propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             }
-            startTime?.let { it1 -> endTime?.let { it2 -> Obj.setTimes(it1, it2) } }
+            startTime?.let { it1 -> endTime?.let { it2 -> date?.let { it3 ->
+                Obj.setTimes(it1, it2, it3)
+            } } }
         }
 
 

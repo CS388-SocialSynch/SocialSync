@@ -367,13 +367,15 @@ object Obj {
 
     }
 
-    fun setTimes(startTime:String,endTime:String){
+    fun setTimes(startTime:String,endTime:String,date:String){
         val MST = convertToMilitaryTime( startTime)
         val MET = convertToMilitaryTime( endTime)
         event.startTime= MST
         event.endTime= MET
+        event.date=date
         EVENTS_DB.child(event.eventCode).child("startTime").setValue(MST)
         EVENTS_DB.child(event.eventCode).child("endTime").setValue(MET)
+        EVENTS_DB.child(event.eventCode).child("date").setValue(date)
     }
 
     fun convertToMilitaryTime(timeString: String): String {
