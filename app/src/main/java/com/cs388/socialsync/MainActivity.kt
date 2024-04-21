@@ -1,5 +1,8 @@
 package com.cs388.socialsync
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -19,6 +22,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var profileFragment: Fragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+//        createNotificationChannel();
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -60,6 +65,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
     @IgnoreExtraProperties
     data class User(val username: String? = null, val email: String? = null) {
         // Null default values create a no-argument default constructor, which is needed
@@ -71,4 +78,7 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.main_frame_layout, fragment)
         fragmentTransaction.commit()
     }
+
+
+
 }
