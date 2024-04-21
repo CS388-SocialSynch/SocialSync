@@ -12,17 +12,17 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_time)
-        val showDates: Boolean = true //Get this from database
+        loadDBData()
         startTime = "OOF"
         val chooseDatesRecyclerView = findViewById<RecyclerView>(R.id.chooseDateRecyclerView)
         chooseDatesRecyclerView.layoutManager=
             LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL,false)
-        dateAdapter = DateAdapter(this, genDates("2024-03-28", "2024-04-05"), this, showDates)
+        dateAdapter = DateAdapter(this, eventDates, this, Obj.event.useSpecificDate)
         chooseDatesRecyclerView.adapter=dateAdapter
 
         val chooseTimeslotRecyclerView = findViewById<RecyclerView>(R.id.chooseTimeslotsRecyclerView)
         chooseTimeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        val timeslotAdapter = TimeslotPlusAdapter(this, "8:00 AM", "11:00 AM",this)
+        val timeslotAdapter = TimeslotPlusAdapter(this, eventStarTime, eventEndTime,this)
         chooseTimeslotRecyclerView.adapter = timeslotAdapter
 
         toggleButton = findViewById<Button>(R.id.saveTimesButton)
@@ -31,6 +31,7 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
             val outputFormat = SimpleDateFormat("MM/dd")
             if (date!=null ) {
                 val formattedDate = outputFormat.format(inputFormat.parse(date))
+                Obj.addAvailability(date as String, times)
                 showToast("Saved times for $formattedDate")
             }
 
@@ -42,6 +43,7 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
     }
 
     override fun onTimeslotsSelected(selectedTimeslots: List<String>) {
+        times = selectedTimeslots
         if ( date != null) {
                 enableButton(toggleButton)
         } else { disableButton(toggleButton) }

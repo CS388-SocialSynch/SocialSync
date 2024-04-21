@@ -27,6 +27,7 @@ object Obj {
     lateinit var event: Event
     var updateEventOldName: String = ""
 
+
     interface SetOnEventFetchListener {
         fun onEventFetch(event: Event)
     }
@@ -265,10 +266,26 @@ object Obj {
             joinedList.add(joined.value.toString())
         }
 
+        val availabilityMap = mutableMapOf<String, MutableList<String>>()
+        for (availabilitySnapshot in eventSnapshot.child("availability").children) {
+            val date = availabilitySnapshot.key.toString()
+            val timesList = mutableListOf<String>()
+            for (timeSnapshot in availabilitySnapshot.children) {
+                timesList.add(timeSnapshot.value.toString())
+            }
+            availabilityMap[date] = timesList
+        }
+
+        Log.d("AvailMap",availabilityMap.toString())
+
         for (aa in eventSnapshot.children) {
             Log.e("CUSTOM====>", aa.key.toString() + "     " + aa.value)
 
         }
+
+
+
+
 
         val event = Event(
             eventSnapshot.child("eventName").value.toString(),
@@ -290,6 +307,7 @@ object Obj {
             eventSnapshot.child("optionEndTime").value.toString(),
             optionalDatesList,
             optionalDayList,
+            availabilityMap,
             eventSnapshot.child("useSpecificDate").value as Boolean,
             eventSnapshot.child("addressStreet").value.toString(),
             eventSnapshot.child("addressTown").value.toString(),
@@ -304,6 +322,34 @@ object Obj {
 
 
         return event
+    }
+
+    fun getAvailability(){
+
+    }
+
+    fun addAvailability(
+        date: String,
+        times :List<String>
+    ){
+        val datetimes = times.map { time -> "$date $time" }
+        Log.d("Times",datetimes.toString())
+        for(datetime in datetimes){
+            if(event.availability.containsKey(datetime)){
+                val list =  event.availability[datetime]
+                if(list != null){
+                    for(item in list) {
+                        Log.d("Person",item)
+                    }
+                }
+
+            }else{
+                event.availability[datetime]= mutableListOf()
+                event.availability[datetime]?.add(loggedUserID)
+            }
+        }
+        Log.d("Availability",event.availability.toString())
+
     }
 
     interface SetOnDuplicateEventCheckListener {
@@ -360,7 +406,11 @@ object Obj {
                     Log.e("ERROR----> key", key)
 
                     event.eventCode = key
+
                     EVENTS_DB.child(key).setValue(event)
+                    EVENTS_DB.child(key).child("availability").setValue(mutableMapOf<String,MutableList<String>>())
+
+
                     listener.onEventAdded(key)
                     storedKey = key
                 }
@@ -382,7 +432,6 @@ object Obj {
         }
         EVENTS_DB.addListenerForSingleValueEvent(eventFetchListener)
     }
-
     fun updateEventOnDatabase(
         event: Event,
         eventID: String,

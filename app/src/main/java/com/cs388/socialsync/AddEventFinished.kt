@@ -27,6 +27,8 @@ class AddEventFinished : AppCompatActivity() {
             val host = Obj.auth.currentUser!!.uid
             event.hostUID = host
             event.joined.add(host)
+            event.availability = mutableMapOf()
+
 
             //TODO DELETE THIS **********
             Log.d("EVENT CREATE", event.toString())

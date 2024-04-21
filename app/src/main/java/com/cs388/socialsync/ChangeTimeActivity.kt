@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, OnDateSelectionListener {
@@ -16,21 +17,28 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_time)
-        val showDates: Boolean = true
+        loadDBData()
+
+
         val settingsButton = findViewById<Button>(R.id.changeSettingsButton)
         toggleButton = findViewById<Button>(R.id.setTimeButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val propTextView = findViewById<TextView>(R.id.eventPropertiesTextView)
 
 
+
+
+
+
+
         val datesRecyclerView = findViewById<RecyclerView>(R.id.dateRecyclerView)
         datesRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        dateAdapter = DateAdapter(this, genDates("2024-03-28", "2024-04-05"), this, showDates)
+        dateAdapter = DateAdapter(this, eventDates, this, Obj.event.useSpecificDate)
         datesRecyclerView.adapter=dateAdapter
 
         val timeslotRecyclerView = findViewById<RecyclerView>(R.id.timeslotsRecyclerView)
         timeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        val timeslotAdapter = TimeslotAdapter(this, "8:00 AM", "11:00 AM",this)
+        val timeslotAdapter = TimeslotAdapter(this,eventStarTime, eventEndTime,this)
         timeslotRecyclerView.adapter = timeslotAdapter
 
 
@@ -44,18 +52,15 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         //setEventButton.isEnabled = false
         //setEventButton.alpha = 0.5f
         toggleButton.setOnClickListener {
-            if(showDates)
-                propTextView.text = "Date:$date\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ---"
+            if(Obj.event.useSpecificDate)
+                propTextView.text = "Date:$date\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             else {
                 val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
                 val currDate = LocalDate.parse(date, inputFormatter)
                 val dayOfWeek = currDate.dayOfWeek.toString().lowercase().capitalize()
-                propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ---"
+                propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             }
         }
-
-
-
 
 
         cancelButton.setOnClickListener {
