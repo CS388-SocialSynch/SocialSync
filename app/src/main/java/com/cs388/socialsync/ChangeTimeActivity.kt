@@ -2,8 +2,11 @@ package com.cs388.socialsync
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
@@ -21,6 +24,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val propTextView = findViewById<TextView>(R.id.eventPropertiesTextView)
 
+
         val datesRecyclerView = findViewById<RecyclerView>(R.id.dateRecyclerView)
         datesRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
         dateAdapter = DateAdapter(this, genDates("2024-03-28", "2024-04-05"), this, showDates)
@@ -34,10 +38,10 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         settingsButton.setOnClickListener {
+            Obj.updateEventOldName = Obj.event.eventName
             val intent = Intent(this@ChangeTimeActivity, AddEventMainActivity::class.java)
             startActivity(intent)
         }
-
 
         //setEventButton.isEnabled = false
         //setEventButton.alpha = 0.5f
@@ -57,7 +61,38 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
 
         cancelButton.setOnClickListener {
-            showToast("You have canceled this event")
+            val builder: AlertDialog.Builder = AlertDialog.Builder(this)
+            builder
+                .setTitle("DELETE/CANCEL Event?")
+                .setMessage("Are you sure you want to DELETE your event?")
+                .setPositiveButton("Remove") { dialog, which ->
+                    Obj.removeEvent(Obj.event.eventCode, object: Obj.eventDeleteListener{
+                        override fun onEventDelete() {
+                            val launchNextActivity: Intent = Intent(
+                                this@ChangeTimeActivity,
+                                MainActivity::class.java
+                            )
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                            launchNextActivity.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+                            startActivity(launchNextActivity)
+                            showToast("You have canceled this event")
+                        }
+
+                        override fun onCancelled(err: String) {
+                            Toast.makeText(applicationContext, "An error has occured", Toast.LENGTH_SHORT).show()
+                        }
+
+                    })
+                    dialog.dismiss()
+                }
+                .setNegativeButton("Nevermind") { dialog, which ->
+                    dialog.cancel()
+                }
+
+            val dialog: AlertDialog = builder.create()
+            dialog.show()
+
+
         }
 
         // Any initialization or setup code can go here

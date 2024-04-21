@@ -288,24 +288,63 @@
                         />
                     </LinearLayout>
             </LinearLayout>
-            <TextView
-                android:id="@+id/labelCountry"
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Country"
-                android:layout_marginTop="5sp"
-                style="@style/subtitle"
-                />
+                android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/labelCountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Country"
+                        android:layout_marginTop="5sp"
+                        style="@style/subtitle"
+                        />
 
-            <EditText
-                android:id="@+id/eventCountry"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:inputType="text"
-                android:hint="ex: US"
-                style="@style/EditTextbox"
-                />
+                    <EditText
+                        android:id="@+id/eventCountry"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="text"
+                        android:hint="ex: US"
+                        style="@style/EditTextbox"
+                        />
+
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1">
+                    <TextView
+                        android:id="@+id/labelZip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Zipcode"
+                        android:layout_marginTop="5sp"
+                        style="@style/subtitle"
+                        />
+
+                    <EditText
+                        android:id="@+id/eventZip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:ems="10"
+                        android:inputType="number"
+                        android:hint="ex: 07012"
+                        style="@style/EditTextbox"
+                        />
+                </LinearLayout>
+            </LinearLayout>
+
 
         </LinearLayout>
 

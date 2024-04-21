@@ -290,8 +290,7 @@ class EventDetail : Fragment() {
         }
 
         shareEventButton.setOnClickListener {
-            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT).show()
         }
     }
 

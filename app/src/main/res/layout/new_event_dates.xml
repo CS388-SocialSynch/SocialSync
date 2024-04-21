@@ -78,7 +78,7 @@
             android:id="@+id/labelStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Start Time (15 minute increments)"
+            android:text="Earliest Possible Time (15 minute increments)"
             style="@style/body"
             />
 
@@ -88,7 +88,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="ex: 02:15 pm"
+            android:hint="ex: 02:15 PM"
             style="@style/EditTextbox"
             />
         <!-- end Time-->
@@ -97,7 +97,7 @@
             android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Time (15 minute increments)"
+            android:text="Latest Possible Time (15 minute increments)"
             style="@style/body"
             />
 
@@ -107,7 +107,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:inputType="text"
-            android:hint="ex: 10:15 pm"
+            android:hint="ex: 10:15 PM"
             style="@style/EditTextbox"
             />
 
