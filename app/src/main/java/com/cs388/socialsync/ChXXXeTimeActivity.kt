@@ -44,6 +44,8 @@ open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener,
         //TODO: Add logic for days
         if(Obj.event.useSpecificDate){
             eventDates = Obj.event.optionalDates
+        }else{
+            eventDates = Obj.event.optionalDays
         }
 
     }

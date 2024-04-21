@@ -31,7 +31,10 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
             val inputFormat = SimpleDateFormat("yyyy-MM-dd")
             val outputFormat = SimpleDateFormat("MM/dd")
             if (date!=null ) {
-                val formattedDate = outputFormat.format(inputFormat.parse(date))
+                var formattedDate = date
+                if(Obj.event.useSpecificDate) {
+                    formattedDate = outputFormat.format(inputFormat.parse(date))
+                }
                 Obj.addAvailability(date as String, times)
                 showToast("Saved times for $formattedDate")
             }
@@ -48,8 +51,11 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
         val availTimes = Obj.event.availability
 
         for(timeslot in timeslotAdapter.timeslots){
-            Log.d("CHECK",date+" "+timeslot.time)
-            timeslot.isSelected = availTimes.containsKey(date+" "+timeslot.time)
+            val datetime = date+" "+timeslot.time
+            Log.d("CHECK",datetime)
+
+            if(availTimes.containsKey(date+" "+timeslot.time))
+                timeslot.isSelected = availTimes[datetime]?.contains(Obj.loggedUserID) ?: false
         }
         timeslotAdapter.notifyDataSetChanged()
 
