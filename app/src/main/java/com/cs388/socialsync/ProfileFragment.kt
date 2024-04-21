@@ -70,10 +70,10 @@ class ProfileFragment : Fragment() {
             Toast.makeText(context, "Logged out successfully", Toast.LENGTH_SHORT).show()
         }
 
-        switchNotifications.setOnCheckedChangeListener { _, isChecked ->
-            Obj.user.notificationsEnabled = isChecked
-            Obj.uploadUserData(Obj.user)
-        }
+//        switchNotifications.setOnCheckedChangeListener { _, isChecked ->
+//            Obj.user.notificationsEnabled = isChecked
+//            Obj.uploadUserData(Obj.user)
+//        }
 
 
 
@@ -138,7 +138,6 @@ class ProfileFragment : Fragment() {
                 Obj.user = user
                 tvDisplayName.text = user.displayName
                 ivProfile.setImageURI(user.image)
-                switchNotifications.isChecked = user.notificationsEnabled
             }
         })
     }

@@ -3,7 +3,6 @@ package com.cs388.socialsync
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -85,7 +84,6 @@ object Obj {
         USER_DB.child("displayName").setValue(user.displayName)
         USER_DB.child("email").setValue(user.email)
         USER_DB.child("image").setValue(user.image)
-        USER_DB.child("notificationsEnabled").setValue(user.notificationsEnabled)
     }
 
     fun getUserData(listener: UserDataListener) {
@@ -111,15 +109,13 @@ object Obj {
         val displayName = dataSnapshot.child("displayName").value.toString()
         val email = dataSnapshot.child("email").value.toString()
         val image = dataSnapshot.child("image").value.toString()
-        val notificationsEnabled =
-            dataSnapshot.child("notificationsEnabled").value as? Boolean ?: false;
 
         val events = mutableListOf<String>()
         for (eventId in dataSnapshot.child("events").children) {
             events.add(eventId.value.toString())
         }
 
-        return User(displayName, email, image, events, notificationsEnabled)
+        return User(displayName, email, image, events)
     }
 
     interface SetOnLoadEventListener {
@@ -465,7 +461,6 @@ object Obj {
                 }
                 EVENTS_DB.removeEventListener(this)
             }
-
             override fun onCancelled(error: DatabaseError) {
             }
         }
@@ -506,9 +501,10 @@ object Obj {
         var displayName: String,
         var email: String,
         var image: String,
-        var events: MutableList<String>,
-        var notificationsEnabled: Boolean
+        var events: MutableList<String>
     )
+
+
 
 
     fun createNotificationChannel(context: Context) {
