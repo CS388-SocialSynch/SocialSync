@@ -76,7 +76,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                 .setPositiveButton("Remove") { dialog, which ->
                     Log.d("CANCEL CONFIRM", Obj.event.toString())
 
-                    Obj.removeEvent(Obj.event.eventCode, object: Obj.eventDeleteListener{
+                    Obj.removeEvent(Obj.event.eventCode, object : Obj.eventDeleteListener {
                         override fun onEventDelete() {
                             val launchNextActivity: Intent = Intent(
                                 this@ChangeTimeActivity,
@@ -89,7 +89,11 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                         }
 
                         override fun onCancelled(err: String) {
-                            Toast.makeText(applicationContext, "An error has occured", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "An error has occured",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
 
                     })
@@ -101,6 +105,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
             val dialog: AlertDialog = builder.create()
             dialog.show()
+        }
 
 
         cancelButton.setOnClickListener {
