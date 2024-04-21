@@ -56,16 +56,14 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
             }
         }
 
-
-
-
-
         cancelButton.setOnClickListener {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder
                 .setTitle("DELETE/CANCEL Event?")
                 .setMessage("Are you sure you want to DELETE your event?")
                 .setPositiveButton("Remove") { dialog, which ->
+                    Log.d("CANCEL CONFIRM", Obj.event.toString())
+
                     Obj.removeEvent(Obj.event.eventCode, object: Obj.eventDeleteListener{
                         override fun onEventDelete() {
                             val launchNextActivity: Intent = Intent(

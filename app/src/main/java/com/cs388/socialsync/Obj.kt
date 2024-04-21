@@ -469,28 +469,25 @@ object Obj {
         fun onCancelled(err: String)
     }
     fun removeEvent(eventID: String, listener: eventDeleteListener) {
-        fetchEventUsingCode(eventID, object : SetOnEventFetchListener{
-            override fun onEventFetch(eventTemp: Event) {
-                Log.d("REMOVE_EVENT", eventID + " " + eventTemp.hostUID + " "+ auth.currentUser!!.uid.toString())
+        Log.d("REMOVE_EVENT_NEXT", "removeEvent: " + eventID)
+        val eventTemp = event
+        Log.d("REMOVE_EVENT", eventID + " " + eventTemp.hostUID + " "+ auth.currentUser!!.uid.toString())
 
-                if(eventTemp.hostUID == auth.currentUser!!.uid.toString()){
-                    if (Obj.event.eventCode == eventID) {
-                        removeEventFromUser(eventTemp)
-                        user.events.remove(eventID)
-                        EVENTS_DB.child(eventID).removeValue()
-                        listener.onEventDelete()
-                    }else {
-                        listener.onCancelled("Invalid event")
-                        Log.e("REMOVE_EVENT", "removeEvent: Fail 1", )
-                    }
-                }
-                else {
-                    listener.onCancelled("Not Host")
-                    Log.e("REMOVE_EVENT", "removeEvent: Fail 2", )
-                }
+        if(eventID == eventTemp.eventCode && eventTemp.hostUID == auth.currentUser!!.uid.toString()){
+            if (Obj.event.eventCode == eventID) {
+                removeEventFromUser(eventTemp)
+                user.events.remove(eventID)
+                EVENTS_DB.child(eventID).removeValue()
+                listener.onEventDelete()
+            }else {
+                listener.onCancelled("Invalid event")
+                Log.e("REMOVE_EVENT", "removeEvent: Fail 1", )
             }
-        })
-
+        }
+        else {
+            listener.onCancelled("Not Host")
+            Log.e("REMOVE_EVENT", "removeEvent: Fail 2", )
+        }
     }
 
     interface UserDataListener {
