@@ -49,7 +49,7 @@ class ProfileFragment : Fragment() {
         btnChangeDisplayName = view.findViewById(R.id.btnChangeDisplayName)
         change_display_photo = view.findViewById(R.id.change_display_photo)
         logout = view.findViewById(R.id.logout)
-        switchNotifications = view.findViewById(R.id.switch1)
+        //switchNotifications = view.findViewById(R.id.switch1)
 
         tvDisplayName.text = Obj.user.displayName
         ivProfile.setImageURI(Obj.user.image)

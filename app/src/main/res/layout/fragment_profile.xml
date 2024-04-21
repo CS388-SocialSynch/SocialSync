@@ -25,7 +25,8 @@
         android:text="@string/push_notifications"
         android:textSize="16sp"
         android:textStyle="bold"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        tools:ignore="UseSwitchCompatOrMaterialXml"
+        android:visibility="gone"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
