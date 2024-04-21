@@ -23,7 +23,7 @@ data class Event(
     var optionEndTime: String? = null, // End time for all days/dates options
     val optionalDates: MutableList<String> = mutableListOf(), // list of avail days for users to choose from
     val optionalDays: MutableList<String> = mutableListOf(),
-    var availability:  MutableMap<String, MutableList<String>> = mutableMapOf(),
+    var availability:  MutableList<String> = mutableListOf(),
     var useSpecificDate: Boolean = false, // used cliently to determine if event has been edited
     var addressStreet: String = "",
     var addressTown: String = "",

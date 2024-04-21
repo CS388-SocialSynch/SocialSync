@@ -266,17 +266,14 @@ object Obj {
             joinedList.add(joined.value.toString())
         }
 
-        val availabilityMap = mutableMapOf<String, MutableList<String>>()
-        for (availabilitySnapshot in eventSnapshot.child("availability").children) {
-            val date = availabilitySnapshot.key.toString()
-            val timesList = mutableListOf<String>()
-            for (timeSnapshot in availabilitySnapshot.children) {
-                timesList.add(timeSnapshot.value.toString())
-            }
-            availabilityMap[date] = timesList
+        val availList = mutableListOf<String>()
+        for (avail in eventSnapshot.child("joined").children) {
+            availList.add(avail.value.toString())
         }
 
-        Log.d("AvailMap",availabilityMap.toString())
+
+
+
 
         for (aa in eventSnapshot.children) {
             Log.e("CUSTOM====>", aa.key.toString() + "     " + aa.value)
@@ -307,7 +304,7 @@ object Obj {
             eventSnapshot.child("optionEndTime").value.toString(),
             optionalDatesList,
             optionalDayList,
-            availabilityMap,
+            availList,
             eventSnapshot.child("useSpecificDate").value as Boolean,
             eventSnapshot.child("addressStreet").value.toString(),
             eventSnapshot.child("addressTown").value.toString(),
@@ -329,25 +326,21 @@ object Obj {
     }
 
     fun addAvailability(
+
         date: String,
         times :List<String>
     ){
-        val datetimes = times.map { time -> "$date $time" }
+        val datetimes = times.map { time -> "$date $time $loggedUserID" }
         Log.d("Times",datetimes.toString())
-        for(datetime in datetimes){
-            if(event.availability.containsKey(datetime)){
-                val list =  event.availability[datetime]
-                if(list != null){
-                    for(item in list) {
-                        Log.d("Person",item)
-                    }
-                }
+        Log.d("EVENT ADD", event.toString())
 
-            }else{
-                event.availability[datetime]= mutableListOf()
-                event.availability[datetime]?.add(loggedUserID)
-            }
+        for(datetime in datetimes){
+            if(!event.availability.contains(datetime))
+                event.availability.add(datetime)
         }
+        EVENTS_DB.child(event.eventCode).child("availability").setValue(event.availability)
+        Log.d("EVENT AFTER", event.toString())
+
         Log.d("Availability",event.availability.toString())
 
     }
@@ -408,8 +401,6 @@ object Obj {
                     event.eventCode = key
 
                     EVENTS_DB.child(key).setValue(event)
-                    EVENTS_DB.child(key).child("availability").setValue(mutableMapOf<String,MutableList<String>>())
-
 
                     listener.onEventAdded(key)
                     storedKey = key

@@ -27,11 +27,11 @@ class AddEventFinished : AppCompatActivity() {
             val host = Obj.auth.currentUser!!.uid
             event.hostUID = host
             event.joined.add(host)
-            event.availability = mutableMapOf()
+            event.availability = mutableListOf()
 
 
             //TODO DELETE THIS **********
-            Log.d("EVENT CREATE", event.toString())
+            Log.d("EVENT CREATE.", event.toString())
 
                 val listener = object : Obj.SetOnDuplicateEventCheckListener {
                     override fun onDuplicateEvent() {
