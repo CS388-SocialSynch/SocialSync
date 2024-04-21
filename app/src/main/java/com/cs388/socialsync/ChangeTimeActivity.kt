@@ -14,6 +14,7 @@ import java.time.format.DateTimeFormatter
 
 class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, OnDateSelectionListener {
 
+    private lateinit var  timeslotAdapter: TimeslotAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_time)
@@ -38,7 +39,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
         val timeslotRecyclerView = findViewById<RecyclerView>(R.id.timeslotsRecyclerView)
         timeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        val timeslotAdapter = TimeslotAdapter(this,eventStarTime, eventEndTime,this)
+        timeslotAdapter = TimeslotAdapter(this,eventStarTime, eventEndTime,this)
         timeslotRecyclerView.adapter = timeslotAdapter
 
 
@@ -60,6 +61,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                 val dayOfWeek = currDate.dayOfWeek.toString().lowercase().capitalize()
                 propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             }
+            startTime?.let { it1 -> endTime?.let { it2 -> Obj.setTimes(it1, it2) } }
         }
 
 
@@ -69,4 +71,26 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
         // Any initialization or setup code can go here
     }
+
+    override fun onDateSelected(selectedDate: String){
+        date = selectedDate
+        val availTimes = Obj.event.availability
+        val pplCount = Obj.event.participants.size.toFloat()
+        for(timeslot in timeslotAdapter.timeslots) {
+            val datetime = date + " " + timeslot.time
+            if (availTimes.containsKey(datetime)){
+                val num =availTimes[datetime]?.size?.toFloat() ?: 0f
+                timeslot.opacity= (num/pplCount * 0.8F ) + 0.2F
+            }else{
+                timeslot.opacity=0.2F
+            }
+        }
+        timeslotAdapter.notifyDataSetChanged()
+        if(startTime!=null){
+            enableButton(toggleButton)
+        } else {
+            disableButton(toggleButton)
+        }
+    }
+
 }

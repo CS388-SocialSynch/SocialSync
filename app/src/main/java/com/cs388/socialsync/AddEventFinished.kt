@@ -27,7 +27,7 @@ class AddEventFinished : AppCompatActivity() {
             val host = Obj.auth.currentUser!!.uid
             event.hostUID = host
             event.joined.add(host)
-            event.availability = mutableListOf()
+
 
 
             //TODO DELETE THIS **********

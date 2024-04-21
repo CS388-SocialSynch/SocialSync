@@ -21,7 +21,7 @@ class TimeslotPlusAdapter(
 
     data class Timeslot(val time: String, var isSelected: Boolean)
 
-    private val timeslots: List<Timeslot> = genTimeslots(startTime, endTime).map{Timeslot(it, isSelected = false)}
+    val timeslots: List<Timeslot> = genTimeslots(startTime, endTime).map{Timeslot(it, isSelected = false)}
 
     override fun onBindViewHolder(holder: TimeslotPlusAdapter.TimeslotViewHolder, position: Int) {
         holder.bind(timeslots[position],position)

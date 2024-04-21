@@ -12,6 +12,8 @@ import java.util.Random
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Locale
 
 
 object Obj {
@@ -266,9 +268,19 @@ object Obj {
             joinedList.add(joined.value.toString())
         }
 
-        val availList = mutableListOf<String>()
-        for (avail in eventSnapshot.child("joined").children) {
-            availList.add(avail.value.toString())
+        val availabilityMap = mutableMapOf<String, MutableList<String>>()
+        val availabilitySnapshot = eventSnapshot.child("availability")
+
+        for (dateSnapshot in availabilitySnapshot.children) {
+            val date = dateSnapshot.key.toString()
+            val timesList = mutableListOf<String>()
+
+            for (timeSnapshot in dateSnapshot.children) {
+                val time = timeSnapshot.value.toString()
+                timesList.add(time)
+            }
+
+            availabilityMap[date] = timesList
         }
 
 
@@ -304,7 +316,7 @@ object Obj {
             eventSnapshot.child("optionEndTime").value.toString(),
             optionalDatesList,
             optionalDayList,
-            availList,
+            availabilityMap,
             eventSnapshot.child("useSpecificDate").value as Boolean,
             eventSnapshot.child("addressStreet").value.toString(),
             eventSnapshot.child("addressTown").value.toString(),
@@ -330,20 +342,47 @@ object Obj {
         date: String,
         times :List<String>
     ){
-        val datetimes = times.map { time -> "$date $time $loggedUserID" }
+        val datetimes = times.map { time -> "$date $time" }
         Log.d("Times",datetimes.toString())
         Log.d("EVENT ADD", event.toString())
 
-        for(datetime in datetimes){
-            if(!event.availability.contains(datetime))
-                event.availability.add(datetime)
+        for (datetime in event.availability.keys) {
+            if(datetime.contains(date))
+                event.availability[datetime]?.removeAll{it == loggedUserID}
         }
+
+        for(datetime in datetimes){
+            if(event.availability.containsKey(datetime)){
+                event.availability[datetime]?.add(loggedUserID)
+            }else{
+                event.availability[datetime] = mutableListOf(loggedUserID)
+            }
+
+        }
+
         EVENTS_DB.child(event.eventCode).child("availability").setValue(event.availability)
         Log.d("EVENT AFTER", event.toString())
 
         Log.d("Availability",event.availability.toString())
 
     }
+
+    fun setTimes(startTime:String,endTime:String){
+        val MST = convertToMilitaryTime( startTime)
+        val MET = convertToMilitaryTime( endTime)
+        event.startTime= MST
+        event.endTime= MET
+        EVENTS_DB.child(event.eventCode).child("startTime").setValue(MST)
+        EVENTS_DB.child(event.eventCode).child("endTime").setValue(MET)
+    }
+
+    fun convertToMilitaryTime(timeString: String): String {
+        val inputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date = inputFormat.parse(timeString)
+        return outputFormat.format(date)
+    }
+
 
     interface SetOnDuplicateEventCheckListener {
         fun onDuplicateEvent()

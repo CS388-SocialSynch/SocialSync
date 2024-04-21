@@ -1,6 +1,7 @@
 package com.cs388.socialsync
 
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -8,7 +9,7 @@ import java.text.SimpleDateFormat
 
 class ChooseTimeActivity: ChXXXeTimeActivity()  {
 
-
+    private lateinit var timeslotAdapter:TimeslotPlusAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_choose_time)
@@ -22,7 +23,7 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
 
         val chooseTimeslotRecyclerView = findViewById<RecyclerView>(R.id.chooseTimeslotsRecyclerView)
         chooseTimeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        val timeslotAdapter = TimeslotPlusAdapter(this, eventStarTime, eventEndTime,this)
+        timeslotAdapter = TimeslotPlusAdapter(this, eventStarTime, eventEndTime,this)
         chooseTimeslotRecyclerView.adapter = timeslotAdapter
 
         toggleButton = findViewById<Button>(R.id.saveTimesButton)
@@ -42,6 +43,22 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
         }
     }
 
+    override fun onDateSelected(selectedDate: String){
+        date = selectedDate
+        val availTimes = Obj.event.availability
+
+        for(timeslot in timeslotAdapter.timeslots){
+            Log.d("CHECK",date+" "+timeslot.time)
+            timeslot.isSelected = availTimes.containsKey(date+" "+timeslot.time)
+        }
+        timeslotAdapter.notifyDataSetChanged()
+
+        if(startTime!=null){
+            enableButton(toggleButton)
+        } else {
+            disableButton(toggleButton)
+        }
+    }
     override fun onTimeslotsSelected(selectedTimeslots: List<String>) {
         times = selectedTimeslots
         if ( date != null) {
