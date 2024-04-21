@@ -46,7 +46,13 @@ class AddEventChooseDates: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.new_event_choosing_dates)
+        var tempDate: LocalDate
 
+        eventList.clear()
+        Obj.event.optionalDates.forEach {
+            tempDate = LocalDate.parse(it, DateTimeFormatter.ISO_LOCAL_DATE)
+            eventList.add(tempDate)
+        }
 
         Toast.makeText(applicationContext, "Press to remove a date", Toast.LENGTH_SHORT).show()
         calendarView = findViewById(R.id.calendarView)
