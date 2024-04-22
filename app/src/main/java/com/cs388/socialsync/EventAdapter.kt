@@ -78,34 +78,43 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val weatherFetcher = WeatherFetcher()
 
         val zipCode = currentItem.addressZipcode.toString()
-        Log.d("zipcode", zipCode)
-        // Call fetchWeather method to fetch weather data
-        weatherFetcher.fetchWeather(zipCode) { weatherCondition, temperature, humidity, windSpeed, feelLike ->
-            // Update UI with fetched weather data
-            val weatherIconResource = when (weatherCondition) {
-                "Clear" -> R.drawable.sunny_icon
-                "Clouds", "Mist", "Haze", "Fog" -> R.drawable.cloudy_icon
-                "Rain", "Drizzle" -> R.drawable.rainy_icon
-                "Thunderstorm" -> R.drawable.stormy_icon
-                "Snow" -> R.drawable.snowy_icon
-                else -> R.drawable.default_icon
-            }
-            Log.d("humidity", humidity.toString())
-            Log.d("wind", windSpeed.toString())
-            Log.d("feelsLike", feelLike.toString())
-            currentItem.temperature = temperature
-            currentItem.weatherCondition = weatherCondition
-            currentItem.windSpeed = windSpeed
-            currentItem.humidity = humidity
-            currentItem.feelLike = feelLike
-            // Load weather image using Glide on the main thread
+        if(!currentItem.isInPerson && !currentItem.isAPI) {
+            Log.d("huh", "hello!")
+            "Online".also { holder.temperatureTextView.text = it }
             (holder.itemView.context as AppCompatActivity).runOnUiThread {
                 Glide.with(holder.itemView.context)
-                    .load(weatherIconResource)
+                    .load(R.drawable.virtual_icon)
                     .into(holder.weatherImageView)
+            }
+        } else {
+            // Call fetchWeather method to fetch weather data
+            weatherFetcher.fetchWeather(zipCode) { weatherCondition, temperature, humidity, windSpeed, feelLike ->
+                // Update UI with fetched weather data
+                val weatherIconResource = when (weatherCondition) {
+                    "Clear" -> R.drawable.sunny_icon
+                    "Clouds", "Mist", "Haze", "Fog" -> R.drawable.cloudy_icon
+                    "Rain", "Drizzle" -> R.drawable.rainy_icon
+                    "Thunderstorm" -> R.drawable.stormy_icon
+                    "Snow" -> R.drawable.snowy_icon
+                    else -> R.drawable.default_icon
+                }
+                Log.d("humidity", humidity.toString())
+                Log.d("wind", windSpeed.toString())
+                Log.d("feelsLike", feelLike.toString())
+                currentItem.temperature = temperature
+                currentItem.weatherCondition = weatherCondition
+                currentItem.windSpeed = windSpeed
+                currentItem.humidity = humidity
+                currentItem.feelLike = feelLike
+                // Load weather image using Glide on the main thread
+                (holder.itemView.context as AppCompatActivity).runOnUiThread {
+                    Glide.with(holder.itemView.context)
+                        .load(weatherIconResource)
+                        .into(holder.weatherImageView)
 
-                // Set temperature text on the main thread
-                "${temperature}°F".also { holder.temperatureTextView.text = it }
+                    // Set temperature text on the main thread
+                    "${temperature}°F".also { holder.temperatureTextView.text = it }
+                }
             }
         }
     }

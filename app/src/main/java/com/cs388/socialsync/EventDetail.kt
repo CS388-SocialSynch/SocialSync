@@ -169,6 +169,7 @@ class EventDetail : Fragment() {
             }
         }
     }
+
     private fun setListeners(event: Event) {
 
         attendSwitch.setOnCheckedChangeListener { _, isChecked ->
@@ -208,7 +209,8 @@ class EventDetail : Fragment() {
         }
 
         shareEventButton.setOnClickListener {
-            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -246,7 +248,7 @@ class EventDetail : Fragment() {
                 dateStr = try {
                     LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE)
                         .format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                }catch (e: DateTimeParseException){
+                } catch (e: DateTimeParseException) {
                     when (details.date) {
                         "MON" -> "Monday"
                         "TUE" -> "Tuesday"
@@ -267,19 +269,26 @@ class EventDetail : Fragment() {
             } else {
                 addressDetailView.text = details.address
             }
-            "Feels like: ${details.feelLike.toString()}°F".also { feelLikeTextView.text = it }
-            "Humidity: ${details.humidity.toString()}%".also { humidityTextView.text = it }
-            "Wind: ${details.windSpeed.toString()} mph".also { windTextView.text = it }
-            // Load weather icon using Glide
-            val weatherIconResId = when (details.weatherCondition) {
-                "Clear" -> R.drawable.sunny_icon
-                "Clouds", "Mist", "Haze", "Fog" -> R.drawable.cloudy_icon
-                "Rain", "Drizzle" -> R.drawable.rainy_icon
-                "Thunderstorm" -> R.drawable.stormy_icon
-                "Snow" -> R.drawable.snowy_icon
-                else -> R.drawable.default_icon
+            if (!event.isInPerson && !event.isAPI) {
+                "Feels like: N/A".also { feelLikeTextView.text = it }
+                "Humidity: N/A".also { humidityTextView.text = it }
+                "Wind: N/A".also { windTextView.text = it }
+                Glide.with(this).load(R.drawable.virtual_icon).into(weatherIconDetailView)
+            } else {
+                "Feels like: ${details.feelLike.toString()}°F".also { feelLikeTextView.text = it }
+                "Humidity: ${details.humidity.toString()}%".also { humidityTextView.text = it }
+                "Wind: ${details.windSpeed.toString()} mph".also { windTextView.text = it }
+                // Load weather icon using Glide
+                val weatherIconResId = when (details.weatherCondition) {
+                    "Clear" -> R.drawable.sunny_icon
+                    "Clouds", "Mist", "Haze", "Fog" -> R.drawable.cloudy_icon
+                    "Rain", "Drizzle" -> R.drawable.rainy_icon
+                    "Thunderstorm" -> R.drawable.stormy_icon
+                    "Snow" -> R.drawable.snowy_icon
+                    else -> R.drawable.default_icon
+                }
+                Glide.with(this).load(weatherIconResId).into(weatherIconDetailView)
             }
-            Glide.with(this).load(weatherIconResId).into(weatherIconDetailView)
         }
     }
 }
