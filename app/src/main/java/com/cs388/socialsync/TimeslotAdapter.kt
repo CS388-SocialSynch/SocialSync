@@ -83,6 +83,23 @@ class TimeslotAdapter(
 
 
     }
+
+    fun timeslotClicked(position: Int) {
+        val timeSlot = timeslots.getOrNull(position)
+        timeSlot?.let {
+            val clicked = lastClickedPositions.contains(position)
+            if (clicked) {
+                lastClickedPositions.remove(position)
+            } else {
+                if (lastClickedPositions.size >= 2) {
+                    lastClickedPositions.removeAt(0)
+                }
+                lastClickedPositions.add(position)
+            }
+            notifyItemChanged(position)
+            updateSelectedCount()
+        }
+    }
     private fun genTimeslots(startTime: String, endTime: String): List<String> {
         val timeList = mutableListOf<String>()
         val formatter = DateTimeFormatter.ofPattern("h:mm a")

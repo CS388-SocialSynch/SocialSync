@@ -56,6 +56,8 @@ class ChooseTimeActivity: ChXXXeTimeActivity()  {
 
             if(availTimes.containsKey(date+" "+timeslot.time))
                 timeslot.isSelected = availTimes[datetime]?.contains(Obj.loggedUserID) ?: false
+            else
+                timeslot.isSelected = false
         }
         timeslotAdapter.notifyDataSetChanged()
 

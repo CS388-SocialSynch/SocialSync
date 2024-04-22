@@ -131,13 +131,19 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         date = selectedDate
         val availTimes = Obj.event.availability
         val pplCount = Obj.event.participants.size.toFloat()
-        for(timeslot in timeslotAdapter.timeslots) {
-            val datetime = date + " " + timeslot.time
+        for ((index, timeslot) in timeslotAdapter.timeslots.withIndex()) {
+            val datetime = "$date ${timeslot.time}"
             if (availTimes.containsKey(datetime)){
-                val num =availTimes[datetime]?.size?.toFloat() ?: 0f
-                timeslot.opacity= (num/pplCount * 0.8F ) + 0.2F
-            }else{
-                timeslot.opacity=0.2F
+                val num = availTimes[datetime]?.size?.toFloat() ?: 0f
+                timeslot.opacity = (num / pplCount * 0.8F) + 0.2F
+            } else {
+                timeslot.opacity = 0.2F
+            }
+
+            if (date == Obj.event.date && (timeslot.time == Obj.event.startTime || timeslot.time == Obj.event.endTime)) {
+                // Simulate a click on the current time slot
+                timeslotAdapter.notifyItemChanged(index)
+                timeslotAdapter.timeslotClicked(index)
             }
         }
         timeslotAdapter.notifyDataSetChanged()
