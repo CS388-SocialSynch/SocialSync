@@ -63,9 +63,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
-            android:text="Recorded"
+            android:text="Recorded!"
             android:textAlignment="center"
-            style="@style/header3"
+            android:textSize="32sp"
             />
 
         <TextView
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:text="Event Code:"
             android:textAlignment="center"
-            style="@style/body"
+            android:textSize="21sp"
             />
 
 

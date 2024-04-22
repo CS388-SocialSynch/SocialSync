@@ -127,7 +127,7 @@ class EventDetail : Fragment() {
         btnNotifyEvent = view.findViewById(R.id.btnNotifyEvent)
 
         btnNotifyEvent.setOnClickListener {
-            Toast.makeText(activity, "Remainder Set", Toast.LENGTH_SHORT).show()
+            Toast.makeText(activity, "Reminder Set", Toast.LENGTH_SHORT).show()
 
             val intent = Intent(activity, ReminderBroadcast::class.java)
 
@@ -291,7 +291,7 @@ class EventDetail : Fragment() {
         }
 
         shareEventButton.setOnClickListener {
-            Toast.makeText(context, "There is nothing to share >:(, yet :)", Toast.LENGTH_SHORT)
+            Toast.makeText(context, "There is nothing to share yet", Toast.LENGTH_SHORT)
                 .show()
         }
     }

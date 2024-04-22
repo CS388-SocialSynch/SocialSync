@@ -4,6 +4,7 @@
         <item name="android:textColor">#000000</item>
         <item name="itemTextColor">#000740</item>
         <item name="android:fontFamily">monospace</item>
+        <item name="android:colorPrimaryDark">#000000</item>
     </style>
 
     <!-- Inherit base theme and define other styles -->
@@ -13,27 +14,27 @@
 
     <!-- Define text sizes with inheritance -->
     <style name="header1" parent="Base.Theme.SocialSync.LightMode">
-        <item name="android:textSize">40sp</item>
-    </style>
-
-    <style name="header2" parent="Base.Theme.SocialSync.LightMode">
         <item name="android:textSize">35sp</item>
     </style>
 
-    <style name="header3" parent="Base.Theme.SocialSync.LightMode">
+    <style name="header2" parent="Base.Theme.SocialSync.LightMode">
         <item name="android:textSize">30sp</item>
     </style>
 
-    <style name="subtitle" parent="Base.Theme.SocialSync.LightMode">
+    <style name="header3" parent="Base.Theme.SocialSync.LightMode">
         <item name="android:textSize">25sp</item>
     </style>
 
-    <style name="body" parent="Base.Theme.SocialSync.LightMode">
+    <style name="subtitle" parent="Base.Theme.SocialSync.LightMode">
         <item name="android:textSize">20sp</item>
     </style>
 
+    <style name="body" parent="Base.Theme.SocialSync.LightMode">
+        <item name="android:textSize">18sp</item>
+    </style>
+
     <style name="small" parent="Base.Theme.SocialSync.LightMode">
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">10sp</item>
     </style>
 
     <style name="clock">
@@ -44,18 +45,20 @@
     <style name="CustomCalendarView" parent="@android:style/Widget.CalendarView">
         <item name="colorControlActivated">@color/font</item>
     </style>
-    
+
     <style name="EditTextbox" parent="@style/Widget.AppCompat.EditText">
         <item name="android:textAppearance">@style/body</item>
         <item name="android:background">@drawable/black_stroke</item>
+        <item name="android:colorBackground">@color/secondary1</item>
         <item name="android:textColor">@color/black</item>
+        <item name="android:padding">5dp</item>
     </style>
 
     <style name="appButton" parent="Widget.AppCompat.Button">
         <item name="android:background">@drawable/button_normal</item>
         <item name="android:color">@color/black</item>
         <item name="android:stateListAnimator">@null</item>
-        <item name="android:elevation">5sp</item>
+        <item name="android:elevation">3sp</item>
         <item name="android:textAppearance">@style/subtitle</item>
         <item name="android:paddingStart">20sp</item>
         <item name="android:paddingEnd">20sp</item>

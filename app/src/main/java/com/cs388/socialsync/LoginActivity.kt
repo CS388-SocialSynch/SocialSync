@@ -7,6 +7,7 @@ import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.widget.AppCompatButton
 import com.cs388.socialsync.R
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
@@ -24,7 +25,7 @@ import com.google.firebase.database.values
 
 class LoginActivity : AppCompatActivity() {
 
-    lateinit var ivGoogleLogin: MaterialButton
+    lateinit var ivGoogleLogin: AppCompatButton
 
     lateinit var googleSignInClient: GoogleSignInClient
     fun init() {

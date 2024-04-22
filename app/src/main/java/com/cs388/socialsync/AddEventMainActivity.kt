@@ -12,6 +12,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
 import androidx.appcompat.widget.SwitchCompat
+import androidx.cardview.widget.CardView
 import androidx.core.widget.doAfterTextChanged
 import java.time.LocalTime
 
@@ -35,7 +36,7 @@ class AddEventMainActivity: AppCompatActivity() {
         val countryEdit = findViewById<EditText>(R.id.eventCountry)
         val zipEdit = findViewById<EditText>(R.id.eventZip)
 
-        val addressSnippet = findViewById<LinearLayout>(R.id.addressSnippet)
+        val addressSnippet = findViewById<CardView>(R.id.addressSnippet)
 
         val event = Obj.event
         var validationCheck = false

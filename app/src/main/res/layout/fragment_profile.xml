@@ -43,6 +43,20 @@
             android:src="@drawable/dummy_user"
             app:roundedCornerRadius="100dp" />
     </androidx.cardview.widget.CardView>
+<!--    <Button-->
+<!--        android:id="@+id/calendar_export"-->
+<!--        android:layout_width="270dp"-->
+<!--        android:layout_height="48dp"-->
+<!--        android:layout_marginTop="25dp"-->
+<!--        android:backgroundTint="@color/secondary1"-->
+<!--        android:enabled="false"-->
+<!--        android:text="@string/calendar_export"-->
+<!--        android:textColor="@color/black"-->
+<!--        android:textSize="20sp"-->
+<!--        app:cornerRadius="9dp"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/switch1" />-->
 
     <TextView
         android:id="@+id/displayName"
@@ -51,7 +65,10 @@
         android:layout_marginTop="20dp"
         android:text="@string/display_name"
         android:textSize="22sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/calendar_export" />
 
     <EditText
         android:id="@+id/etDisplayName"
@@ -60,15 +77,21 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="40dp"
+        android:paddingHorizontal="12dp"
         android:background="@drawable/rounded_edit_text"
         android:hint="name"
         android:inputType="text"
-        app:cornerRadius="20dp" />
+        app:cornerRadius="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/displayName" />
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btnChangeDisplayName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/appButton"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -76,12 +99,17 @@
         android:text="@string/change_display_name"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:cornerRadius="28dp" />
+        app:cornerRadius="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etDisplayName" />
 
-    <Button
+
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/change_display_photo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        style="@style/appButton"
         android:layout_marginTop="20dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
@@ -89,19 +117,28 @@
         android:text="@string/change_display_photo"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:cornerRadius="28dp" />
+        app:cornerRadius="9dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChangeDisplayName" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/logout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        style="@style/appButton"
+        android:layout_marginTop="15dp"
         android:layout_marginStart="40dp"
         android:layout_marginEnd="40dp"
-        android:backgroundTint="@color/red"
+        android:backgroundTint="@color/logout"
         android:text="@string/log_out"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:cornerRadius="28dp" />
+        app:cornerRadius="9dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChangeDisplayName" />
+
 
 </LinearLayout>

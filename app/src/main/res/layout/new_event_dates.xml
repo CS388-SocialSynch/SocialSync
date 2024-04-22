@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Earliest Possible Time (15 minute increments)"
-            style="@style/body"
+            android:textSize="18sp"
             />
 
         <EditText
@@ -89,6 +89,7 @@
             android:ems="10"
             android:inputType="text"
             android:hint="ex: 02:15 PM"
+            android:background="@drawable/rounded_edit_text"
             style="@style/EditTextbox"
             />
         <!-- end Time-->
@@ -98,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Latest Possible Time (15 minute increments)"
-            style="@style/body"
+            android:textSize="18sp"
             />
 
         <EditText
@@ -108,20 +109,28 @@
             android:ems="10"
             android:inputType="text"
             android:hint="ex: 10:15 PM"
+            android:background="@drawable/rounded_edit_text"
             style="@style/EditTextbox"
             />
 
     <!-- Specific days-->
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:elevation="1sp"
+            android:layout_marginVertical="10dp"
+            app:cardBackgroundColor="@color/editBackground"
+            android:layout_gravity="center"
+            app:cardCornerRadius="6dp"
+            app:cardUseCompatPadding="true"
+            android:layout_weight="1"
+            >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
         android:orientation="vertical"
-        android:background="@drawable/orange_gradient"
-        android:stateListAnimator="@null"
-        android:elevation="2sp"
         android:paddingVertical="30dp"
-        android:layout_marginVertical="10dp"
+
         >
         <LinearLayout
             android:layout_width="match_parent"
@@ -208,6 +217,7 @@
 
         </LinearLayout><!-- General Date-->
 
+
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
@@ -228,6 +238,7 @@
             />
 
     </LinearLayout> <!-- Choosing Dates -->
+        </androidx.cardview.widget.CardView>
 
 <!--        <androidx.appcompat.widget.AppCompatButton-->
 <!--            android:id="@+id/btnAddTime"-->
@@ -243,11 +254,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginHorizontal="40sp"
-            android:layout_marginVertical="15dp">
+            android:layout_marginVertical="15dp"
+            >
 
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnBack"
                 android:text="Back"
@@ -256,13 +267,14 @@
                 android:layout_margin="10dp"
                 />
             <androidx.appcompat.widget.AppCompatButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/btnNext"
                 android:text="Submit"
                 style="@style/appButton"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
+
                 />
 
         </LinearLayout> <!-- Button layout -->

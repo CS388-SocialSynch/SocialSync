@@ -9,7 +9,14 @@
     >
 
 
-
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:layout_margin="5dp">
     <TextView
         android:id="@+id/changeTimeTextView"
         android:layout_width="wrap_content"
@@ -17,12 +24,7 @@
         android:text="@string/change_time"
         android:textSize="25sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.029"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.004" />
+        />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/dateRecyclerView"
@@ -44,7 +46,8 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.0"
         tools:listitem="@layout/timeslot_item"
-        android:layout_marginBottom="5dp"/>
+        android:layout_marginBottom="5dp"
+        android:layout_marginVertical="10dp"/>
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/appButton"
@@ -72,6 +75,7 @@
 
     <androidx.appcompat.widget.AppCompatButton
         style="@style/appButton"
+        android:backgroundTint="@color/logout"
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -87,14 +91,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/defaultProperties"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.174"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.976" />
+        android:textSize="16dp" />
 
-
+</LinearLayout>
+    </androidx.core.widget.NestedScrollView>
 </androidx.appcompat.widget.LinearLayoutCompat>
 
 
