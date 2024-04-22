@@ -43,7 +43,6 @@
             android:src="@drawable/dummy_user"
             app:roundedCornerRadius="100dp" />
     </androidx.cardview.widget.CardView>
-
 <!--    <Button-->
 <!--        android:id="@+id/calendar_export"-->
 <!--        android:layout_width="270dp"-->
@@ -104,6 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/etDisplayName" />
+
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/change_display_photo"
