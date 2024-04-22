@@ -7,9 +7,9 @@
     <color name="prim1">#D1F2EB</color>
 <!--    <color name="secondary2">#D0E6D7</color>-->
     <color name="prim2">#D1F2EB</color>
-    <color name="secondary1">#FEF5E7</color>
-    <color name="secondaryPress">#FEF5E7</color>
-    <color name="secondary2">#FBEEE6</color>
+    <color name="secondary1">#FAD7A0</color>
+    <color name="secondaryPress">#FAE5D3</color>
+    <color name="secondary2">#FCF3CF</color>
     <color name="font">#000740</color>
     <color name="transparent">#00000000</color>
     <color name="editBackground">#80EEEEEE</color>

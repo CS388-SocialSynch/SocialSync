@@ -17,7 +17,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/secondary2"
+            android:background="@drawable/orange_gradient"
             android:padding="16dp">
 
             <!-- Left Side -->
