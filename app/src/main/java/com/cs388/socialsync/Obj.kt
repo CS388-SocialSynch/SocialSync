@@ -1,5 +1,8 @@
 package com.cs388.socialsync
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -13,8 +16,11 @@ import java.util.Random
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import org.json.JSONObject
+import java.text.SimpleDateFormat
+import java.util.Locale
 import kotlin.math.abs
 import kotlin.reflect.typeOf
+
 
 
 object Obj {
@@ -29,6 +35,7 @@ object Obj {
     private val formatter: DateTimeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
     lateinit var event: Event
     var updateEventOldName: String = ""
+
 
     interface SetOnEventFetchListener {
         fun onEventFetch(event: Event)
@@ -316,10 +323,33 @@ object Obj {
             joinedList.add(joined.value.toString())
         }
 
+        val availabilityMap = mutableMapOf<String, MutableList<String>>()
+        val availabilitySnapshot = eventSnapshot.child("availability")
+
+        for (dateSnapshot in availabilitySnapshot.children) {
+            val date = dateSnapshot.key.toString()
+            val timesList = mutableListOf<String>()
+
+            for (timeSnapshot in dateSnapshot.children) {
+                val time = timeSnapshot.value.toString()
+                timesList.add(time)
+            }
+
+            availabilityMap[date] = timesList
+        }
+
+
+
+
+
         for (aa in eventSnapshot.children) {
             Log.e("CUSTOM====>", aa.key.toString() + "     " + aa.value)
 
         }
+
+
+
+
 
         val event = Event(
             eventSnapshot.child("eventName").value.toString(),
@@ -341,6 +371,7 @@ object Obj {
             eventSnapshot.child("optionEndTime").value.toString(),
             optionalDatesList,
             optionalDayList,
+            availabilityMap,
             eventSnapshot.child("useSpecificDate").value as Boolean,
             eventSnapshot.child("addressStreet").value.toString(),
             eventSnapshot.child("addressTown").value.toString(),
@@ -356,6 +387,59 @@ object Obj {
 
         return event
     }
+
+    fun getAvailability(){
+
+    }
+
+    fun addAvailability(
+
+        date: String,
+        times :List<String>
+    ){
+        val datetimes = times.map { time -> "$date $time" }
+        Log.d("Times",datetimes.toString())
+        Log.d("EVENT ADD", event.toString())
+
+        for (datetime in event.availability.keys) {
+            if(datetime.contains(date))
+                event.availability[datetime]?.removeAll{it == loggedUserID}
+        }
+
+        for(datetime in datetimes){
+            if(event.availability.containsKey(datetime)){
+                event.availability[datetime]?.add(loggedUserID)
+            }else{
+                event.availability[datetime] = mutableListOf(loggedUserID)
+            }
+
+        }
+
+        EVENTS_DB.child(event.eventCode).child("availability").setValue(event.availability)
+        Log.d("EVENT AFTER", event.toString())
+
+        Log.d("Availability",event.availability.toString())
+
+    }
+
+    fun setTimes(startTime:String,endTime:String,date:String){
+        val MST = convertToMilitaryTime( startTime)
+        val MET = convertToMilitaryTime( endTime)
+        event.startTime= MST
+        event.endTime= MET
+        event.date=date
+        EVENTS_DB.child(event.eventCode).child("startTime").setValue(MST)
+        EVENTS_DB.child(event.eventCode).child("endTime").setValue(MET)
+        EVENTS_DB.child(event.eventCode).child("date").setValue(date)
+    }
+
+    fun convertToMilitaryTime(timeString: String): String {
+        val inputFormat = SimpleDateFormat("hh:mm a", Locale.getDefault())
+        val outputFormat = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date = inputFormat.parse(timeString)
+        return outputFormat.format(date)
+    }
+
 
     interface SetOnDuplicateEventCheckListener {
         fun onDuplicateEvent()
@@ -411,7 +495,9 @@ object Obj {
                     Log.e("ERROR----> key", key)
 
                     event.eventCode = key
+
                     EVENTS_DB.child(key).setValue(event)
+
                     listener.onEventAdded(key)
                     storedKey = key
                 }
@@ -433,7 +519,6 @@ object Obj {
         }
         EVENTS_DB.addListenerForSingleValueEvent(eventFetchListener)
     }
-
     fun updateEventOnDatabase(
         event: Event,
         eventID: String,
@@ -500,5 +585,19 @@ object Obj {
         var image: String,
         var events: MutableList<String>
     )
+
+
+
+
+    fun createNotificationChannel(context: Context) {
+        val name = "SocialSyncRemainderChannel";
+        val description = "Event Notification!"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT;
+        val channel = NotificationChannel("socialSyncNotif", name, importance);
+        channel.description = description;
+
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
+    }
 
 }

@@ -97,6 +97,7 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun startNewActivity(flags: Boolean = false) {
+        Obj.createNotificationChannel(this@LoginActivity)
 
         Obj.USER_DB =
             Firebase.database.getReference("USERS").child(Obj.auth.currentUser!!.uid)
@@ -114,6 +115,7 @@ class LoginActivity : AppCompatActivity() {
                         Obj.auth.currentUser!!.email.toString(),
                         Obj.auth.currentUser!!.photoUrl.toString(),
                         user.events
+
                     )
                     Obj.user = user
                     Obj.uploadUserData(user)

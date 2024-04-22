@@ -1,56 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center_horizontal|center_vertical"
     android:background="@drawable/background_gradient">
 
     <TextView
         android:id="@+id/tvDisplayName"
-        android:layout_width="351dp"
-        android:layout_height="41dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:gravity="center"
         android:text="Hello Saketh"
         android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:textStyle="bold" />
 
     <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/switch1"
-        android:layout_width="236dp"
-        android:layout_height="36dp"
-        android:layout_marginTop="25dp"
-        android:textColor="@color/black"
-        android:text="Push Notifications?"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="@string/push_notifications"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
+        tools:ignore="UseSwitchCompatOrMaterialXml"
+        android:visibility="gone"/>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
-        android:layout_width="138dp"
-        android:layout_height="138dp"
-        android:layout_marginTop="30dp"
-        app:cardCornerRadius="500dp"
-        app:cardElevation="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDisplayName">
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="100dp"
+        app:cardElevation="10dp">
 
         <com.facebook.drawee.view.SimpleDraweeView
             android:id="@+id/ivProfile"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/dummy_user"
-            app:roundedCornerRadius="500dp" />
+            app:roundedCornerRadius="100dp" />
     </androidx.cardview.widget.CardView>
 
     <Button
@@ -70,10 +61,9 @@
 
     <TextView
         android:id="@+id/displayName"
-        android:layout_width="277dp"
-        android:layout_height="33dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:gravity="left"
         android:text="@string/display_name"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -83,10 +73,11 @@
 
     <EditText
         android:id="@+id/etDisplayName"
-        android:layout_width="277dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="8dp"
-        android:textColorHint="#808080"
+        android:layout_width="332dp"
+        android:layout_height="42dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/rounded_edit_text"
         android:hint="name"
         android:inputType="text"
@@ -98,9 +89,11 @@
 
     <Button
         android:id="@+id/btnChangeDisplayName"
-        android:layout_width="270dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="15dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="@color/secondary1"
         android:text="@string/change_display_name"
         android:textColor="@color/black"
@@ -112,9 +105,11 @@
 
     <Button
         android:id="@+id/change_display_photo"
-        android:layout_width="270dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="3dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginEnd="40dp"
         android:backgroundTint="@color/secondary1"
         android:text="@string/change_display_photo"
         android:textColor="@color/black"
@@ -140,8 +135,4 @@
         app:layout_constraintTop_toBottomOf="@+id/btnChangeDisplayName" />
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
+</LinearLayout>

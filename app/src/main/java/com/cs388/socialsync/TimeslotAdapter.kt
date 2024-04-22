@@ -18,7 +18,11 @@ class TimeslotAdapter(
     private val listener: OnTimeslotSelectionListener
 ) : RecyclerView.Adapter<TimeslotAdapter.TimeslotViewHolder>()  {
 
-    private val timeslots: List<String> = genTimeslots(startTime, endTime)
+    data class Timeslot(val time: String, var opacity: Float)
+
+    val timeslots: List<Timeslot> = genTimeslots(startTime, endTime).map{Timeslot(it, opacity = 0.0F)}
+
+
     private val lastClickedPositions = mutableListOf<Int>()
     override fun onBindViewHolder(holder: TimeslotAdapter.TimeslotViewHolder, position: Int) {
         holder.bind(timeslots[position],position)
@@ -60,14 +64,16 @@ class TimeslotAdapter(
            }
 
         }
-        fun bind(time: String, position: Int) {
-            timeslotButton.text = time
+        fun bind(time: Timeslot, position: Int) {
+            timeslotButton.text = time.time
 
             if (lastClickedPositions.contains(position)) {
                 timeslotButton.background = ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_selected)
+                timeslotButton.alpha=1F
             } else {
                 // Revert to default background
                 timeslotButton.background =  ContextCompat.getDrawable(itemView.context, R.drawable.button_timeslot_unselected)
+                timeslotButton.alpha=time.opacity
             }
 
             if (lastClickedPositions.size >= 2){
@@ -76,6 +82,23 @@ class TimeslotAdapter(
         }
 
 
+    }
+
+    fun timeslotClicked(position: Int) {
+        val timeSlot = timeslots.getOrNull(position)
+        timeSlot?.let {
+            val clicked = lastClickedPositions.contains(position)
+            if (clicked) {
+                lastClickedPositions.remove(position)
+            } else {
+                if (lastClickedPositions.size >= 2) {
+                    lastClickedPositions.removeAt(0)
+                }
+                lastClickedPositions.add(position)
+            }
+            notifyItemChanged(position)
+            updateSelectedCount()
+        }
     }
     private fun genTimeslots(startTime: String, endTime: String): List<String> {
         val timeList = mutableListOf<String>()
@@ -98,7 +121,7 @@ class TimeslotAdapter(
     private fun updateSelectedCount() {
         val times =  mutableListOf<String>()
         for(pos in lastClickedPositions){
-            times.add(timeslots[pos])
+            times.add(timeslots[pos].time)
         }
         listener.onTimeslotsSelected(times)
     }

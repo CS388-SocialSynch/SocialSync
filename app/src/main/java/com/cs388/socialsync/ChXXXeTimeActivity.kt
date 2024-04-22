@@ -6,9 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener, OnDateSelectionListener {
+
+
+    protected var eventStarTime = ""
+    protected var eventEndTime = ""
+    protected var eventDates: List<String> = listOf()
 
 
     protected lateinit var dateAdapter: DateAdapter
@@ -16,12 +22,32 @@ open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener,
     protected var startTime: String? = null
     protected var endTime: String? = null
     protected var date: String? = null
-    var minTimes: Int = 2
-    var maxTimes: Int = 2
+    protected var times: List<String> = emptyList()
+
+
     protected fun enableButton(button: Button){
         button.setBackgroundResource(R.drawable.button_normal)
         button.setTextColor(ContextCompat.getColor(this, R.color.black))
         button.isEnabled = true
+    }
+
+    protected fun loadDBData(){
+        val tempStartTime = Obj.event.optionStartTime as String
+        val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
+        val militaryTime = LocalTime.parse(tempStartTime, formatter)
+        eventStarTime = militaryTime.format(DateTimeFormatter.ofPattern("h:mm a"))
+
+        val tempEndTime = Obj.event.optionEndTime as String
+        val militaryTime2 = LocalTime.parse(tempEndTime, formatter)
+        eventEndTime = militaryTime2.format(DateTimeFormatter.ofPattern("h:mm a"))
+
+        //TODO: Add logic for days
+        if(Obj.event.useSpecificDate){
+            eventDates = Obj.event.optionalDates
+        }else{
+            eventDates = Obj.event.optionalDays
+        }
+
     }
 
     protected fun disableButton(button: Button){

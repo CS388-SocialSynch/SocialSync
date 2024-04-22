@@ -54,10 +54,15 @@ class DateAdapter(
         fun bind(date: String, isSelected:Boolean) {
             val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
             val outputFormatter = DateTimeFormatter.ofPattern("MM/dd")
-            val currDate = LocalDate.parse(date, inputFormatter)
-            dayTV.text = currDate.dayOfWeek.toString().substring(0, 3)
-            if(showDates)
+
+            if(showDates){
+                val currDate = LocalDate.parse(date, inputFormatter)
                 dateTV.text =  currDate.format(outputFormatter)
+                dayTV.text = currDate.dayOfWeek.toString().substring(0, 3)
+            }else{
+                dayTV.text = date
+            }
+
             if (isSelected){
                 dateButton.background=AppCompatResources.getDrawable(itemView.context,R.drawable.selected_date)
             }else{

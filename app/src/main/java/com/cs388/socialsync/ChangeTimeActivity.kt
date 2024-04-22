@@ -11,28 +11,37 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.text.SimpleDateFormat
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, OnDateSelectionListener {
 
+    private lateinit var  timeslotAdapter: TimeslotAdapter
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_change_time)
-        val showDates: Boolean = true
+        loadDBData()
+
+
         val settingsButton = findViewById<Button>(R.id.changeSettingsButton)
         toggleButton = findViewById<Button>(R.id.setTimeButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val propTextView = findViewById<TextView>(R.id.eventPropertiesTextView)
 
 
+
+
+
+
+
         val datesRecyclerView = findViewById<RecyclerView>(R.id.dateRecyclerView)
         datesRecyclerView.layoutManager=LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false)
-        dateAdapter = DateAdapter(this, genDates("2024-03-28", "2024-04-05"), this, showDates)
+        dateAdapter = DateAdapter(this, eventDates, this, Obj.event.useSpecificDate)
         datesRecyclerView.adapter=dateAdapter
 
         val timeslotRecyclerView = findViewById<RecyclerView>(R.id.timeslotsRecyclerView)
         timeslotRecyclerView.layoutManager = LinearLayoutManager(this)
-        val timeslotAdapter = TimeslotAdapter(this, "8:00 AM", "11:00 AM",this)
+        timeslotAdapter = TimeslotAdapter(this,eventStarTime, eventEndTime,this)
         timeslotRecyclerView.adapter = timeslotAdapter
 
 
@@ -46,14 +55,34 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         //setEventButton.isEnabled = false
         //setEventButton.alpha = 0.5f
         toggleButton.setOnClickListener {
-            if(showDates)
-                propTextView.text = "Date:$date\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ---"
-            else {
+            var formattedDate = ""
+            if (!Obj.event.useSpecificDate){
+
+            formattedDate = when (date) {
+                "MON" -> "Monday"
+                "TUE" -> "Tuesday"
+                "WED" -> "Wednesday"
+                "THU" -> "Thursday"
+                "FRI" -> "Friday"
+                "SAT" -> "Saturday"
+                "SUN" -> "Sunday"
+                else -> "Invalid day"
+            }
+            propTextView.text =
+                "Date:$formattedDate\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
+            } else {
+
                 val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
                 val currDate = LocalDate.parse(date, inputFormatter)
                 val dayOfWeek = currDate.dayOfWeek.toString().lowercase().capitalize()
-                propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ---"
+                formattedDate =  LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+                    .format(dateFormatter)
+                propTextView.text = "Date:$dayOfWeek, $formattedDate\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             }
+            startTime?.let { it1 -> endTime?.let { it2 -> date?.let { it3 ->
+                Obj.setTimes(it1, it2, it3)
+            } } }
         }
 
         cancelButton.setOnClickListener {
@@ -64,7 +93,7 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                 .setPositiveButton("Remove") { dialog, which ->
                     Log.d("CANCEL CONFIRM", Obj.event.toString())
 
-                    Obj.removeEvent(Obj.event.eventCode, object: Obj.eventDeleteListener{
+                    Obj.removeEvent(Obj.event.eventCode, object : Obj.eventDeleteListener {
                         override fun onEventDelete() {
                             val launchNextActivity: Intent = Intent(
                                 this@ChangeTimeActivity,
@@ -77,7 +106,11 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
                         }
 
                         override fun onCancelled(err: String) {
-                            Toast.makeText(applicationContext, "An error has occured", Toast.LENGTH_SHORT).show()
+                            Toast.makeText(
+                                applicationContext,
+                                "An error has occured",
+                                Toast.LENGTH_SHORT
+                            ).show()
                         }
 
                     })
@@ -89,10 +122,36 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
             val dialog: AlertDialog = builder.create()
             dialog.show()
-
-
         }
 
         // Any initialization or setup code can go here
     }
+
+    override fun onDateSelected(selectedDate: String){
+        date = selectedDate
+        val availTimes = Obj.event.availability
+        val pplCount = Obj.event.participants.size.toFloat()
+        for ((index, timeslot) in timeslotAdapter.timeslots.withIndex()) {
+            val datetime = "$date ${timeslot.time}"
+            if (availTimes.containsKey(datetime)){
+                val num = availTimes[datetime]?.size?.toFloat() ?: 0f
+                timeslot.opacity = (num / pplCount * 0.8F) + 0.2F
+            } else {
+                timeslot.opacity = 0.2F
+            }
+
+            if (date == Obj.event.date && (timeslot.time == Obj.event.startTime || timeslot.time == Obj.event.endTime)) {
+                // Simulate a click on the current time slot
+                timeslotAdapter.notifyItemChanged(index)
+                timeslotAdapter.timeslotClicked(index)
+            }
+        }
+        timeslotAdapter.notifyDataSetChanged()
+        if(startTime!=null){
+            enableButton(toggleButton)
+        } else {
+            disableButton(toggleButton)
+        }
+    }
+
 }
