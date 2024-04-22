@@ -19,7 +19,7 @@ class WeatherFetcher {
             feelsLike: Int
         ) -> Unit
     ) {
-        val apiKey = "fa6d931f8c7a3724f3e12471580b4794"
+        val apiKey="00zIXhKoNaBlPQGjk6I27BKTuV9Yg3BADJceg7G5"
         val url =
             "https://api.openweathermap.org/data/2.5/weather?zip=$zipCode,us&appid=$apiKey&units=imperial"
 
