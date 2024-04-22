@@ -27,7 +27,7 @@ public class ReminderBroadcast() : BroadcastReceiver() {
 
 
         val builder = NotificationCompat.Builder(context!!, "socialSyncNotif")
-            .setSmallIcon(R.drawable.cloudy_icon)
+            .setSmallIcon(R.drawable.socialsync)
             .setContentTitle(state)
             .setContentText("Event today!!! Dont Forget")
             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
