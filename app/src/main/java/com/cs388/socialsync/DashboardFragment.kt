@@ -96,27 +96,25 @@ class DashboardFragment : Fragment() {
                 Toast.makeText(activity, "Invalid join code", Toast.LENGTH_SHORT).show()
             }
             else{
-            // TODO start detail activity with event
-            val id = roomView.text.toString().lowercase()
-            hideKeyboard()
-            Obj.fetchEventUsingCode(id, object : Obj.SetOnEventFetchListener {
-                override fun onEventFetch(event: Event) {
-                    Toast.makeText(activity, "Joined" + event.eventName, Toast.LENGTH_LONG).show()
-                    // generate a new fragment and then switch
-                    val fragment = EventDetail()
-//                    val bundle = Bundle()
-//                    bundle.putSerializable(EVENT_ITEM, event)
-//                    fragment.arguments = bundle
-                   Obj.event = event
-                   roomView.setText("")
+                // TODO start detail activity with event
+                val id = roomView.text.toString().lowercase()
+                hideKeyboard()
+                Obj.fetchEventUsingCode(id, object : Obj.SetOnEventFetchListener {
+                    override fun onEventFetch(event: Event) {
+                        Toast.makeText(activity, event.eventName, Toast.LENGTH_LONG).show()
+                        // generate a new fragment and then switch
+                        val fragment = EventDetail()
+                        val bundle = Bundle()
+                        bundle.putSerializable(EVENT_ITEM, event)
+                        fragment.arguments = bundle
 
-                    // how to switch fragments
-                    (context as AppCompatActivity).supportFragmentManager.beginTransaction()
-                        .replace(R.id.main_frame_layout, fragment)
-                        .addToBackStack(null)
-                        .commit()
-                }
-            })
+                        // how to switch fragments
+                        (context as AppCompatActivity).supportFragmentManager.beginTransaction()
+                            .replace(R.id.main_frame_layout, fragment)
+                            .addToBackStack(null)
+                            .commit()
+                    }
+                })
             }
         }
 
