@@ -21,6 +21,13 @@ const val EVENT_ITEM = "EVENT_ITEM"
 class EventAdapter(private val context: Context, private val eventList: List<Event>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
+    private var selectedDate: LocalDate? = null
+
+    fun setSelectedDate(date: LocalDate?) {
+        selectedDate = date
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.event_item, parent, false)
@@ -33,6 +40,18 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
         var startStr = "null"
         var endStr = "null"
+        if (selectedDate != null) {
+            val parsedDate = try {
+                LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
+            } catch (e: DateTimeParseException) {
+                null
+            }
+            if (parsedDate != null && parsedDate == selectedDate) {
+                holder.itemView.setBackgroundResource(R.drawable.event_item_selected)
+            } else {
+                holder.itemView.setBackgroundResource(R.drawable.event_gradient)
+            }
+        }
         if (currentItem.startTime != null && currentItem.startTime != "null") {
             startStr = LocalTime.parse(currentItem.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
                 .format(timeFormatter)
