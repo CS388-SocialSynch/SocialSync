@@ -17,5 +17,6 @@
     <color name="date_button">#FEECD0</color>
     <color name="red">#Ff0000</color>
     <color name="logout">#EC7063</color>
+    <color name="faintOutline">#D4D4D4</color>
 
 </resources>
