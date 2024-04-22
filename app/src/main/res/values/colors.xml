@@ -7,13 +7,15 @@
     <color name="prim1">#D1F2EB</color>
 <!--    <color name="secondary2">#D0E6D7</color>-->
     <color name="prim2">#D1F2EB</color>
-    <color name="secondary1">#F8F8F8</color>
-    <color name="secondary2">#F8F8F8</color>
+    <color name="secondary1">#FEF5E7</color>
+    <color name="secondaryPress">#FEF5E7</color>
+    <color name="secondary2">#FBEEE6</color>
     <color name="font">#000740</color>
     <color name="transparent">#00000000</color>
     <color name="editBackground">#80EEEEEE</color>
     <color name="deselected">#BFC1C0</color>
     <color name="date_button">#FEECD0</color>
     <color name="red">#Ff0000</color>
+    <color name="logout">#EC7063</color>
 
 </resources>
