@@ -21,6 +21,13 @@ const val EVENT_ITEM = "EVENT_ITEM"
 class EventAdapter(private val context: Context, private val eventList: List<Event>) :
     RecyclerView.Adapter<EventAdapter.EventViewHolder>() {
 
+    private var selectedDate: LocalDate? = null
+
+    fun setSelectedDate(date: LocalDate?) {
+        selectedDate = date
+        notifyDataSetChanged()
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
         val itemView =
             LayoutInflater.from(parent.context).inflate(R.layout.event_item, parent, false)
@@ -33,6 +40,18 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
         var startStr = "null"
         var endStr = "null"
+        if (selectedDate != null) {
+            val parsedDate = try {
+                LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
+            } catch (e: DateTimeParseException) {
+                null
+            }
+            if (parsedDate != null && parsedDate == selectedDate) {
+                holder.itemView.setBackgroundResource(R.drawable.event_item_selected)
+            } else {
+                holder.itemView.setBackgroundResource(R.drawable.event_gradient)
+            }
+        }
         if (currentItem.startTime != null && currentItem.startTime != "null") {
             startStr = LocalTime.parse(currentItem.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
                 .format(timeFormatter)
@@ -43,7 +62,6 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         }
 
         if (currentItem.endTime != null) {
-
             holder.eventNameTextView.text = currentItem.eventName
             "${startStr} - ${endStr}".also { holder.timeTextView.text = it }
         } else {
@@ -55,25 +73,24 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
         var dateStr = "null"
         if (currentItem.date != "" && currentItem.date != null) {
-            dateStr = try {
+            val eventDate = try {
                 LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
-                    .format(dateFormatter)
-            }catch (e:DateTimeParseException){
-                when (currentItem.date) {
-                    "MON" -> "Monday"
-                    "TUE" -> "Tuesday"
-                    "WED" -> "Wednesday"
-                    "THU" -> "Thursday"
-                    "FRI" -> "Friday"
-                    "SAT" -> "Saturday"
-                    "SUN" -> "Sunday"
-                    else -> "Invalid day"
-                }
+            } catch (e: DateTimeParseException) {
+                null
             }
 
+            if (eventDate != null && eventDate.isBefore(LocalDate.now())) {
+                // Event happened before today, hide it and set height to zero
+                holder.itemView.visibility = View.GONE
+                val layoutParams = holder.itemView.layoutParams
+                layoutParams.height = 0
+                holder.itemView.layoutParams = layoutParams
+                return
+            } else {
+                dateStr = eventDate?.format(dateFormatter) ?: "Invalid Date"
+            }
         }
         holder.dateTextView.text = dateStr
-        //"${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
         val weatherFetcher = WeatherFetcher()
 

@@ -77,6 +77,8 @@ class DashboardFragment : Fragment() {
                 eventAdapter.notifyDataSetChanged()
             }
         })
+        selectedDate = null
+        selectedDate?.let { calendarView.notifyDateChanged(it) }
     }
 
     override fun onCreateView(
@@ -232,14 +234,12 @@ class DashboardFragment : Fragment() {
                 if (currentSelection != day.date) {
                     selectedDate = day.date
                     calendarView.notifyDateChanged(day.date)
-                    Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT)
-                        .show()
                     currentSelection?.let {
                         calendarView.notifyDateChanged(it)
                     }
+                    eventAdapter.setSelectedDate(selectedDate)
                 }
             }
-            Toast.makeText(requireContext(), selectedDate.toString(), Toast.LENGTH_SHORT).show()
         }
 
         private fun updateDayView(data: CalendarDay) {
