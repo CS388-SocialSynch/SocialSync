@@ -23,6 +23,7 @@ import kotlinx.coroutines.withContext
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 class EventDetail : Fragment() {
 
@@ -57,7 +58,7 @@ class EventDetail : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.event_detail, container, false)
         // Get event details
-        val event = Obj.event
+        val event = arguments?.getSerializable(EVENT_ITEM) as Event
         val isCurrentUserAttending = event?.participants?.contains(Obj.loggedUserID)
 
         // Initialize views
@@ -240,9 +241,23 @@ class EventDetail : Fragment() {
 
 
             var dateStr = "null"
+
             if (details.date != "" && details.date != null) {
-                dateStr = LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE)
-                    .format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                dateStr = try {
+                    LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE)
+                        .format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                }catch (e: DateTimeParseException){
+                    when (details.date) {
+                        "MON" -> "Monday"
+                        "TUE" -> "Tuesday"
+                        "WED" -> "Wednesday"
+                        "THU" -> "Thursday"
+                        "FRI" -> "Friday"
+                        "SAT" -> "Saturday"
+                        "SUN" -> "Sunday"
+                        else -> "Invalid day"
+                    }
+                }
             }
 
             dateDetailView.text = dateStr

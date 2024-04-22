@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.time.format.DateTimeParseException
 
 const val EVENT_ITEM = "EVENT_ITEM"
 
@@ -54,8 +55,22 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
         var dateStr = "null"
         if (currentItem.date != "" && currentItem.date != null) {
-            dateStr = LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
-                .format(dateFormatter)
+            dateStr = try {
+                LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
+                    .format(dateFormatter)
+            }catch (e:DateTimeParseException){
+                when (currentItem.date) {
+                    "MON" -> "Monday"
+                    "TUE" -> "Tuesday"
+                    "WED" -> "Wednesday"
+                    "THU" -> "Thursday"
+                    "FRI" -> "Friday"
+                    "SAT" -> "Saturday"
+                    "SUN" -> "Sunday"
+                    else -> "Invalid day"
+                }
+            }
+
         }
         holder.dateTextView.text = dateStr
         //"${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }

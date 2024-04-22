@@ -55,13 +55,30 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         //setEventButton.isEnabled = false
         //setEventButton.alpha = 0.5f
         toggleButton.setOnClickListener {
-            if(Obj.event.useSpecificDate)
-                propTextView.text = "Date:$date\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
-            else {
+            var formattedDate = ""
+            if (!Obj.event.useSpecificDate){
+
+            formattedDate = when (date) {
+                "MON" -> "Monday"
+                "TUE" -> "Tuesday"
+                "WED" -> "Wednesday"
+                "THU" -> "Thursday"
+                "FRI" -> "Friday"
+                "SAT" -> "Saturday"
+                "SUN" -> "Sunday"
+                else -> "Invalid day"
+            }
+            propTextView.text =
+                "Date:$formattedDate\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
+            } else {
+
                 val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
                 val currDate = LocalDate.parse(date, inputFormatter)
                 val dayOfWeek = currDate.dayOfWeek.toString().lowercase().capitalize()
-                propTextView.text = "Date:$dayOfWeek\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
+                formattedDate =  LocalDate.parse(date, DateTimeFormatter.ISO_LOCAL_DATE)
+                    .format(dateFormatter)
+                propTextView.text = "Date:$dayOfWeek, $formattedDate\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             }
             startTime?.let { it1 -> endTime?.let { it2 -> date?.let { it3 ->
                 Obj.setTimes(it1, it2, it3)
@@ -105,12 +122,6 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
 
             val dialog: AlertDialog = builder.create()
             dialog.show()
-        }
-
-
-        cancelButton.setOnClickListener {
-            showToast("You have canceled this event")
-
         }
 
         // Any initialization or setup code can go here
