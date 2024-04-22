@@ -24,7 +24,7 @@ class AddEventMainActivity: AppCompatActivity() {
 
         val eventNameEdit = findViewById<EditText>(R.id.eventName)
         val locationEdit = findViewById<EditText>(R.id.eventLocation)
-        val publicSwitch = findViewById<SwitchCompat>(R.id.switchPublic)
+//        val publicSwitch = findViewById<SwitchCompat>(R.id.switchPublic)
         val inPerson = findViewById<SwitchCompat>(R.id.switchInPerson)
         val showParticipants = findViewById<SwitchCompat>(R.id.switchShowParticipants)
         val btnExit = findViewById<AppCompatButton>(R.id.btnExit)
@@ -55,8 +55,8 @@ class AddEventMainActivity: AppCompatActivity() {
             if(details.locationName != "" && details.locationName != null) {
                 locationEdit.setText(details.locationName.toString())
             }
-                publicSwitch.isChecked = details.isPublic
-                showParticipants.isChecked=details.showParticipants
+//                publicSwitch.isChecked = details.isPublic
+//                showParticipants.isChecked=details.showParticipants
 
             if (details.isInPerson){
                 inPerson.isChecked = details.isInPerson
@@ -119,7 +119,7 @@ class AddEventMainActivity: AppCompatActivity() {
             event.let { details ->
                 event.eventName = eventNameEdit.text.toString()
                 event.locationName = locationEdit.text.toString()
-                event.isPublic = publicSwitch.isChecked
+//                event.isPublic = publicSwitch.isChecked
                 event.isInPerson = inPerson.isChecked
                 event.showParticipants = showParticipants.isChecked
 
