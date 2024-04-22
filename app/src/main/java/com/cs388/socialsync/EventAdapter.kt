@@ -62,7 +62,6 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         }
 
         if (currentItem.endTime != null) {
-
             holder.eventNameTextView.text = currentItem.eventName
             "${startStr} - ${endStr}".also { holder.timeTextView.text = it }
         } else {
@@ -74,25 +73,24 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
 
         var dateStr = "null"
         if (currentItem.date != "" && currentItem.date != null) {
-            dateStr = try {
+            val eventDate = try {
                 LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
-                    .format(dateFormatter)
-            }catch (e:DateTimeParseException){
-                when (currentItem.date) {
-                    "MON" -> "Monday"
-                    "TUE" -> "Tuesday"
-                    "WED" -> "Wednesday"
-                    "THU" -> "Thursday"
-                    "FRI" -> "Friday"
-                    "SAT" -> "Saturday"
-                    "SUN" -> "Sunday"
-                    else -> "Invalid day"
-                }
+            } catch (e: DateTimeParseException) {
+                null
             }
 
+            if (eventDate != null && eventDate.isBefore(LocalDate.now())) {
+                // Event happened before today, hide it and set height to zero
+                holder.itemView.visibility = View.GONE
+                val layoutParams = holder.itemView.layoutParams
+                layoutParams.height = 0
+                holder.itemView.layoutParams = layoutParams
+                return
+            } else {
+                dateStr = eventDate?.format(dateFormatter) ?: "Invalid Date"
+            }
         }
         holder.dateTextView.text = dateStr
-        //"${currentItem.temperature}°F".also { holder.temperatureTextView.text = it }
 
         val weatherFetcher = WeatherFetcher()
 
