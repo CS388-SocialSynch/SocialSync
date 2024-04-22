@@ -87,7 +87,7 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
                 holder.itemView.layoutParams = layoutParams
                 return
             } else {
-                dateStr = eventDate?.format(dateFormatter) ?: "Invalid Date"
+                dateStr = currentItem.date
             }
         }
         holder.dateTextView.text = dateStr
