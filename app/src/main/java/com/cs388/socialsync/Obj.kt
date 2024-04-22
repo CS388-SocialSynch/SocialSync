@@ -1,5 +1,8 @@
 package com.cs388.socialsync
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
@@ -582,5 +585,19 @@ object Obj {
         var image: String,
         var events: MutableList<String>
     )
+
+
+
+
+    fun createNotificationChannel(context: Context) {
+        val name = "SocialSyncRemainderChannel";
+        val description = "Event Notification!"
+        val importance = NotificationManager.IMPORTANCE_DEFAULT;
+        val channel = NotificationChannel("socialSyncNotif", name, importance);
+        channel.description = description;
+
+        val notificationManager = context.getSystemService(NotificationManager::class.java)
+        notificationManager.createNotificationChannel(channel)
+    }
 
 }

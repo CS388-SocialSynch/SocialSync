@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
+
     <application
         android:name=".MyApplication"
         android:allowBackup="true"
@@ -13,12 +16,16 @@
         android:supportsRtl="true"
         android:theme="@style/Base.Theme.SocialSync.LightMode"
         tools:targetApi="31">
+        <activity
+            android:name=".AlarmActivity"
+            android:exported="false" />
         <!-- Setting LoginActivity as launch activity -->
         <activity
             android:name=".LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -31,16 +38,20 @@
         <activity
             android:name=".ChooseTimeActivity"
             android:exported="true" />
+        <activity
+            android:name=".AddEventMainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AddEventSelectDate"
+            android:exported="false" />
+        <activity
+            android:name=".AddEventChooseDates"
+            android:exported="false" />
+        <activity
+            android:name=".AddEventFinished"
+            android:exported="false" />
 
-        <activity android:name=".AddEventMainActivity"
-            android:exported="false"/>
-        <activity android:name=".AddEventSelectDate"
-            android:exported="false"/>
-        <activity android:name=".AddEventChooseDates"
-            android:exported="false"/>
-        <activity android:name=".AddEventFinished"
-            android:exported="false"/>
-
+        <receiver android:name=".ReminderBroadcast"/>
     </application>
 
 </manifest>
