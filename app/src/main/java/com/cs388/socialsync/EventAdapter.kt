@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
@@ -47,9 +48,9 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
                 null
             }
             if (parsedDate != null && parsedDate == selectedDate) {
-                holder.itemView.setBackgroundResource(R.drawable.event_item_selected)
+                holder.itemView.findViewById<LinearLayout>(R.id.eventLL).setBackgroundResource(R.drawable.event_item_selected)
             } else {
-                holder.itemView.setBackgroundResource(R.drawable.event_gradient)
+                holder.itemView.findViewById<LinearLayout>(R.id.eventLL).setBackgroundResource(R.drawable.orange_gradient)
             }
         }
         if (currentItem.startTime != null && currentItem.startTime != "null") {
