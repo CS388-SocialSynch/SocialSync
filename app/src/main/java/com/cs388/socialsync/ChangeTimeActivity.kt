@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.Locale
 
 class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, OnDateSelectionListener {
 
@@ -27,8 +28,38 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         toggleButton = findViewById<Button>(R.id.setTimeButton)
         val cancelButton = findViewById<Button>(R.id.cancelButton)
         val propTextView = findViewById<TextView>(R.id.eventPropertiesTextView)
+        Log.d("ST",eventStarTime)
+        if(Obj.event.date != "") {
+            var formattedDate = ""
+            if (!Obj.event.useSpecificDate){
 
+                formattedDate = when (Obj.event.date) {
+                    "MON" -> "Monday"
+                    "TUE" -> "Tuesday"
+                    "WED" -> "Wednesday"
+                    "THU" -> "Thursday"
+                    "FRI" -> "Friday"
+                    "SAT" -> "Saturday"
+                    "SUN" -> "Sunday"
+                    else -> ""
+                }
+                val s = convertMilitaryToAMPM(Obj.event.startTime)
+                val e = convertMilitaryToAMPM(Obj.event.endTime)
+                propTextView.text =
+                    "Date:$formattedDate\nStart Time: $s\nEnd Time: $e \nJoin CODE: ${Obj.event.eventCode}"
+            } else {
 
+                val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
+                val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
+                val currDate = LocalDate.parse(Obj.event.date, inputFormatter)
+                val dayOfWeek = currDate.dayOfWeek.toString().lowercase().capitalize()
+                formattedDate =  LocalDate.parse(Obj.event.date, DateTimeFormatter.ISO_LOCAL_DATE)
+                    .format(dateFormatter)
+                propTextView.text = "Date:$dayOfWeek, $formattedDate\nStart Time: ${Obj.event.startTime}\nEnd Time: ${Obj.event.endTime} \nJoin CODE: ${Obj.event.eventCode}"
+            }
+        } else {
+            propTextView.text = "Date:\nStart Time:\nEnd Time:\nJoin CODE: ${Obj.event.eventCode}"
+        }
 
 
 
@@ -58,18 +89,18 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
             var formattedDate = ""
             if (!Obj.event.useSpecificDate){
 
-            formattedDate = when (date) {
-                "MON" -> "Monday"
-                "TUE" -> "Tuesday"
-                "WED" -> "Wednesday"
-                "THU" -> "Thursday"
-                "FRI" -> "Friday"
-                "SAT" -> "Saturday"
-                "SUN" -> "Sunday"
-                else -> "Invalid day"
-            }
-            propTextView.text =
-                "Date:$formattedDate\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
+                formattedDate = when (date) {
+                    "MON" -> "Monday"
+                    "TUE" -> "Tuesday"
+                    "WED" -> "Wednesday"
+                    "THU" -> "Thursday"
+                    "FRI" -> "Friday"
+                    "SAT" -> "Saturday"
+                    "SUN" -> "Sunday"
+                    else -> "Invalid day"
+                }
+                propTextView.text =
+                    "Date:$formattedDate\nStart Time: $startTime\nEnd Time: $endTime \nJoin CODE: ${Obj.event.eventCode}"
             } else {
 
                 val inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")
@@ -127,10 +158,19 @@ class ChangeTimeActivity: ChXXXeTimeActivity() , OnTimeslotSelectionListener, On
         // Any initialization or setup code can go here
     }
 
+    fun convertMilitaryToAMPM(militaryTime: String?): String {
+        if (militaryTime==null)
+            return ""
+        val militaryFormat = SimpleDateFormat("HH:mm", Locale.US)
+        val ampmFormat = SimpleDateFormat("hh:mm a", Locale.US)
+        val time = militaryFormat.parse(militaryTime)
+        return ampmFormat.format(time)
+    }
+
     override fun onDateSelected(selectedDate: String){
         date = selectedDate
         val availTimes = Obj.event.availability
-        val pplCount = Obj.event.participants.size.toFloat()
+        val pplCount = Obj.event.joined.size.toFloat()
         for ((index, timeslot) in timeslotAdapter.timeslots.withIndex()) {
             val datetime = "$date ${timeslot.time}"
             if (availTimes.containsKey(datetime)){

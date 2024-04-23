@@ -87,7 +87,21 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
                 holder.itemView.layoutParams = layoutParams
                 return
             } else {
-                dateStr = eventDate?.format(dateFormatter) ?: "Invalid Date"
+                dateStr  = try {
+                    LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
+                        .format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                } catch (e: DateTimeParseException) {
+                    when (currentItem.date) {
+                        "MON" -> "Monday"
+                        "TUE" -> "Tuesday"
+                        "WED" -> "Wednesday"
+                        "THU" -> "Thursday"
+                        "FRI" -> "Friday"
+                        "SAT" -> "Saturday"
+                        "SUN" -> "Sunday"
+                        else -> "Invalid day"
+                    }
+                }
             }
         }
         holder.dateTextView.text = dateStr
