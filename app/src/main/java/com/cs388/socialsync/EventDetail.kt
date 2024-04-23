@@ -324,14 +324,15 @@ class EventDetail : Fragment() {
             }
 
 
-            var dateStr = "null"
-
+            var dateStr = ""
+            val x = details.date
+            Log.d("WJS",x)
             if (details.date != "" && details.date != null) {
                 dateStr = try {
                     LocalDate.parse(details.date, DateTimeFormatter.ISO_LOCAL_DATE)
                         .format(DateTimeFormatter.ofPattern("MM/dd/yyyy"))
                 } catch (e: DateTimeParseException) {
-                    when (details.date) {
+                    when (x) {
                         "MON" -> "Monday"
                         "TUE" -> "Tuesday"
                         "WED" -> "Wednesday"

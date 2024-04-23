@@ -32,6 +32,11 @@ open class ChXXXeTimeActivity: AppCompatActivity(), OnTimeslotSelectionListener,
     }
 
     protected fun loadDBData(){
+        Obj.fetchEventUsingCode(Obj.event.eventCode,object:Obj.SetOnEventFetchListener{
+            override fun onEventFetch(event: Event) {
+                Obj.event=event
+            }
+        })
         val tempStartTime = Obj.event.optionStartTime as String
         val formatter = DateTimeFormatter.ofPattern("HH:mm:ss")
         val militaryTime = LocalTime.parse(tempStartTime, formatter)
