@@ -20,7 +20,7 @@ class TimeslotAdapter(
 
     data class Timeslot(val time: String, var opacity: Float)
 
-    val timeslots: List<Timeslot> = genTimeslots(startTime, endTime).map{Timeslot(it, opacity = 0.0F)}
+    val timeslots: List<Timeslot> = genTimeslots(startTime, endTime).map{Timeslot(it, opacity = 0.1F)}
 
 
     private val lastClickedPositions = mutableListOf<Int>()
