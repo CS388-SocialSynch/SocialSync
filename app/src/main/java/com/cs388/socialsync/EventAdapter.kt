@@ -39,8 +39,8 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
         val currentItem = eventList[position]
         val timeFormatter = DateTimeFormatter.ofPattern("hh:mm a")
         val dateFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy")
-        var startStr = "null"
-        var endStr = "null"
+        var startStr = "Pending Start"
+        var endStr = "Pending End"
         if (selectedDate != null) {
             val parsedDate = try {
                 LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)
@@ -72,7 +72,7 @@ class EventAdapter(private val context: Context, private val eventList: List<Eve
             }
         }
 
-        var dateStr = "null"
+        var dateStr = "Pending Date"
         if (currentItem.date != "" && currentItem.date != null) {
             val eventDate = try {
                 LocalDate.parse(currentItem.date, DateTimeFormatter.ISO_LOCAL_DATE)

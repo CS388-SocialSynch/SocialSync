@@ -39,6 +39,8 @@ data class Event(
     constructor() : this("")
 
     fun getCombinedAddress(): String{
-        return addressStreet + " " + addressTown + " " + addressState + ", " + addressCountry
+        if(addressStreet != "" && addressTown!= "" && addressState!= "" && addressCountry!= "" )
+            return addressStreet + " " + addressTown + " " + addressState + ", " + addressCountry
+        return  ""
     }
 }

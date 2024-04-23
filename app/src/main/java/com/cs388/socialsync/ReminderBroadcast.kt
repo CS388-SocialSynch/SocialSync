@@ -25,7 +25,6 @@ public class ReminderBroadcast() : BroadcastReceiver() {
         Log.e("CUSTOM----> d", intent.hasExtra("msg").toString() + "==")
         Log.e("CUSTOM----> d", intent.extras!!.getString("test").toString() + "=+=")
 
-
         val builder = NotificationCompat.Builder(context!!, "socialSyncNotif")
             .setSmallIcon(R.drawable.socialsync)
             .setContentTitle(state)
