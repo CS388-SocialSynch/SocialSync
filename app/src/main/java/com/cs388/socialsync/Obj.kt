@@ -11,6 +11,10 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.GenericTypeIndicator
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.values
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.forEach
+import kotlinx.coroutines.flow.toList
 import java.time.format.DateTimeFormatter
 import java.util.Random
 import okhttp3.OkHttpClient
@@ -208,8 +212,12 @@ object Obj {
     }
 
 
-    private fun removeEventFromUser(event: Event) {
-        val eventsRef = USER_DB.child("events")
+    private fun removeEventFromUser(event: Event, uid:String = "") {
+        var currUser = uid
+        if(currUser == ""){
+            currUser = auth.currentUser!!.uid
+        }
+        val eventsRef = USERS_DB.child(currUser).child("events")
         eventsRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val events = dataSnapshot.getValue(object : GenericTypeIndicator<List<String>>() {})
@@ -559,8 +567,10 @@ object Obj {
         Log.d("REMOVE_EVENT", eventID + " " + eventTemp.hostUID + " "+ auth.currentUser!!.uid.toString())
 
         if(eventID == eventTemp.eventCode && eventTemp.hostUID == auth.currentUser!!.uid.toString()){
-            if (Obj.event.eventCode == eventID) {
-                removeEventFromUser(eventTemp)
+            if (event.eventCode == eventID) {
+                event.joined.forEach {
+                removeEventFromUser(event,it)
+                }
                 user.events.remove(eventID)
                 EVENTS_DB.child(eventID).removeValue()
                 listener.onEventDelete()

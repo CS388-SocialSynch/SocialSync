@@ -65,10 +65,14 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.e("CUTOM---->", "onResume")
-
+//        Obj.getUserData(object: Obj.UserDataListener{
+//            override fun onUserDataLoad(user: Obj.User) {
+//                Obj.user.events.clear()
+//                Obj.user.events.addAll(user.events)
+//            }
+//        })
         Obj.loadEvents(object : Obj.SetOnLoadEventListener {
             override fun onDataLoad() {
-
                 Log.d("CUTOM---->", "onDataLoad")
 
                 eventList.clear()
@@ -122,6 +126,10 @@ class DashboardFragment : Fragment() {
 
         addEventButton.setOnClickListener {
             Obj.event = Event()
+            Obj.event.eventName = "hi"
+            Obj.event.locationName = "hi"
+            Obj.event.optionStartTime = LocalTime.parse("10:00:00").format(DateTimeFormatter.ISO_LOCAL_TIME)
+            Obj.event.optionEndTime = LocalTime.parse("15:00:00").format(DateTimeFormatter.ISO_LOCAL_TIME)
             Obj.event.addressZipcode = ""
             startActivity(Intent(context, AddEventMainActivity::class.java))
         }
