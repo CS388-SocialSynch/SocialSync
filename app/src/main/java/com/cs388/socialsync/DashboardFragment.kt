@@ -65,10 +65,14 @@ class DashboardFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         Log.e("CUTOM---->", "onResume")
-
+//        Obj.getUserData(object: Obj.UserDataListener{
+//            override fun onUserDataLoad(user: Obj.User) {
+//                Obj.user.events.clear()
+//                Obj.user.events.addAll(user.events)
+//            }
+//        })
         Obj.loadEvents(object : Obj.SetOnLoadEventListener {
             override fun onDataLoad() {
-
                 Log.d("CUTOM---->", "onDataLoad")
 
                 eventList.clear()
