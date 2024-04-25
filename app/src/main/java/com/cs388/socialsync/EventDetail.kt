@@ -134,6 +134,8 @@ class EventDetail : Fragment() {
             intent.putExtra("msg", eventDetailView.text.toString())
             intent.extras!!.putString("test", "hello")
 
+            if (Obj.event.date.isNotBlank() != null && Obj.event.date.isNotBlank()){
+
             val pendingIntent = PendingIntent.getBroadcast(
                 activity, (Math.random() * 1000).toInt(), intent,
                 PendingIntent.FLAG_MUTABLE
@@ -172,6 +174,8 @@ class EventDetail : Fragment() {
                 bb,
                 pendingIntent
             )
+
+        }
 
         }
     }
@@ -302,8 +306,8 @@ class EventDetail : Fragment() {
 
         event?.let { details ->
             eventDetailView.text = details.eventName
-            var startStr = "null"
-            var endStr = "null"
+            var startStr = "Pending Start"
+            var endStr = "Pending End"
             if (details.startTime != null && details.startTime != "null") {
                 startStr = LocalTime.parse(details.startTime, DateTimeFormatter.ISO_LOCAL_TIME)
                     .format(timeFormatter)
@@ -324,7 +328,7 @@ class EventDetail : Fragment() {
             }
 
 
-            var dateStr = ""
+            var dateStr = "Pending Date"
             val x = details.date
             Log.d("WJS",x)
             if (details.date != "" && details.date != null) {
