@@ -66,7 +66,7 @@ class EventsFragment : Fragment() {
         val client = okhttp3.OkHttpClient()
         val request = okhttp3.Request.Builder()
             .url("https://api.predicthq.com/v1/events?country=US&location_around.origin=40.7357,-74.1724&location_around.offset=10km&location_around.scale=10km&limit=10")
-            .addHeader("Authorization", "Bearer 4nt22lSWoSHgp9vJz9TRU3zhWjTkdfofuR3Luwol")
+            .addHeader("Authorization", "Bearer 00zIXhKoNaBlPQGjk6I27BKTuV9Yg3BADJceg7G5")
             .addHeader("Accept", "application/json").build()
 
         val queue = Volley.newRequestQueue(context)
@@ -133,7 +133,7 @@ class EventsFragment : Fragment() {
                 @Throws(AuthFailureError::class)
                 override fun getHeaders(): Map<String, String> {
                     val params: MutableMap<String, String> = HashMap()
-                    params["Authorization"] = "Bearer 4nt22lSWoSHgp9vJz9TRU3zhWjTkdfofuR3Luwol"
+                    params["Authorization"] = "Bearer 00zIXhKoNaBlPQGjk6I27BKTuV9Yg3BADJceg7G5"
                     params["Accept"] = "application/json"
                     return params
                 }
