@@ -2,6 +2,8 @@ package com.cs388.socialsync
 
 import android.app.AlarmManager
 import android.app.PendingIntent
+import android.content.ClipData
+import android.content.ClipboardManager
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +16,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatButton
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -295,8 +298,12 @@ class EventDetail : Fragment() {
         }
 
         shareEventButton.setOnClickListener {
-            Toast.makeText(context, "There is nothing to share yet", Toast.LENGTH_SHORT)
+            var myClipboard = getSystemService(requireContext(), ClipboardManager::class.java) as ClipboardManager
+            val clip: ClipData = ClipData.newPlainText("Event Code", event.eventCode)
+            myClipboard.setPrimaryClip(clip)
+            Toast.makeText(context, "Copied Event Code to Clipboard!", Toast.LENGTH_SHORT)
                 .show()
+
         }
     }
 
